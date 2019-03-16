@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import './Main.css';
 
 // import ColorPicker from '../components/color-picker/ColorPicker';
+import Sudoku from '../components/sudoku/Sudoku';
 
 class Main extends Component {
   render() {
     return (
       <section className="main" id="main">
-        test
+        <Sudoku></Sudoku>
       </section>
     );
   }
