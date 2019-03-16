@@ -6,16 +6,22 @@ import Main from './main/Main';
 import Footer from './footer/Footer';
 
 class App extends Component {
-  render() {
-    const author= {
-      name: 'Nofar Baranes',
-      email: 'Nunibaranes@gmail.com',
-      github: {
-        name: 'nunibaranes',
-        link: 'https://github.com/nunibaranes'
+  constructor(props = {}) {
+    super(props);
+    this.state = {
+      author: {
+        name: 'Nofar Baranes',
+        email: 'Nunibaranes@gmail.com',
+        github: {
+          name: 'nunibaranes',
+          link: 'https://github.com/nunibaranes'
+        }
       }
-    }
+    };
+  }
 
+  render() {
+    const { author } = this.state;
     return (
       <div className="app">
         <Header></Header>

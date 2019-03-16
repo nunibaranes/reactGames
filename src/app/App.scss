@@ -16,4 +16,8 @@
   max-width: 980px;
   margin: 0 auto;
   flex-direction: column;
+
+    &.wrap-with-border {
+      border: 1px solid #ccc;
+    }
 }
