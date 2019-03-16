@@ -52,14 +52,14 @@ class ColorPicker extends Component {
      */
     handleMousedown (e) {
         this.drag = true;
-        // this.changeColor(e);
+        this.changeColor(e);
     }
     /**
      * handleMouseup: check if drag is true and change color by mouseup event
      */
     handleMouseup (e) {
         if (this.drag) {
-            // this.changeColor(e);
+            this.changeColor(e);
         }
     }
     /**
@@ -74,20 +74,19 @@ class ColorPicker extends Component {
      * get rgb value throw imageData, 
      * set rgbColor 
      * convert rgb value to hsl
-     * set hslColor 
      * ser chosenColor
      */
-    // changeColor(e) {
-    //     this.xPosition = e.offsetX;
-    //     this.yPosition = e.offsetY;
-    //     let imageData = this.ctx.getImageData(this.xPosition, this.yPosition, 1, 1).data;
-    //     let r = imageData[0] ;
-    //     let g = imageData[1];
-    //     let b = imageData[2];
-    //     this.rgbaColor = 'rgba(' + r + ',' + g + ',' + b + ',1)';
-    //     this.hslColor = this.rgbToHsl(r, g, b);
-    //     this.chosenColor.style.backgroundColor = this.rgbaColor;
-    // }
+    changeColor(e) {
+         this.xPosition = e.offsetX;
+         this.yPosition = e.offsetY;
+         let imageData = this.ctx.getImageData(this.xPosition, this.yPosition, 1, 1).data;
+         let r = imageData[0] ;
+         let g = imageData[1];
+         let b = imageData[2];
+         this.rgbaColor = 'rgba(' + r + ',' + g + ',' + b + ',1)';
+         this.chosenColor.style.backgroundColor = this.rgbaColor;
+    }
+    
     render() {
         return (
             <section className="color-picker" id="color-picker">
@@ -95,15 +94,14 @@ class ColorPicker extends Component {
                 <div id="picker">
                     <div className="canvas-wrapper">
                         <canvas id="color-block" height="101" width="101"
-                            onMouseDown={this.handleMousedown(this)}
-                            onMouseUp={this.handleMouseup(this)}
-                            onMouseMove={this.handleMousemove(this)}
+                            onMouseDown={this.handleMousedown.bind(this)}
+                            onMouseUp={this.handleMouseup.bind(this)}
+                            onMouseMove={this.handleMousemove.bind(this)}
                         ></canvas>
                         <canvas id="color-strip" height="101" width="0"></canvas>
                     </div>
                 
-                    <div className="chosen-color" id="chosen-color-box" style={{backgroundColor: 'red'}}></div>
-                    <div className="chosen-color txt" id="chosen-color-hsl">{this.state.hslColor}</div>
+                    <div className="chosen-color" id="chosen-color-box" style={{backgroundColor: this.rgbaColor}}></div>
                     <div className="chosen-color txt" id="chosen-color-rgb">{this.state.rgbaColor}</div>
                 </div>
             </section>
