@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './Main.css';
+import './Main.scss';
 
 // import ColorPicker from '../components/color-picker/ColorPicker';
 import Sudoku from '../components/sudoku/Sudoku';

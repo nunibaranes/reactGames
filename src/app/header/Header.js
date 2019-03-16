@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import noonles from '../../assets/images/nofarNoonles.jpg';
-import './Header.css';
+import './Header.scss';
 
 class Header extends Component {
   render() {

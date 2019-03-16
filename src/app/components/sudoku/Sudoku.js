@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import './Sudoku.scss';
 class Sudoku extends Component {
   render() {
     return (
