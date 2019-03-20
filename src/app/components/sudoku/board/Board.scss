@@ -1,9 +1,13 @@
 .board {
     border: 1px solid #000;
-    display: flex;
+    display: grid;
     width: 100%;
     max-width: fit-content;
     margin: 0 auto;
+    // grid-template-rows: repeat(9, 1fr);
+    .row {
+        display: grid;
+    }
     .cell {
         width: 20px;
         height: 20px;

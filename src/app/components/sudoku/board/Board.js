@@ -36,14 +36,22 @@ class Board extends Component {
 
     render() {
         const { board } = this.state;
+        const { rows, columns } = board;
+        const boardStyle = {
+            gridTemplateRows: `repeat(9, 1fr)`
+        }
+
+        const rowStyle = {
+            gridTemplateColumns: `repeat(9, 1fr)`,
+        }
 
         const boardEl = board.map( (row, index) => {
             return (
-                <div className={this.getClasses('row', index)} key={`row ${index}`}>
+                <div className={this.getClasses('row', index)} key={`row ${index}`} style={rowStyle}>
                     {
                         row.map( (cell, index) => {
                             return (
-                                <div className={this.getClasses('cell', index)} key={`row ${index}`}></div>
+                                <div className={this.getClasses('cell', index)} key={`cell ${index}`}></div>
                             );
                         })
                     }
@@ -51,7 +59,7 @@ class Board extends Component {
             );
         })
         return (
-            <div className="board">
+            <div className="board" style={boardStyle}>
                 {boardEl}
             </div>
         );
