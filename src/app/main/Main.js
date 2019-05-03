@@ -2,15 +2,14 @@ import React, { Component } from 'react';
 import './Main.scss';
 
 // import ColorPicker from '../components/color-picker/ColorPicker';
-import Sudoku from '../components/sudoku/Sudoku';
-import ShareButtons from '../components/common/share-buttons/ShareButtons';
+// import Sudoku from '../components/sudoku/Sudoku';
+import GameOfLife from '../components/game-of-life/GameOfLife';
 
 class Main extends Component {
   render() {
     return (
       <section className="main" id="main">
-        <Sudoku></Sudoku>
-        <ShareButtons></ShareButtons>
+        <GameOfLife></GameOfLife>    
       </section>
     );
   }

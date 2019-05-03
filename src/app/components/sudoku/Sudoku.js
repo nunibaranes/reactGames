@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Sudoku.scss';
 import Title from '../common/title/Title.js';
-import Board from './board/Board.js';
+import Board from '../common/board/Board.js';
 
 class Sudoku extends Component {
   constructor(props = {}) {
