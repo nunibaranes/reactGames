@@ -1,7 +1,27 @@
-.settings {
-    border-right: 1px solid #ddd;
+.controllers {
+    display: flex;
+    flex-direction: column;
 
-    input {
-        max-width: 100px;
+    div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .btn {
+        border: 1px solid #000;
+        background: none;
+        padding: 5px 10px;
+        margin-right: 10px;
+        border-radius: 15px;
+        min-width: 90px;
+        height: min-content;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        
+        &:hover {
+            color: #fff;
+            background-color: #000;
+        }
     }
 }
