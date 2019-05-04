@@ -7,7 +7,7 @@ class Sudoku extends Component {
   constructor(props = {}) {
     super(props);
     this.state = {
-        value: 'Sudoku Game',
+        title: 'Sudoku Game',
         boardData: {
           rows: 9,
           columns: 9,
@@ -17,10 +17,10 @@ class Sudoku extends Component {
   }
 
   render() {
-    const { value, boardData } = this.state;
+    const { title, boardData } = this.state;
     return (
       <section className="sudoku wrapper wrap-with-border">
-        <Title value={ value }></Title>
+        <Title title={ title }></Title>
         <Board boardData={ boardData }></Board>
       </section>
     );
