@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import './GameOfLife.scss';
+import Settings from './settings/Settings.js'
+import Controllers from './controllers/Controllers.js'
 
 import Title from '../common/title/Title.js';
 import Board from '../common/board/Board.js';
@@ -77,10 +79,10 @@ class GameOfLife extends Component {
       let neighborY = y + neighbor[0];
       let neighborX = x + neighbor[1];
       const hasActiveNeighbor = neighborX >= 0            // neighbor x position bigger than 0
-                          && neighborX < columns    // neighbor x position smaller than total columns number
-                          && neighborY >= 0         // neighbor y position bigger than 0
-                          && neighborY < rows       // neighbor y position smaller than total rows number
-                          && boardStatus[neighborX][neighborY].isActive; // neighbore isActive equal to true
+                                && neighborX < columns    // neighbor x position smaller than total columns number
+                                && neighborY >= 0         // neighbor y position bigger than 0
+                                && neighborY < rows       // neighbor y position smaller than total rows number
+                                && boardStatus[neighborX][neighborY].isActive; // neighbore isActive equal to true
 
       if (hasActiveNeighbor) {
         neighborsCounter++;
@@ -122,9 +124,6 @@ class GameOfLife extends Component {
       this.setState({
         timeoutHandler
       });
-      // this.timeoutHandler = window.setTimeout(() => {
-      //   this.setNextGenerationBoardStatus(isRuning);
-      // }, 100);
     }
   }
 
@@ -166,11 +165,21 @@ class GameOfLife extends Component {
     }));
   }
 
+  /**
+   * runGame
+   * call to method setNextGenerationBoardStatus
+   * setState gameIsRunning to true 
+   */
   runGame = () => {
     this.setNextGenerationBoardStatus(true);
     this.setState({ gameIsRunning: true });
   }
 
+  /**
+   * stopGame
+   * setState gameIsRunning to false 
+   * timeoutHandler to null
+   */
   stopGame = () => {
     const { timeoutHandler } = this.state;
     this.setState({ 
@@ -182,6 +191,10 @@ class GameOfLife extends Component {
     }
   }
 
+  /**
+   * clearBoard
+   * setState to empty new board
+   */
   clearBoard = () => {
     const newBoard = this.toggleCellIsActiveStatus(this.state.boardStatus, null);
     this.stopGame();
@@ -195,38 +208,10 @@ class GameOfLife extends Component {
     const { title, gameIsRunning, boardData, boardStatus, generation} = this.state;
     return (
       <section className='game-of-life wrapper wrap-with-border'>
-        <Title title={ title }></Title>
+        <Title additionalClass={'main-title'} title={ title }></Title>
         <div className='controllers-and-settings wrapper'>
-          <div className='settings'>
-            <Title title={ 'Settings' }></Title>
-          </div>
-          <div className='controllers'>
-            <Title title={ 'Controllers' }></Title>
-            { 
-              // clearBoard button
-              <button 
-                className='control-clear-board-game' 
-                onClick={() => { this.clearBoard() }}
-              >
-                Clear
-              </button>
-            }
-            { // stopGame or runGame button
-              gameIsRunning ?
-              <button className="control-stop-game"
-                onClick={() => { this.stopGame() }}>Stop</button> :
-              <button className="control-run-game"
-                onClick={() => { this.runGame() }}>Run</button>
-            }
-            { // setNextGenerationBoardStatus button
-              <button 
-                className='control-next-generation' 
-                onClick={() => { this.setNextGenerationBoardStatus() }}
-              >
-                Next Generation
-              </button>
-            }
-          </div>
+          <Settings title={'Settings'}></Settings>
+          <Controllers title={'Controllers'}></Controllers>
         </div>
         <Board 
           boardData={ boardData }
