@@ -15,8 +15,8 @@ class GameOfLife extends Component {
           cellData: {
             isActive: false,
           },
-          cellWidth: '20px', // TODO: add button to change cellWidth
-          cellHeight: '20px', // TODO: add button to change cellHeight
+          cellWidth: '20', // TODO: add button to change cellWidth
+          cellHeight: '20', // TODO: add button to change cellHeight
           defaultColor: 'red', // TODO: add button to change color
         },
         generation: 0,
@@ -94,7 +94,7 @@ class GameOfLife extends Component {
    * create empty newBoardStatus, and set newBoardStatus's cells refer to current boardStatus
    * setState boardStatus to newBoardStatus
    */
-  setNextGenerationBoardStatus = () => {
+  setNextGenerationBoardStatus = (isRuning = false) => {
     const { boardData, boardStatus } = this.state;
     const { rows, columns } = boardData;
     const newBoard = this.toggleCellIsActiveStatus(boardStatus, null);
@@ -112,6 +112,12 @@ class GameOfLife extends Component {
       boardStatus: newBoard,
       generation: prevState.generation + 1,
     }));
+
+    if (isRuning) {
+      this.timeoutHandler = window.setTimeout(() => {
+        this.setNextGenerationBoardStatus(isRuning);
+      }, 100);
+    }
   }
 
   /**
@@ -153,10 +159,21 @@ class GameOfLife extends Component {
   }
 
   runGame = () => {
+    this.setNextGenerationBoardStatus(true);
     this.setState({ gameIsRunning: true });
   }
+
   stopGame = () => {
     this.setState({ gameIsRunning: false });
+
+    if (this.timeoutHandler) {
+      window.clearTimeout(this.timeoutHandler);
+      this.timeoutHandler = null;
+    }
+  }
+
+  cellWidthChanged = (event) => {
+    console.log('cellWidthChanged event.target ', event);
   }
 
   render() {
@@ -170,24 +187,24 @@ class GameOfLife extends Component {
           </div>
           <div className='controllers'>
             <Title title={ 'Controllers' }></Title>
-            <div 
+            <button 
               className='control-run-game' 
               onClick={() => { this.runGame() }}
             >
               Play
-            </div>
-            <div 
+            </button>
+            <button 
               className='control-run-game' 
               onClick={() => { this.stopGame() }}
             >
               Stop
-            </div>
-            <div 
+            </button>
+            <button 
               className='control-next-generation' 
               onClick={() => { this.setNextGenerationBoardStatus() }}
             >
               Next Generation
-            </div>
+            </button>
           </div>
         </div>
         <Board 

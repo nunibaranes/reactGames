@@ -35,7 +35,7 @@ class Cell extends Component {
      */
     cellStyles = (cellObj) => {
         const { cellWidth, cellHeight, selectedColor } = this.props;
-        const defaultStyle = {width: cellWidth, height: cellHeight}
+        const defaultStyle = {width: `${cellWidth}px`, height: `${cellHeight}px`}
         const activStyles = { backgroundColor: selectedColor }
         const isActive = cellObj.isActive !== undefined && cellObj.isActive;
         return isActive ? {...defaultStyle, ...activStyles } : defaultStyle;
