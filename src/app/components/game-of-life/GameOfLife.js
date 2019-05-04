@@ -9,9 +9,11 @@ class Sudoku extends Component {
     this.state = {
         value: 'Game Of Life',
         boardData: {
-          rows: 9,
-          columns: 9,
-          cellDefault: {
+          rows: 20,
+          columns: 20,
+          cellData: {
+            width: '30px',
+            height: '30px',
             isActive: false,
           },
           defaultColor: 'black',

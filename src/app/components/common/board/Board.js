@@ -32,7 +32,7 @@ class Board extends Component {
 
     generatBoard = () => {
         const { boardData } = this.props;
-        const { rows, columns, cellDefault } = boardData;
+        const { rows, columns, cellData } = boardData;
         const puzzelTemp = Array.from(Array(rows).keys());
         const rowTemp = Array.from(Array(columns).keys());
         const newBoard = Array.from(puzzelTemp, (row, rIndex) => {
@@ -40,7 +40,7 @@ class Board extends Component {
                 const cell = {
                     id: `R${rIndex}C${cIndex}`,
                 }
-                return {...cell, ...cellDefault}
+                return {...cell, ...cellData}
             });
         })
 
@@ -56,19 +56,13 @@ class Board extends Component {
         return `${elName} ${elName}${index} ${isActive ? 'isActive' : ''}`; 
     }
 
-    // getGridTemplate = (num, value) => {
-    //     const arr = Array.from({length: num}, (v, i) => '1fr');
-    //     console.log(arr);
-    //     const gridTemplate = arr.map( () => {
-    //         return value;
-    //     }); 
-    //     return arr.join(', ');
-    // }
-
     cellStyles = (cellObj) => {
         const { selectedColor } = this.state;
-        const cellActivStyles = { backgroundColor: selectedColor }
-        return cellObj.isActive ? cellActivStyles : {};
+        const { boardData } = this.props;
+        const { cellData } = boardData;
+        const defaultStyle = {width: cellData.width, height: cellData.height}
+        const activStyles = { backgroundColor: selectedColor }
+        return cellObj.isActive ? {...defaultStyle, ...activStyles } : defaultStyle;
     }
 
     handleCellClick = (cell) => {
@@ -77,20 +71,11 @@ class Board extends Component {
 
     render() {
         const { boardStatus } = this.state;
-        // const { boardData } = this.props;
-        // const { rows, columns, cell } = boardData;
         console.log('render boardStatus ', boardStatus);
-        const boardStyle = {
-            gridTemplateRows: 'repeat(9, 1fr)',
-        }
-
-        const rowStyle = {
-            gridTemplateColumns: `repeat(9, 1fr)`,
-        }
 
         const boardEl = boardStatus.map( (row, index) => {
             return (
-                <div className={this.getClasses('row', row, index)} key={`row ${index}`} style={rowStyle}>
+                <div className={this.getClasses('row', row, index)} key={`row ${index}`}>
                     {
                         row.map( (cell, index) => {
                             return (
@@ -107,7 +92,7 @@ class Board extends Component {
             );
         })
         return (
-            <div className="board" style={boardStyle}>
+            <div className="board">
                 {boardEl}
             </div>
         );

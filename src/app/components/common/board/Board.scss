@@ -1,17 +1,16 @@
 .board {
     border-top: 1px solid #000;
     border-left: 1px solid #000;
-    display: grid;
+    display: flex;
+    flex-direction: column;
     width: 100%;
     max-width: fit-content;
     margin: 0 auto;
 
     .row {
-        display: grid;
+        display: flex;
     }
     .cell {
-        width: 20px;
-        height: 20px;
         border-right: 1px solid #000;
         border-bottom: 1px solid #000;
     }
