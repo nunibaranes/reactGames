@@ -30,6 +30,12 @@ class Board extends Component {
         }
     }
 
+    componentWillReceiveProps (nextProps) {
+        if (nextProps.board.length !== 0 && nextProps.board !== this.state.boardStatus) {
+            this.setState({boardStatus: nextProps.board})
+        }
+    }
+
     generatBoard = () => {
         const { boardData } = this.props;
         const { rows, columns, cellData } = boardData;
@@ -39,6 +45,8 @@ class Board extends Component {
             return Array.from(rowTemp, (col, cIndex) => { 
                 const cell = {
                     id: `R${rIndex}C${cIndex}`,
+                    y: cIndex,
+                    x: rIndex,
                 }
                 return {...cell, ...cellData}
             });
@@ -59,8 +67,8 @@ class Board extends Component {
     cellStyles = (cellObj) => {
         const { selectedColor } = this.state;
         const { boardData } = this.props;
-        const { cellData } = boardData;
-        const defaultStyle = {width: cellData.width, height: cellData.height}
+        const { cellWidth, cellHeight } = boardData;
+        const defaultStyle = {width: cellWidth, height: cellHeight}
         const activStyles = { backgroundColor: selectedColor }
         return cellObj.isActive ? {...defaultStyle, ...activStyles } : defaultStyle;
     }
@@ -71,7 +79,6 @@ class Board extends Component {
 
     render() {
         const { boardStatus } = this.state;
-        console.log('render boardStatus ', boardStatus);
 
         const boardEl = boardStatus.map( (row, index) => {
             return (
@@ -79,7 +86,8 @@ class Board extends Component {
                     {
                         row.map( (cell, index) => {
                             return (
-                                <div 
+                                <div
+                                    id={cell.id}
                                     className={this.getClasses('cell', cell,  index)} 
                                     key={`cell ${index}`}
                                     onClick={() => {this.handleCellClick(cell)}}
