@@ -36,6 +36,11 @@ class Board extends Component {
         }
     }
 
+    /**
+     * generatBoard
+     * generate new array by rows and columns
+     * setState boardStatus to newBoard
+     */
     generatBoard = () => {
         const { boardData } = this.props;
         const { rows, columns, cellData } = boardData;
@@ -59,20 +64,37 @@ class Board extends Component {
         });
     }
 
+    /**
+     * getClasses
+     * return classes refer to arguments
+     * @param {String} elName
+     * @param {Object} el
+     * @param {Number} index
+     */
     getClasses = (elName, el, index) => {
         const isActive = el.isActive !== undefined && el.isActive;
         return `${elName} ${elName}${index} ${isActive ? 'isActive' : ''}`; 
     }
-
+    
+    /**
+     * cellStyles
+     * return cell styles
+     * @param {Object} cellObj 
+     */
     cellStyles = (cellObj) => {
         const { selectedColor } = this.state;
         const { boardData } = this.props;
         const { cellWidth, cellHeight } = boardData;
         const defaultStyle = {width: cellWidth, height: cellHeight}
         const activStyles = { backgroundColor: selectedColor }
-        return cellObj.isActive ? {...defaultStyle, ...activStyles } : defaultStyle;
+        const isActive = cellObj.isActive !== undefined && cellObj.isActive;
+        return isActive ? {...defaultStyle, ...activStyles } : defaultStyle;
     }
 
+    /**
+     * handleCellClick
+     * @param {Object} cell
+     */
     handleCellClick = (cell) => {
         this.props.cellClicked(cell)
     }
