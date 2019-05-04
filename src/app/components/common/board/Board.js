@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import './Board.scss'
+import Cell from './cell/Cell.js'
 class Board extends Component {
     static propTypes = {
         boardData: PropTypes.object.isRequired,
@@ -77,21 +78,6 @@ class Board extends Component {
     }
     
     /**
-     * cellStyles
-     * return cell styles
-     * @param {Object} cellObj 
-     */
-    cellStyles = (cellObj) => {
-        const { selectedColor } = this.state;
-        const { boardData } = this.props;
-        const { cellWidth, cellHeight } = boardData;
-        const defaultStyle = {width: cellWidth, height: cellHeight}
-        const activStyles = { backgroundColor: selectedColor }
-        const isActive = cellObj.isActive !== undefined && cellObj.isActive;
-        return isActive ? {...defaultStyle, ...activStyles } : defaultStyle;
-    }
-
-    /**
      * handleCellClick
      * @param {Object} cell
      */
@@ -100,7 +86,8 @@ class Board extends Component {
     }
 
     render() {
-        const { boardStatus } = this.state;
+        const { boardStatus, selectedColor} = this.state;
+        const { boardData } = this.props;
 
         const boardEl = boardStatus.map( (row, index) => {
             return (
@@ -108,13 +95,15 @@ class Board extends Component {
                     {
                         row.map( (cell, index) => {
                             return (
-                                <div
-                                    id={cell.id}
-                                    className={this.getClasses('cell', cell,  index)} 
+                                <Cell
+                                    cellData={cell}
+                                    cellIndex={index}
+                                    cellWidth={boardData.cellWidth}
+                                    cellHeight={boardData.cellHeight}
+                                    selectedColor={selectedColor}
                                     key={`cell ${index}`}
-                                    onClick={() => {this.handleCellClick(cell)}}
-                                    style={this.cellStyles(cell)}
-                                ></div>
+                                    cellOnClick={() => {this.handleCellClick(cell)}}
+                                ></Cell>
                             );
                         })
                     }
