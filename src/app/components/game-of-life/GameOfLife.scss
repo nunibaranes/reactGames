@@ -1,0 +1,7 @@
+.controllers-and-settings {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    .settings {
+        border-right: 1px solid #ddd;
+    }
+}

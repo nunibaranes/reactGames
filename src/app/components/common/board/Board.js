@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
-import './Board.scss'
+import './Board.scss';
+
 import Cell from './cell/Cell.js'
 class Board extends Component {
     static propTypes = {

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './GameOfLife.scss';
+
 import Title from '../common/title/Title.js';
 import Board from '../common/board/Board.js';
 
@@ -9,13 +10,13 @@ class GameOfLife extends Component {
     this.state = {
         title: 'Game Of Life',
         boardData: {
-          rows: 20,
-          columns: 20,
+          rows: 10,
+          columns: 10,
           cellData: {
             isActive: false,
           },
-          cellWidth: '30px', // TODO: add button to change cellWidth
-          cellHeight: '30px', // TODO: add button to change cellHeight
+          cellWidth: '50px', // TODO: add button to change cellWidth
+          cellHeight: '50px', // TODO: add button to change cellHeight
           defaultColor: 'black', // TODO: add button to change color
         },
         boardStatus: [],
@@ -141,7 +142,6 @@ class GameOfLife extends Component {
    * @param {Object} cellObj 
    */
   cellClicked = (cellObj) => {
-    console.log('cellClicked setState')
     this.setState(prevState => ({
         boardStatus: this.toggleCellIsActiveStatus(prevState.boardStatus, cellObj)
     }));
@@ -152,6 +152,20 @@ class GameOfLife extends Component {
     return (
       <section className='game-of-life wrapper wrap-with-border'>
         <Title title={ title }></Title>
+        <div className='controllers-and-settings wrapper wrap-with-border'>
+          <div className='settings'>
+            <Title title={ 'Game Settings' }></Title>
+          </div>
+          <div className='controllers'>
+            <Title title={ 'Game Controllers' }></Title>
+            <div 
+              className='control-next-generation' 
+              onClick={() => { this.setNextGenerationBoardStatus() }}
+            >
+              Next Generation
+            </div>
+          </div>
+        </div>
         <Board 
           boardData={ boardData }
           board={ boardStatus }
@@ -159,14 +173,6 @@ class GameOfLife extends Component {
           boardGenerated={this.boardGenerated}
           >
         </Board>
-        <div className='board-game-actions'>
-          <div 
-            className='generate-new-game' 
-            onClick={() => { this.setNextGenerationBoardStatus() }}
-          >
-              Next Generation
-          </div>
-        </div>
       </section>
     );
   }
