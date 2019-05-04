@@ -19,6 +19,7 @@ class GameOfLife extends Component {
           cellHeight: '20', // TODO: add button to change cellHeight
           defaultColor: 'red', // TODO: add button to change color
         },
+        timeoutHandler: null,
         generation: 0,
         gameIsRunning: false,
         boardStatus: [],
@@ -114,9 +115,16 @@ class GameOfLife extends Component {
     }));
 
     if (isRuning) {
-      this.timeoutHandler = window.setTimeout(() => {
+      const timeoutHandler = window.setTimeout(() => {
         this.setNextGenerationBoardStatus(isRuning);
       }, 100);
+
+      this.setState({
+        timeoutHandler
+      });
+      // this.timeoutHandler = window.setTimeout(() => {
+      //   this.setNextGenerationBoardStatus(isRuning);
+      // }, 100);
     }
   }
 
@@ -164,16 +172,14 @@ class GameOfLife extends Component {
   }
 
   stopGame = () => {
-    this.setState({ gameIsRunning: false });
-
-    if (this.timeoutHandler) {
-      window.clearTimeout(this.timeoutHandler);
-      this.timeoutHandler = null;
+    const { timeoutHandler } = this.state;
+    this.setState({ 
+      gameIsRunning: false,
+      timeoutHandler: null
+    });
+    if (timeoutHandler) {
+      window.clearTimeout(timeoutHandler);
     }
-  }
-
-  cellWidthChanged = (event) => {
-    console.log('cellWidthChanged event.target ', event);
   }
 
   render() {
