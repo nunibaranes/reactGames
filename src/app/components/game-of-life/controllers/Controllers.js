@@ -6,11 +6,19 @@ class Controllers extends Component {
    static propTypes = {
         title: PropTypes.string.isRequired,
         additionalClass: PropTypes.string,
-        gameIsRunning: PropTypes.bool
+        gameIsRunning: PropTypes.bool,
+        onClickClearBoard: PropTypes.func,
+        onClickRunGame: PropTypes.func,
+        onClickStopGame: PropTypes.func,
+        onClickSetNGBoardStaus: PropTypes.func,
     };
     static defaultProps = {
-      additionalClass: '',
-      gameIsRunning: false,
+        additionalClass: '',
+        gameIsRunning: false,
+        onClickClearBoard: () => {},
+        onClickRunGame: () => {},
+        onClickStopGame: () => {},
+        onClickSetNGBoardStaus: () => {},
     }
 
     /**
@@ -35,7 +43,7 @@ class Controllers extends Component {
                 // clearBoard button
                 <button 
                     className='control-clear-board-game' 
-                    onClick={() => { this.clearBoard() }}
+                    onClick={() => { this.props.onClickClearBoard() }}
                 >
                     Clear
                 </button>
@@ -43,14 +51,14 @@ class Controllers extends Component {
                 { // stopGame or runGame button
                 gameIsRunning ?
                 <button className="control-stop-game"
-                    onClick={() => { this.stopGame() }}>Stop</button> :
+                    onClick={() => { this.props.onClickStopGame() }}>Stop</button> :
                 <button className="control-run-game"
-                    onClick={() => { this.runGame() }}>Run</button>
+                    onClick={() => { this.props.onClickRunGame() }}>Run</button>
                 }
                 { // setNextGenerationBoardStatus button
                 <button 
                     className='control-next-generation' 
-                    onClick={() => { this.setNextGenerationBoardStatus() }}
+                    onClick={() => { this.props.onClickSetNGBoardStaus() }}
                 >
                     Next Generation
                 </button>

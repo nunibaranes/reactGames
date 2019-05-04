@@ -205,13 +205,27 @@ class GameOfLife extends Component {
   }
 
   render() {
-    const { title, gameIsRunning, boardData, boardStatus, generation} = this.state;
+    const { 
+      title, 
+      gameIsRunning, 
+      boardData, 
+      boardStatus, 
+      generation
+    } = this.state;
+    
     return (
       <section className='game-of-life wrapper wrap-with-border'>
         <Title additionalClass={'main-title'} title={ title }></Title>
         <div className='controllers-and-settings wrapper'>
           <Settings title={'Settings'}></Settings>
-          <Controllers title={'Controllers'}></Controllers>
+          <Controllers 
+            title={'Controllers'}
+            gameIsRunning={gameIsRunning}
+            onClickClearBoard={this.clearBoard}
+            onClickRunGame={this.runGame}
+            onClickStopGame={this.stopGame}
+            onClickSetNGBoardStaus={this.setNextGenerationBoardStatus}
+          ></Controllers>
         </div>
         <Board 
           boardData={ boardData }
