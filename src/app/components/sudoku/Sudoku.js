@@ -11,17 +11,23 @@ class Sudoku extends Component {
         boardData: {
           rows: 9,
           columns: 9,
-          puzzel: []
-        }
+          puzzel: [],
+          cellWidth: '20', // TODO: add button to change cellWidth
+          cellHeight: '20', // TODO: add button to change cellHeight
+          defaultColor: 'red', // TODO: add button to change color
+        },
+        boardStatus: [],
     };
   }
 
   render() {
-    const { title, boardData } = this.state;
+    const { title, boardData, boardStatus } = this.state;
     return (
       <section className="sudoku wrapper wrap-with-border">
-        <Title title={ title }></Title>
-        <Board boardData={ boardData }></Board>
+        <Title additionalClass={'main-title'} title={ title }></Title>
+        <Board 
+          boardData={ boardData }
+          board={ boardStatus }></Board>
       </section>
     );
   }
