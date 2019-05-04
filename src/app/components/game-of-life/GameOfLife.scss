@@ -1,7 +1,12 @@
 .controllers-and-settings {
+    border-top: 1px solid #ddd;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     .settings {
         border-right: 1px solid #ddd;
     }
+}
+
+.generation-counter {
+    margin-top: 25px;
 }

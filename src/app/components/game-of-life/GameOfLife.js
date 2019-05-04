@@ -10,15 +10,17 @@ class GameOfLife extends Component {
     this.state = {
         title: 'Game Of Life',
         boardData: {
-          rows: 10,
-          columns: 10,
+          rows: 40,
+          columns: 40,
           cellData: {
             isActive: false,
           },
-          cellWidth: '50px', // TODO: add button to change cellWidth
-          cellHeight: '50px', // TODO: add button to change cellHeight
-          defaultColor: 'black', // TODO: add button to change color
+          cellWidth: '20px', // TODO: add button to change cellWidth
+          cellHeight: '20px', // TODO: add button to change cellHeight
+          defaultColor: 'red', // TODO: add button to change color
         },
+        generation: 0,
+        gameIsRunning: false,
         boardStatus: [],
     };
   }
@@ -106,7 +108,10 @@ class GameOfLife extends Component {
         }
     }
 
-    this.setState({boardStatus: newBoard});
+    this.setState(prevState => ({
+      boardStatus: newBoard,
+      generation: prevState.generation + 1,
+    }));
   }
 
   /**
@@ -147,17 +152,36 @@ class GameOfLife extends Component {
     }));
   }
 
+  runGame = () => {
+    this.setState({ gameIsRunning: true });
+  }
+  stopGame = () => {
+    this.setState({ gameIsRunning: false });
+  }
+
   render() {
-    const { title, boardData, boardStatus} = this.state;
+    const { title, boardData, boardStatus, generation} = this.state;
     return (
       <section className='game-of-life wrapper wrap-with-border'>
         <Title title={ title }></Title>
-        <div className='controllers-and-settings wrapper wrap-with-border'>
+        <div className='controllers-and-settings wrapper'>
           <div className='settings'>
-            <Title title={ 'Game Settings' }></Title>
+            <Title title={ 'Settings' }></Title>
           </div>
           <div className='controllers'>
-            <Title title={ 'Game Controllers' }></Title>
+            <Title title={ 'Controllers' }></Title>
+            <div 
+              className='control-run-game' 
+              onClick={() => { this.runGame() }}
+            >
+              Play
+            </div>
+            <div 
+              className='control-run-game' 
+              onClick={() => { this.stopGame() }}
+            >
+              Stop
+            </div>
             <div 
               className='control-next-generation' 
               onClick={() => { this.setNextGenerationBoardStatus() }}
@@ -173,6 +197,7 @@ class GameOfLife extends Component {
           boardGenerated={this.boardGenerated}
           >
         </Board>
+        <div className='generation-counter'>Generation: {generation}</div>
       </section>
     );
   }
