@@ -1,6 +1,8 @@
 
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
+import './Settings.scss';
+
 import Title from '../../common/title/Title.js';
 class Settings extends Component {
    static propTypes = {
