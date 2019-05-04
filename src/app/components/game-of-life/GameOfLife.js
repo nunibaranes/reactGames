@@ -182,8 +182,17 @@ class GameOfLife extends Component {
     }
   }
 
+  clearBoard = () => {
+    const newBoard = this.toggleCellIsActiveStatus(this.state.boardStatus, null);
+    this.stopGame();
+    this.setState({
+      boardStatus: newBoard,
+      generation: 0,      
+    });
+  }
+
   render() {
-    const { title, boardData, boardStatus, generation} = this.state;
+    const { title, gameIsRunning, boardData, boardStatus, generation} = this.state;
     return (
       <section className='game-of-life wrapper wrap-with-border'>
         <Title title={ title }></Title>
@@ -193,24 +202,30 @@ class GameOfLife extends Component {
           </div>
           <div className='controllers'>
             <Title title={ 'Controllers' }></Title>
-            <button 
-              className='control-run-game' 
-              onClick={() => { this.runGame() }}
-            >
-              Play
-            </button>
-            <button 
-              className='control-run-game' 
-              onClick={() => { this.stopGame() }}
-            >
-              Stop
-            </button>
-            <button 
-              className='control-next-generation' 
-              onClick={() => { this.setNextGenerationBoardStatus() }}
-            >
-              Next Generation
-            </button>
+            { 
+              // clearBoard button
+              <button 
+                className='control-clear-board-game' 
+                onClick={() => { this.clearBoard() }}
+              >
+                Clear
+              </button>
+            }
+            { // stopGame or runGame button
+              gameIsRunning ?
+              <button className="control-stop-game"
+                onClick={() => { this.stopGame() }}>Stop</button> :
+              <button className="control-run-game"
+                onClick={() => { this.runGame() }}>Run</button>
+            }
+            { // setNextGenerationBoardStatus button
+              <button 
+                className='control-next-generation' 
+                onClick={() => { this.setNextGenerationBoardStatus() }}
+              >
+                Next Generation
+              </button>
+            }
           </div>
         </div>
         <Board 
