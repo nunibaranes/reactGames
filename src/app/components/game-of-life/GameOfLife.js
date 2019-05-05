@@ -34,21 +34,27 @@ class GameOfLife extends Component {
    * @param {Array} prevStateBoardStatus 
    * @param {Object} cellObj 
    */
-  toggleCellIsActiveStatus (prevStateBoardStatus, cellObj) {
+  toggleCellIsActiveStatus = (prevStateBoardStatus, cellObj) => {
     const clonedBoardStatus = JSON.parse(JSON.stringify(prevStateBoardStatus));
-    
-    if (cellObj) { 
-      const cell = clonedBoardStatus[cellObj.x][cellObj.y];
-      cell.isActive = !cell.isActive;
-    } else {
-      for(let x = 0; x < clonedBoardStatus.length; x++) {
-        for(let y = 0; y < clonedBoardStatus.length; y++) {
-          const cell = clonedBoardStatus[x][y];
-          cell.isActive = false;
-        }
+    const cell = clonedBoardStatus[cellObj.x][cellObj.y];
+    cell.isActive = cell !== undefined && !cell.isActive;
+
+    return clonedBoardStatus;
+  }
+
+  getCleanBoard = () => {
+    const { boardData, boardStatus } = this.state;
+    const { rows, columns } = boardData;
+    const cleanBoard = JSON.parse(JSON.stringify(boardStatus));
+
+    for(let x = 0; x < rows; x++) {
+      for(let y = 0; y < columns; y++) {
+        const cell = cleanBoard[x][y];
+        cell.isActive = false;
       }
     }
-    return clonedBoardStatus;
+
+    return cleanBoard;
   }
 
   /**
@@ -100,10 +106,10 @@ class GameOfLife extends Component {
   setNextGenerationBoardStatus = (isRuning = false) => {
     const { boardData, boardStatus } = this.state;
     const { rows, columns } = boardData;
-    const newBoard = this.toggleCellIsActiveStatus(boardStatus, null);
+    const newBoard = this.getCleanBoard();
 
     for (let x = 0; x < rows; x++) {
-        for (let y = 0; y< columns; y++) {
+        for (let y = 0; y < columns; y++) {
             const activeNeighbors = this.checkNeighbors(boardStatus, x, y);
             const cell = boardStatus[x][y];
             const newBoardCell = newBoard[x][y];
@@ -196,7 +202,8 @@ class GameOfLife extends Component {
    * setState to empty new board
    */
   clearBoard = () => {
-    const newBoard = this.toggleCellIsActiveStatus(this.state.boardStatus, null);
+    console.log('clearBoard ');
+    const newBoard = this.getCleanBoard();
     this.stopGame();
     this.setState({
       boardStatus: newBoard,
