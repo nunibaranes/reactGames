@@ -91,6 +91,7 @@ class Board extends Component {
         const { boardStatus, selectedColor} = this.state;
         const { boardData } = this.props;
         const { gameIsRunning } = boardData;
+        // TODO check if gameIsRuning is not undefined
         const boardClasses = `board ${gameIsRunning ? 'game-is-running' : ''}`;
 
         const boardEl = boardStatus.map( (row, index) => {
