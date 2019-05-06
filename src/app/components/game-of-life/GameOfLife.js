@@ -20,10 +20,11 @@ class GameOfLife extends Component {
           cellWidth: '20', // TODO: add button to change cellWidth
           cellHeight: '20', // TODO: add button to change cellHeight
           defaultColor: 'red', // TODO: add button to change color
+          gameIsRunning: false,
         },
         timeoutHandler: null,
         generation: 0,
-        gameIsRunning: false,
+        
         boardStatus: [],
     };
   }
@@ -177,8 +178,10 @@ class GameOfLife extends Component {
    * setState gameIsRunning to true 
    */
   runGame = () => {
+    const defaultData = JSON.parse(JSON.stringify(this.state.boardData));
+    const newBoarData = { ...defaultData, ...{ gameIsRunning: true }}
     this.setNextGenerationBoardStatus(true);
-    this.setState({ gameIsRunning: true });
+    this.setState({ boardData: newBoarData});
   }
 
   /**
@@ -188,8 +191,10 @@ class GameOfLife extends Component {
    */
   stopGame = () => {
     const { timeoutHandler } = this.state;
+    const defaultData = JSON.parse(JSON.stringify(this.state.boardData));
+    const newBoarData = { ...defaultData, ...{ gameIsRunning: false }}
     this.setState({ 
-      gameIsRunning: false,
+      boardData: newBoarData,
       timeoutHandler: null
     });
     if (timeoutHandler) {
@@ -214,12 +219,11 @@ class GameOfLife extends Component {
   render() {
     const { 
       title, 
-      gameIsRunning, 
       boardData, 
       boardStatus, 
       generation
     } = this.state;
-    
+    const { gameIsRunning } = boardData;
     return (
       <section className='game-of-life wrapper wrap-with-border'>
         <Title additionalClass={'main-title'} title={ title }></Title>

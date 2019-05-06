@@ -29,21 +29,39 @@ class Controllers extends Component {
      * @param {Object} el
      * @param {Number} index
      */
-    getClasses = () => {
-        const {additionalClass} = this.props;
-        return `controllers ${additionalClass}`; 
+    getClasses = (elData = null) => {
+        const {gameIsRunning, additionalClass} = this.props;
+        const disabledClass = gameIsRunning ? 'disabled' : '';
+        let elDataClasses = '';
+        if (elData) {
+            elDataClasses = elData.toggleDisabledClass ? `${elData.classes} ${disabledClass}` : `${elData.classes}`;
+        }
+        return (elDataClasses !== '') ? `${elDataClasses}` : `controllers ${additionalClass}`; 
     }
 
     render() {
         const {title, gameIsRunning} = this.props;
+        const clearBoardBtn = {
+            classes: 'btn control-clear-board-game',
+            toggleDisabledClass: true,
+        }
 
+        const stopOrRunGameBtn = {
+            classes: gameIsRunning ? 'btn control-stop-game' : 'btn control-run-game',
+        }
+
+        const SetNGBoardStausBtn = {
+            classes: 'btn control-next-generation',
+            toggleDisabledClass: true,
+        }
         return (
             <section className={this.getClasses()}>
                 <Title title={ title }></Title>
                 <div>
-                    { // onClickClearBoard button
+                    { 
+                        // onClickClearBoard button
                         <div 
-                            className='btn control-clear-board-game' 
+                            className={this.getClasses(clearBoardBtn)} 
                             onClick={() => { this.props.onClickClearBoard() }}
                         >
                             Clear
@@ -51,18 +69,18 @@ class Controllers extends Component {
                     }
                     { // onClickStopGame or onClickRunGame button
                         gameIsRunning ?
-                        <div className="btn control-stop-game"
+                        <div className={this.getClasses(stopOrRunGameBtn)}
                             onClick={() => { this.props.onClickStopGame() }}>
                             Stop
                         </div> :
-                        <div className="btn control-run-game"
+                        <div className={this.getClasses(stopOrRunGameBtn)}
                             onClick={() => { this.props.onClickRunGame() }}>
                             Run
                         </div>
                     }
                     { // onClickSetNGBoardStaus button
                         <div 
-                            className='btn control-next-generation' 
+                            className={this.getClasses(SetNGBoardStausBtn)} 
                             onClick={() => { this.props.onClickSetNGBoardStaus() }}
                         >
                             Next Generation

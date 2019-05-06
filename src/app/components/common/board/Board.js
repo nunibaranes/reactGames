@@ -83,7 +83,9 @@ class Board extends Component {
      * @param {Object} cell
      */
     handleCellClick = (cell) => {
-        this.props.cellClicked(cell)
+        // if () {
+            this.props.cellClicked(cell)
+        //}
     }
 
     render() {
