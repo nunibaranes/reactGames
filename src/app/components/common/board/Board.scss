@@ -10,8 +10,9 @@
     .row {
         display: flex;
     }
-    .cell {
-        border-right: 1px solid #000;
-        border-bottom: 1px solid #000;
+
+    &.game-is-running {
+        cursor: default;
+        pointer-events: none;
     }
 }

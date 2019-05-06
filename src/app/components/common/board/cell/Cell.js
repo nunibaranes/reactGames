@@ -11,10 +11,12 @@ class Cell extends Component {
         cellOnClick: PropTypes.func.isRequired,
         selectedColor: PropTypes.string.isRequired, 
         value: PropTypes.string,
+        gameIsRunning: PropTypes.string,
     };
 
     static defaultProps = {
         value: '',
+        gameIsRunning: false,
     }
 
     /**
@@ -25,7 +27,11 @@ class Cell extends Component {
      */
     getClasses = (el, index) => {
         const isActive = el.isActive !== undefined && el.isActive;
-        return `cell cell${index} ${isActive ? 'isActive' : ''}`; 
+        const defaultClasses = `cell cell${index}`;
+        const { gameIsRunning } = this.props;
+        const disabledClass = gameIsRunning ? 'disabled' : '';
+        const isActiveClass = isActive ? 'isActive' : '';
+        return `${defaultClasses} ${isActiveClass} ${disabledClass}`; 
     }
 
     /**

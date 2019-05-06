@@ -75,7 +75,8 @@ class Board extends Component {
      */
     getClasses = (elName, el, index) => {
         const isActive = el.isActive !== undefined && el.isActive;
-        return `${elName} ${elName}${index} ${isActive ? 'isActive' : ''}`; 
+        const defaultClasses = `${elName} ${elName}${index}`;
+        return `${defaultClasses} ${isActive ? 'isActive' : ''}`; 
     }
     
     /**
@@ -83,14 +84,14 @@ class Board extends Component {
      * @param {Object} cell
      */
     handleCellClick = (cell) => {
-        // if () {
-            this.props.cellClicked(cell)
-        //}
+        this.props.cellClicked(cell)
     }
 
     render() {
         const { boardStatus, selectedColor} = this.state;
         const { boardData } = this.props;
+        const { gameIsRunning } = boardData;
+        const boardClasses = `board ${gameIsRunning ? 'game-is-running' : ''}`;
 
         const boardEl = boardStatus.map( (row, index) => {
             return (
@@ -106,6 +107,7 @@ class Board extends Component {
                                     selectedColor={selectedColor}
                                     key={`cell ${index}`}
                                     cellOnClick={() => {this.handleCellClick(cell)}}
+                                    gameIsRunning={gameIsRunning}
                                 ></Cell>
                             );
                         })
@@ -114,7 +116,7 @@ class Board extends Component {
             );
         })
         return (
-            <div className="board">
+            <div className={boardClasses}>
                 {boardEl}
             </div>
         );
