@@ -11,7 +11,7 @@ class Cell extends Component {
         cellOnClick: PropTypes.func.isRequired,
         selectedColor: PropTypes.string.isRequired, 
         value: PropTypes.string,
-        gameIsRunning: PropTypes.string,
+        gameIsRunning: PropTypes.bool,
     };
 
     static defaultProps = {

@@ -139,6 +139,7 @@ class GameOfLife extends Component {
    * return refer to rules cell isActive status for next generation
    */
   nextGenerationCellIsActive = (cell, activeNeighbors) => {
+    // TODO improve the conditions
     if (cell.isActive) {
       if (activeNeighbors < 2 || activeNeighbors > 3) {
         return false;
@@ -147,7 +148,9 @@ class GameOfLife extends Component {
       }
     } else {
       if (activeNeighbors === 3) {
-         return true;
+        return true;
+      } else {
+        return false;
       }
     }
   }
@@ -207,7 +210,6 @@ class GameOfLife extends Component {
    * setState to empty new board
    */
   clearBoard = () => {
-    console.log('clearBoard ');
     const newBoard = this.getCleanBoard();
     this.stopGame();
     this.setState({
