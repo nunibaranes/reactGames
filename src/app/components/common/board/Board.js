@@ -44,7 +44,7 @@ class Board extends Component {
      * setState boardStatus to newBoard
      */
     generatBoard = () => {
-        const { boardData } = this.props;
+        const { boardData, boardGenerated } = this.props;
         const { rows, columns, cellData } = boardData;
         const puzzelTemp = Array.from(Array(rows).keys());
         const rowTemp = Array.from(Array(columns).keys());
@@ -59,11 +59,11 @@ class Board extends Component {
             });
         })
 
-        this.props.boardGenerated(newBoard);
-    
         this.setState({
             boardStatus: newBoard,
         });
+
+        boardGenerated(newBoard);
     }
 
     /**
