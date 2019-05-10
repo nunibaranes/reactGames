@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import './GameOfLife.scss';
-import Settings from './settings/Settings.js'
+// import Settings from './settings/Settings.js'
 import Controllers from './controllers/Controllers.js'
 
 import Title from '../common/title/Title.js';
+import Counter from '../common/counter/Counter.js'
 import Board from '../common/board/Board.js';
 
 class GameOfLife extends Component {
@@ -227,7 +228,7 @@ class GameOfLife extends Component {
     } = this.state;
 
     const { gameIsRunning } = boardData;
-    
+
     return (
       <section className='game-of-life wrapper wrap-with-border'>
         <Title additionalClass={'main-title align-center'} title={ title }></Title>
@@ -253,7 +254,12 @@ class GameOfLife extends Component {
           boardGenerated={this.boardGenerated}
           >
         </Board>
-        <div className='generation-counter'>Generation: {generation}</div>
+        <Counter 
+          title={'Generation:'} 
+          additionalClass='generation-counter' 
+          counter={generation}
+        >
+        </Counter>
       </section>
     );
   }
