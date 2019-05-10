@@ -44,6 +44,10 @@ class GameOfLife extends Component {
     return clonedBoardStatus;
   }
 
+  /**
+   * getCleanBoard
+   * create a new empty board
+   */
   getCleanBoard = () => {
     const { boardData, boardStatus } = this.state;
     const { rows, columns } = boardData;
@@ -219,10 +223,19 @@ class GameOfLife extends Component {
     });
   }
 
+  /**
+   * onClickedController
+   * @param controller object
+   * call to controller.callback
+   */
   onClickedController = (controller) => {
     controller.callback();
   }
 
+  /**
+   * getGameControllers
+   * return array
+   */
   getGameControllers = () => {
     const { 
       boardData,
