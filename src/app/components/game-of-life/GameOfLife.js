@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import './GameOfLife.scss';
+
 // import Settings from './settings/Settings.js'
 import Controllers from './controllers/Controllers.js'
-
 import Title from '../common/title/Title.js';
 import Counter from '../common/counter/Counter.js'
 import Board from '../common/board/Board.js';
@@ -219,6 +219,47 @@ class GameOfLife extends Component {
     });
   }
 
+  onClickedController = (controller) => {
+    controller.callback();
+  }
+
+  getGameControllers = () => {
+    const { 
+      boardData,
+    } = this.state;
+
+    const { gameIsRunning } = boardData;
+
+    return [
+      {
+        title: 'Clear',
+        controllerName: 'clearBoardBtn',
+        classes: 'btn control-clear-board-game',
+        toggleDisabledClass: true,
+        callback: () => { this.clearBoard(); }
+      },
+      {
+        title: gameIsRunning ? 'Stop' : 'Run',
+        controllerName: 'stopOrRunGameBtn',
+        classes: gameIsRunning ? 'btn control-stop-game' : 'btn control-run-game',
+        callback: () => { 
+          if ( gameIsRunning ) {
+            this.stopGame();
+          } else {
+            this.runGame()
+          }
+        }
+      },
+      {
+        title: 'Next Generation',
+        controllerName: 'SetNGBoardStausBtn',
+        classes: 'btn control-next-generation',
+        toggleDisabledClass: true,
+        callback: () => { this.setNextGenerationBoardStatus(); }
+      }
+    ];
+  }
+
   render() {
     const { 
       title, 
@@ -228,6 +269,7 @@ class GameOfLife extends Component {
     } = this.state;
 
     const { gameIsRunning } = boardData;
+    const controllers = this.getGameControllers();
 
     return (
       <section className='game-of-life wrapper wrap-with-border'>
@@ -241,10 +283,8 @@ class GameOfLife extends Component {
             additionalClass={'align-left'}
             additionalTitleClass={'align-left'}
             gameIsRunning={gameIsRunning}
-            onClickClearBoard={this.clearBoard}
-            onClickRunGame={this.runGame}
-            onClickStopGame={this.stopGame}
-            onClickSetNGBoardStaus={this.setNextGenerationBoardStatus}
+            controllers={controllers}
+            onControllerClicked={this.onClickedController}
           ></Controllers>
         </div>
         <Board 
