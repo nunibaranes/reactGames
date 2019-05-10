@@ -10,12 +10,10 @@ class Cell extends Component {
         cellHeight: PropTypes.string.isRequired,
         cellOnClick: PropTypes.func.isRequired,
         selectedColor: PropTypes.string.isRequired, 
-        value: PropTypes.string,
         gameIsRunning: PropTypes.bool,
     };
 
     static defaultProps = {
-        value: '',
         gameIsRunning: false,
     }
 
@@ -52,8 +50,9 @@ class Cell extends Component {
     }
 
     render() {
-    
-        const {cellData, cellIndex, value} = this.props
+        const {cellData, cellIndex} = this.props
+        const value = cellData.value !== undefined && cellData.value ? cellData.value : '';
+
         return (
         <div 
             id={cellData.id}
@@ -61,7 +60,7 @@ class Cell extends Component {
             style={this.cellStyles(cellData)}
             onClick={this.handelOnClick}
         >
-            {value}
+            { value }
         </div>
         );
     }

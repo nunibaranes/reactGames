@@ -48,7 +48,8 @@ class Controllers extends Component {
                     {
                         controllers.map(controller => {
                             return (
-                                <div 
+                                <div
+                                    key={controller.controllerName}
                                     className={this.getClasses(controller)}
                                     onClick={() => { this.props.onControllerClicked(controller) }}
                                 >

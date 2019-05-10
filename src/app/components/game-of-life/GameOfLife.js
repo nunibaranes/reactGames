@@ -161,7 +161,7 @@ class GameOfLife extends Component {
   }
 
   /**
-   * cellClicked
+   * boardGenerated
    * setState boardStatus after boardGenerated
    * @param {Array} generatedBoard
    */
@@ -225,7 +225,7 @@ class GameOfLife extends Component {
 
   /**
    * onClickedController
-   * @param controller object
+   * @param {Object} controllers
    * call to controller.callback
    */
   onClickedController = (controller) => {
@@ -234,7 +234,7 @@ class GameOfLife extends Component {
 
   /**
    * getGameControllers
-   * return array
+   * return {Array}
    */
   getGameControllers = () => {
     const { 
