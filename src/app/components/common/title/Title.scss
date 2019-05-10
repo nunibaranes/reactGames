@@ -1,11 +1,24 @@
 .title {
     font-size: 1.2em;
+    text-align: left;
+
     h1, h2 {
         font-size: 1em;
     }
     h3, h4, h5, h6 {
         font-size: 0.9em;
     }
+    
+    &.align-left {
+        text-align: left;
+    }
+    &.align-right {
+        text-align: right;
+    }
+    &.align-center {
+        text-align: center;
+    }
+
     &.main-title {
         h1, h2 {
             font-size: 2em;

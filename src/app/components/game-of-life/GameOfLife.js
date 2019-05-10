@@ -225,14 +225,20 @@ class GameOfLife extends Component {
       boardStatus, 
       generation
     } = this.state;
+
     const { gameIsRunning } = boardData;
+    
     return (
       <section className='game-of-life wrapper wrap-with-border'>
-        <Title additionalClass={'main-title'} title={ title }></Title>
+        <Title additionalClass={'main-title align-center'} title={ title }></Title>
         <div className='controllers-and-settings wrapper'>
-          <Settings title={'Settings'}></Settings>
+          {
+            // <Settings title={'Settings'}></Settings>
+          }
           <Controllers 
             title={'Controllers'}
+            additionalClass={'align-left'}
+            additionalTitleClass={'align-left'}
             gameIsRunning={gameIsRunning}
             onClickClearBoard={this.clearBoard}
             onClickRunGame={this.runGame}

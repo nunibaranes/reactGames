@@ -7,6 +7,7 @@ class Controllers extends Component {
    static propTypes = {
         title: PropTypes.string.isRequired,
         additionalClass: PropTypes.string,
+        additionalTitleClass: PropTypes.string,
         gameIsRunning: PropTypes.bool,
         onClickClearBoard: PropTypes.func,
         onClickRunGame: PropTypes.func,
@@ -15,6 +16,7 @@ class Controllers extends Component {
     };
     static defaultProps = {
         additionalClass: '',
+        additionalTitleClass: '',
         gameIsRunning: false,
         onClickClearBoard: () => {},
         onClickRunGame: () => {},
@@ -40,7 +42,7 @@ class Controllers extends Component {
     }
 
     render() {
-        const {title, gameIsRunning} = this.props;
+        const {title, gameIsRunning, additionalTitleClass} = this.props;
         const clearBoardBtn = {
             classes: 'btn control-clear-board-game',
             toggleDisabledClass: true,
@@ -56,8 +58,8 @@ class Controllers extends Component {
         }
         return (
             <section className={this.getClasses()}>
-                <Title title={ title }></Title>
-                <div>
+                <Title title={ title } additionalClass={additionalTitleClass}></Title>
+                <div className={`controllers-wrapper`}>
                     { 
                         // onClickClearBoard button
                         <div 
