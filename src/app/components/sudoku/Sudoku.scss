@@ -33,5 +33,11 @@
                 }
             }
         }
+
+        &:hover {
+            .cell.is-highlight {
+                background-color: aquamarine;
+            }
+        }
     }
 }
