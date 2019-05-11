@@ -8,8 +8,10 @@ class Cell extends Component {
         cellIndex: PropTypes.number.isRequired,
         cellWidth: PropTypes.string.isRequired,
         cellHeight: PropTypes.string.isRequired,
-        cellOnClick: PropTypes.func.isRequired,
         selectedColor: PropTypes.string.isRequired, 
+        cellOnClick: PropTypes.func.isRequired,
+        cellOnMouseOver: PropTypes.func.isRequired,
+        defaultClasses: PropTypes.string.isRequired,
         gameIsRunning: PropTypes.bool,
     };
 
@@ -23,13 +25,11 @@ class Cell extends Component {
      * @param {Object} el
      * @param {Number} index
      */
-    getClasses = (el, index) => {
-        const isActive = el.isActive !== undefined && el.isActive;
-        const defaultClasses = `cell cell${index}`;
+    getClasses = (defaultClasses) => {
         const { gameIsRunning } = this.props;
         const disabledClass = gameIsRunning ? 'disabled' : '';
-        const isActiveClass = isActive ? 'isActive' : '';
-        return `${defaultClasses} ${isActiveClass} ${disabledClass}`; 
+
+        return `${defaultClasses} ${disabledClass}`; 
     }
 
     /**
@@ -48,17 +48,22 @@ class Cell extends Component {
     handelOnClick = () => {
         this.props.cellOnClick();
     }
+    
+    handelOnMouseOver = () => {
+        this.props.cellOnMouseOver();
+    }
 
     render() {
-        const {cellData, cellIndex} = this.props
+        const {cellData, defaultClasses} = this.props
         const value = cellData.value !== undefined && cellData.value ? cellData.value : '';
 
         return (
         <div 
             id={cellData.id}
-            className={this.getClasses(cellData,  cellIndex)} 
+            className={this.getClasses(defaultClasses)} 
             style={this.cellStyles(cellData)}
             onClick={this.handelOnClick}
+            onMouseOver={this.handelOnMouseOver}
         >
             { value }
         </div>

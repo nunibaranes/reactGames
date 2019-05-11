@@ -14,7 +14,10 @@ class Sudoku extends Component {
         puzzel: [],
         cellWidth: "50", // TODO: add button to change cellWidth
         cellHeight: "50", // TODO: add button to change cellHeight
-        defaultColor: "red" // TODO: add button to change color
+        defaultColor: "red" ,// TODO: add button to change color
+        cellData: {
+          isHighlight: false,
+        },
       },
       openPopup: false,
       boardStatus: [],
@@ -73,6 +76,7 @@ class Sudoku extends Component {
           additionalClass={"sudoku"}
           board={boardStatus}
           cellClicked={this.cellClicked}
+          highlightOptions={['cell', 'rows', 'columns']}
           boardGenerated={this.boardGenerated}
         />
         {openPopup && (
