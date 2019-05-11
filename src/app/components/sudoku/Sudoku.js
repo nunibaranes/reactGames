@@ -76,7 +76,7 @@ class Sudoku extends Component {
           additionalClass={"sudoku"}
           board={boardStatus}
           cellClicked={this.cellClicked}
-          highlightOptions={['cell', 'rows', 'columns']}
+          highlightOptions={['cell', 'row', 'column']}
           boardGenerated={this.boardGenerated}
         />
         {openPopup && (
