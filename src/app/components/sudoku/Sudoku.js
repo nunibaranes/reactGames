@@ -87,19 +87,31 @@ class Sudoku extends Component {
             }}
           >
             <div className="cell-fill-options">
-              {cellOptions.map(option => {
-                return (
-                  <div
-                    key={option}
-                    className={"cell-fill-option"}
-                    onClick={() => {
-                      this.setCellValue(option);
-                    }}
-                  >
-                    {option}
-                  </div>
-                );
-              })}
+              {
+                cellOptions.map(option => {
+                  return (
+                    <div
+                      key={option}
+                      className='cell-fill-option'
+                      onClick={() => {
+                        this.setCellValue(option);
+                      }}
+                    >
+                      {option}
+                    </div>
+                  );
+                })
+              }
+              {
+                <div 
+                  className='cell-clean-option'
+                  onClick={() => {
+                    this.setCellValue('');
+                  }}
+                >
+                  Clean
+                </div>
+              }
             </div>
           </Popup>
         )}

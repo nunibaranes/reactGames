@@ -109,19 +109,19 @@ class Board extends Component {
     };
 
     setHighlightCell = cellObj => {
-        console.log("handleCellHovered cell => ", cellObj);
         const { boardStatus } = this.state;
         const { highlightOptions } = this.props;
         const clonedBoardStatus = JSON.parse(JSON.stringify(boardStatus));
         const shouldHighlightCell = highlightOptions.includes('cell');
         const shouldHighlightCRow = highlightOptions.includes('row');
         const shouldHighlightColumn = highlightOptions.includes('column');
+        
         clonedBoardStatus.map(row => {
             row.map( cell => {
                 const highlightCell = shouldHighlightCell && cellObj.id === cell.id;
                 const highlightRow = shouldHighlightCRow && cell.x === cellObj.x;
                 const highlightColumn = shouldHighlightColumn && cell.y === cellObj.y;
-                
+
                 if (highlightCell || highlightRow || highlightColumn) {
                     return cell.isHighlight = true;
                 }
