@@ -19,24 +19,4 @@
         cursor: default;
         pointer-events: none;
     }
-
-    &.border-3n {
-        .row:nth-child(3n) {
-            border-bottom: 2px solid #000;
-
-            &:last-child {
-                border-bottom: none;
-            }
-        }
-
-        .row {
-            .cell:nth-child(3n) {
-                border-right: 2px solid #000;
-
-                &:last-child {
-                    border-right: none;
-                }
-            }
-        }
-    }
 }

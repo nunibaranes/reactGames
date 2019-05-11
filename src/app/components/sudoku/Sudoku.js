@@ -70,7 +70,7 @@ class Sudoku extends Component {
         <Title additionalClass={"main-title align-center"} title={title} />
         <Board
           boardData={boardData}
-          additionalClass={"sudoku border-3n"}
+          additionalClass={"sudoku"}
           board={boardStatus}
           cellClicked={this.cellClicked}
           boardGenerated={this.boardGenerated}
