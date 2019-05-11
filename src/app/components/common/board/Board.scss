@@ -1,6 +1,5 @@
 .board {
-    border-top: 1px solid #000;
-    border-left: 1px solid #000;
+    border: 1px solid #000;
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -9,10 +8,35 @@
 
     .row {
         display: flex;
+        border-bottom: 1px solid #000;
+
+        &:last-child {
+            border-bottom: none;
+        }
     }
 
     &.game-is-running {
         cursor: default;
         pointer-events: none;
+    }
+
+    &.border-3n {
+        .row:nth-child(3n) {
+            border-bottom: 2px solid #000;
+
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+
+        .row {
+            .cell:nth-child(3n) {
+                border-right: 2px solid #000;
+
+                &:last-child {
+                    border-right: none;
+                }
+            }
+        }
     }
 }

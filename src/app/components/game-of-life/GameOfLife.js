@@ -294,7 +294,7 @@ class GameOfLife extends Component {
           <Controllers 
             title={'Controllers'}
             additionalClass={'align-left'}
-            additionalTitleClass={'align-left'}
+            titleAdditionsClass={'align-left'}
             gameIsRunning={gameIsRunning}
             controllers={controllers}
             onControllerClicked={this.onClickedController}

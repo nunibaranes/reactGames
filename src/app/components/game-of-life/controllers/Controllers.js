@@ -9,12 +9,12 @@ class Controllers extends Component {
         controllers: PropTypes.array.isRequired,
         onControllerClicked: PropTypes.func.isRequired,
         additionalClass: PropTypes.string,
-        additionalTitleClass: PropTypes.string,
+        titleAdditionsClass: PropTypes.string,
     };
     
     static defaultProps = {
         additionalClass: '',
-        additionalTitleClass: '',
+        titleAdditionsClass: '',
     }
 
     /**
@@ -38,12 +38,12 @@ class Controllers extends Component {
         const {
             title,
             controllers,
-            additionalTitleClass
+            titleAdditionsClass
         } = this.props;
 
         return (
             <section className={this.getClasses()}>
-                <Title title={ title } additionalClass={additionalTitleClass}></Title>
+                <Title title={ title } additionalClass={titleAdditionsClass}></Title>
                 <div className={`controllers-wrapper`}>
                     {
                         controllers.map(controller => {

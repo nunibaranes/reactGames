@@ -1,5 +1,8 @@
 .cell {
     border-right: 1px solid #000;
-    border-bottom: 1px solid #000;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }

@@ -12,12 +12,13 @@ class Sudoku extends Component {
         rows: 9,
         columns: 9,
         puzzel: [],
-        cellWidth: "20", // TODO: add button to change cellWidth
-        cellHeight: "20", // TODO: add button to change cellHeight
+        cellWidth: "50", // TODO: add button to change cellWidth
+        cellHeight: "50", // TODO: add button to change cellHeight
         defaultColor: "red" // TODO: add button to change color
       },
       openPopup: false,
-      boardStatus: []
+      boardStatus: [],
+      selectedCell: null
     };
   }
 
@@ -32,6 +33,7 @@ class Sudoku extends Component {
 
   cellClicked = cellObj => {
     console.log("cellClicked cellObj => ", cellObj);
+    this.setState({ selectedCell: cellObj });
     this.toggleOpenPopupState();
   };
 
@@ -42,23 +44,60 @@ class Sudoku extends Component {
     }));
   };
 
+  getCellOptions = (start, total) => {
+    const optionsTemplate = Array.from(Array(total).keys());
+    const options = Array.from(optionsTemplate, (option, index) => {
+      return index + start;
+    });
+
+    return options;
+  };
+
+  setCellValue = value => {
+    const { selectedCell, boardStatus } = this.state;
+    const cellWithValue = { ...selectedCell, value: value };
+    const clonedBoardStatus = JSON.parse(JSON.stringify(boardStatus));
+    clonedBoardStatus[cellWithValue.x][cellWithValue.y].value = value;
+    this.setState({boardStatus: clonedBoardStatus})
+    this.toggleOpenPopupState();
+  };
+
   render() {
     const { title, boardData, boardStatus, openPopup } = this.state;
-    console.log("render openPopup => ", openPopup);
+    const cellOptions = this.getCellOptions(1, 9);
     return (
       <section className="sudoku wrapper wrap-with-border">
-        <Title additionalClass={"main-title"} title={title} />
+        <Title additionalClass={"main-title align-center"} title={title} />
         <Board
           boardData={boardData}
+          additionalClass={"sudoku border-3n"}
           board={boardStatus}
           cellClicked={this.cellClicked}
           boardGenerated={this.boardGenerated}
         />
         {openPopup && (
           <Popup
-            title={"popup is open"}
-            onClosePopup={() => {this.toggleOpenPopupState()}}
-          />
+            additionalClass={"inner-popup"}
+            onClosePopup={() => {
+              this.toggleOpenPopupState();
+            }}
+          >
+            <div className="cell-fill-options">
+              {cellOptions.map(option => {
+                return (
+                  <div
+                    key={option}
+                    className={"cell-fill-option"}
+                    onClick={() => {
+                      this.setCellValue(option);
+                    }}
+                  >
+                    {option}
+                  </div>
+                );
+              })}
+            </div>
+          </Popup>
         )}
       </section>
     );

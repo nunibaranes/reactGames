@@ -6,12 +6,14 @@ import Cell from './cell/Cell.js'
 class Board extends Component {
     static propTypes = {
         boardData: PropTypes.object.isRequired,
+        additionalClass: PropTypes.string,
         board: PropTypes.array,
         cellClicked: PropTypes.func,
         boardGenerated: PropTypes.func,
     };
 
     static defaultProps = {
+        additionalClass: '',
         board: [],
         boardGenerated: () => {},
         cellClicked: () => {}
@@ -89,10 +91,10 @@ class Board extends Component {
 
     render() {
         const { boardStatus, selectedColor} = this.state;
-        const { boardData } = this.props;
-        const { gameIsRunning } = boardData;
+        const { boardData, additionalClass } = this.props;
+        const { gameIsRunning} = boardData;
         const isRunning = gameIsRunning !== undefined && gameIsRunning ? gameIsRunning : false;
-        const boardClasses = `board ${isRunning ? 'game-is-running' : ''}`;
+        const boardClasses = `board ${additionalClass} ${isRunning ? 'game-is-running' : ''}`;
 
         const boardEl = boardStatus.map( (row, index) => {
             return (
