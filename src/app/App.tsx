@@ -21,7 +21,7 @@ class App extends Component {
   }
 
   render() {
-    const { author } = this.state;
+    const { author }: any = this.state;
     return (
       <div className="app">
         <Header></Header>

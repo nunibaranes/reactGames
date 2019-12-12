@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import PropTypes from "prop-types";
+import PropTypes, { any } from "prop-types";
 import './Footer.scss';
 
 class Footer extends Component {
+  props: any;
   static propTypes = {
     data: PropTypes.object,
   };

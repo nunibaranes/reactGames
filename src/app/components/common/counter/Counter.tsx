@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 
 class Counter extends Component {
+  props: any;
   static propTypes = {
       title: PropTypes.string.isRequired,
       counter: PropTypes.number.isRequired,

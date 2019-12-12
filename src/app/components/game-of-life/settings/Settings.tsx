@@ -5,7 +5,8 @@ import './Settings.scss';
 
 import Title from '../../common/title/Title.js';
 class Settings extends Component {
-   static propTypes = {
+    props: any;
+    static propTypes = {
         title: PropTypes.string.isRequired,
         additionalClass: PropTypes.string,
     };
@@ -30,7 +31,7 @@ class Settings extends Component {
 
         return (
             <div className={this.getClasses()}>
-                <Title title={ title}></Title>
+                <Title title={ title}/>
             </div>
         );
     }

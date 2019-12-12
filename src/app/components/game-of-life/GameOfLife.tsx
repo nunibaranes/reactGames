@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import './GameOfLife.scss';
 
 // import Settings from './settings/Settings.js'
-import Controllers from './controllers/Controllers.js'
-import Title from '../common/title/Title.js';
-import Counter from '../common/counter/Counter.js'
-import Board from '../common/board/Board.js';
+import Controllers from './controllers/Controllers'
+import Title from '../common/title/Title';
+import Counter from '../common/counter/Counter'
+import Board from '../common/board/Board';
+import { any } from 'prop-types';
 
 class GameOfLife extends Component {
+  props: any;
+  state: any;
   constructor(props = {}) {
     super(props);
     this.state = {
@@ -25,7 +28,6 @@ class GameOfLife extends Component {
         },
         timeoutHandler: null,
         generation: 0,
-        
         boardStatus: [],
     };
   }
@@ -36,7 +38,7 @@ class GameOfLife extends Component {
    * @param {Array} prevStateBoardStatus 
    * @param {Object} cellObj 
    */
-  toggleCellIsActiveStatus = (prevStateBoardStatus, cellObj) => {
+  toggleCellIsActiveStatus = (prevStateBoardStatus: [], cellObj: any) => {
     const clonedBoardStatus = JSON.parse(JSON.stringify(prevStateBoardStatus));
     const cell = clonedBoardStatus[cellObj.x][cellObj.y];
     cell.isActive = cell !== undefined && !cell.isActive;
@@ -70,7 +72,7 @@ class GameOfLife extends Component {
    * @param {Number} x
    * @param {Number} y
    */
-  checkNeighbors = (boardStatus, x, y) => {
+  checkNeighbors = (boardStatus: any[], x: number, y: number) => {
     const { boardData } = this.state;
     const { rows, columns } = boardData;
     let neighborsCounter = 0;
@@ -123,7 +125,7 @@ class GameOfLife extends Component {
         }
     }
 
-    this.setState(prevState => ({
+    this.setState((prevState: any) => ({
       boardStatus: newBoard,
       generation: prevState.generation + 1,
     }));
@@ -143,7 +145,7 @@ class GameOfLife extends Component {
    * nextGenerationCellIsActive
    * return refer to rules cell isActive status for next generation
    */
-  nextGenerationCellIsActive = (cell, activeNeighbors) => {
+  nextGenerationCellIsActive = (cell: any, activeNeighbors: number) => {
     // TODO improve the conditions
     if (cell.isActive) {
       if (activeNeighbors < 2 || activeNeighbors > 3) {
@@ -165,7 +167,7 @@ class GameOfLife extends Component {
    * setState boardStatus after boardGenerated
    * @param {Array} generatedBoard
    */
-  boardGenerated = (generatedBoard) => {
+  boardGenerated = (generatedBoard: any[]) => {
     this.setState({boardStatus: generatedBoard})
   }
 
@@ -174,8 +176,8 @@ class GameOfLife extends Component {
    * setState boardStatus after cellCliked 
    * @param {Object} cellObj 
    */
-  cellClicked = (cellObj) => {
-    this.setState(prevState => ({
+  cellClicked = (cellObj: any) => {
+    this.setState((prevState: any) => ({
         boardStatus: this.toggleCellIsActiveStatus(prevState.boardStatus, cellObj)
     }));
   }
@@ -228,7 +230,7 @@ class GameOfLife extends Component {
    * @param {Object} controllers
    * call to controller.callback
    */
-  onClickedController = (controller) => {
+  onClickedController = (controller: any) => {
     controller.callback();
   }
 
@@ -295,24 +297,22 @@ class GameOfLife extends Component {
             title={'Controllers'}
             additionalClass={'align-left'}
             titleAdditionsClass={'align-left'}
-            gameIsRunning={gameIsRunning}
+            // gameIsRunning={gameIsRunning}
             controllers={controllers}
             onControllerClicked={this.onClickedController}
-          ></Controllers>
+          />
         </div>
         <Board 
           boardData={ boardData }
           board={ boardStatus }
           cellClicked={ this.cellClicked }
           boardGenerated={this.boardGenerated}
-          >
-        </Board>
+        />
         <Counter 
           title={'Generation:'} 
           additionalClass='generation-counter' 
           counter={generation}
-        >
-        </Counter>
+        />
       </section>
     );
   }

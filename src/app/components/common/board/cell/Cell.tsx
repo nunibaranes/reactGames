@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import './Cell.scss'
 
 class Cell extends Component {
+    props: any;
     static propTypes = {
         cellData: PropTypes.object.isRequired,
         cellIndex: PropTypes.number.isRequired,
@@ -22,10 +23,9 @@ class Cell extends Component {
     /**
      * getClasses
      * return classes refer to arguments
-     * @param {Object} el
-     * @param {Number} index
+     * @param {String} defaultClasses
      */
-    getClasses = (defaultClasses) => {
+    getClasses = (defaultClasses: string) => {
         const { gameIsRunning } = this.props;
         const disabledClass = gameIsRunning ? 'disabled' : '';
 
@@ -37,7 +37,7 @@ class Cell extends Component {
      * return cell styles
      * @param {Object} cellObj 
      */
-    cellStyles = (cellObj) => {
+    cellStyles = (cellObj: any) => {
         const { cellWidth, cellHeight, selectedColor } = this.props;
         const defaultStyle = {width: `${cellWidth}px`, height: `${cellHeight}px`}
         const activStyles = { backgroundColor: selectedColor }

@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import "./Sudoku.scss";
-import Title from "../common/title/Title.js";
-import Board from "../common/board/Board.js";
-import Popup from "../common/popup/Popup.js";
+import Title from "../common/title/Title";
+import Board from "../common/board/Board";
+import Popup from "../common/popup/Popup";
 class Sudoku extends Component {
+  props: any;
+  state: any;
   constructor(props = {}) {
     super(props);
     this.state = {
@@ -30,11 +32,11 @@ class Sudoku extends Component {
    * setState boardStatus after boardGenerated
    * @param {Array} generatedBoard
    */
-  boardGenerated = generatedBoard => {
+  boardGenerated = (generatedBoard: any[]) => {
     this.setState({ boardStatus: generatedBoard });
   };
 
-  cellClicked = cellObj => {
+  cellClicked = (cellObj: any) => {
     console.log("cellClicked cellObj => ", cellObj);
     this.setState({ selectedCell: cellObj });
     this.toggleOpenPopupState();
@@ -42,12 +44,12 @@ class Sudoku extends Component {
 
   toggleOpenPopupState = () => {
     console.log("toggleOpenPopupState ");
-    this.setState(prevState => ({
+    this.setState((prevState: any) => ({
       openPopup: !prevState.openPopup
     }));
   };
 
-  getCellOptions = (start, total) => {
+  getCellOptions = (start: number, total: number) => {
     const optionsTemplate = Array.from(Array(total).keys());
     const options = Array.from(optionsTemplate, (option, index) => {
       return index + start;
@@ -56,7 +58,7 @@ class Sudoku extends Component {
     return options;
   };
 
-  setCellValue = value => {
+  setCellValue = (value: number | string) => {
     const { selectedCell, boardStatus } = this.state;
     const cellWithValue = { ...selectedCell, value: value };
     const clonedBoardStatus = JSON.parse(JSON.stringify(boardStatus));
@@ -88,7 +90,7 @@ class Sudoku extends Component {
           >
             <div className="cell-fill-options">
               {
-                cellOptions.map(option => {
+                cellOptions.map((option: number) => {
                   return (
                     <div
                       key={option}

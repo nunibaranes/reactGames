@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
   FacebookShareButton,
-  GooglePlusShareButton,
   LinkedinShareButton,
   TwitterShareButton,
   TelegramShareButton,
@@ -21,7 +20,6 @@ import {
 
   FacebookIcon,
   TwitterIcon,
-  GooglePlusIcon,
   LinkedinIcon,
   PinterestIcon,
   VKIcon,
@@ -39,6 +37,8 @@ import {
 } from 'react-share';
 
 class SahreButtons extends Component {
+  props: any;
+  state: any;
   constructor(props = {}) {
     super(props);
     this.state = {

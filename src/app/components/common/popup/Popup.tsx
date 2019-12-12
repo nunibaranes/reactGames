@@ -2,14 +2,16 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import './Popup.scss';
 
-import Title from '../title/Title.js';
+import Title from '../title/Title';
 
 class Popup extends Component {
+  props: any;
   static propTypes = {
     onClosePopup: PropTypes.func.isRequired,
     title: PropTypes.string,
     titleAdditionalClass: PropTypes.string,
     additionalClass: PropTypes.string,
+    children: PropTypes.element
   };
   static defaultProps = {
     title: '',
@@ -44,8 +46,7 @@ class Popup extends Component {
               <Title 
                 title={title} 
                 additionalClass={titleAdditionalClass}
-              >
-              </Title>
+              />
             )
           } 
           {children}

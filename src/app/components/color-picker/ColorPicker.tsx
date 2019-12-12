@@ -2,6 +2,18 @@ import React, { Component } from 'react';
 import './ColorPicker.css';
 
 class ColorPicker extends Component {
+    state: any;
+    colorBlock: any;
+    chosenColor: any;
+    colorStrip: any;
+    ctx: any;
+    ctxColorStrip: any;
+    width: any;
+    height: any;
+    rgbaColor: any;
+    drag: boolean;
+    xPosition: any;
+    yPosition: any;
     
     constructor(props = {}) {
         super(props);
@@ -50,14 +62,14 @@ class ColorPicker extends Component {
     /**
      * handleMousedown: set drag variable to true and change color by mousdown event
      */
-    handleMousedown (e) {
+    handleMousedown (e: MouseEvent) {
         this.drag = true;
         this.changeColor(e);
     }
     /**
      * handleMouseup: check if drag is true and change color by mouseup event
      */
-    handleMouseup (e) {
+    handleMouseup (e: MouseEvent) {
         if (this.drag) {
             this.changeColor(e);
         }
@@ -76,7 +88,7 @@ class ColorPicker extends Component {
      * convert rgb value to hsl
      * ser chosenColor
      */
-    changeColor(e) {
+    changeColor(e: MouseEvent) {
          this.xPosition = e.offsetX;
          this.yPosition = e.offsetY;
          let imageData = this.ctx.getImageData(this.xPosition, this.yPosition, 1, 1).data;

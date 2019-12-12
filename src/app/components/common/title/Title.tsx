@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import './Title.scss';
 class Title extends Component {
+  props: any;
   static propTypes = {
       title: PropTypes.string.isRequired,
       additionalClass: PropTypes.string,
@@ -13,9 +14,6 @@ class Title extends Component {
   /**
    * getClasses
    * return classes refer to arguments
-   * @param {String} elName
-   * @param {Object} el
-   * @param {Number} index
    */
   getClasses = () => {
     const {additionalClass} = this.props;

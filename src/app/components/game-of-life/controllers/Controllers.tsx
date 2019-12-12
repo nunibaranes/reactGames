@@ -2,9 +2,10 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import './Controllers.scss'
-import Title from '../../common/title/Title.js';
+import Title from '../../common/title/Title';
 class Controllers extends Component {
-   static propTypes = {
+    props: any;
+    static propTypes = {
         title: PropTypes.string.isRequired,
         controllers: PropTypes.array.isRequired,
         onControllerClicked: PropTypes.func.isRequired,
@@ -24,7 +25,7 @@ class Controllers extends Component {
      * @param {Object} el
      * @param {Number} index
      */
-    getClasses = (elData = null) => {
+    getClasses = (elData: any = null) => {
         const {gameIsRunning, additionalClass} = this.props;
         const disabledClass = gameIsRunning ? 'disabled' : '';
         let elDataClasses = '';
@@ -46,7 +47,7 @@ class Controllers extends Component {
                 <Title title={ title } additionalClass={titleAdditionsClass}></Title>
                 <div className={`controllers-wrapper`}>
                     {
-                        controllers.map(controller => {
+                        controllers.map((controller: any) => {
                             return (
                                 <div
                                     key={controller.controllerName}

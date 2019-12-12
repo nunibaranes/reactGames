@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import noonles from '../../assets/images/nofarNoonles.jpg';
+import * as noonles from '../../assets/images/nofarNoonles.jpg';
 import './Header.scss';
 
 class Header extends Component {
