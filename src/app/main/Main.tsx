@@ -9,8 +9,8 @@ class Main extends Component {
   render() {
     return (
       <section className="main" id="main">
-        <GameOfLife></GameOfLife> 
-        <Sudoku></Sudoku>    
+        <GameOfLife/>
+        <Sudoku/>
       </section>
     );
   }
