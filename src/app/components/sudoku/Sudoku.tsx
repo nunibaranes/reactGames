@@ -3,9 +3,29 @@ import "./Sudoku.scss";
 import Title from "../common/title/Title";
 import Board from "../common/board/Board";
 import Popup from "../common/popup/Popup";
+interface ICell {
+  isHighlight: boolean,
+  id: string,
+  y: number,
+  x: number,
+};
+interface IBoardData {
+  rows: number,
+  columns: number,
+  puzzel: [],
+  cellWidth: string,
+  cellHeight: string,
+  defaultColor: string,
+  cellData: ICell,
+};
+interface ISudokuState {title: string,
+  boardData: IBoardData,
+  openPopup: boolean,
+  boardStatus: [],
+  selectedCell: ICell
+};
 class Sudoku extends Component {
-  props: any;
-  state: any;
+  state: ISudokuState;
   constructor(props = {}) {
     super(props);
     this.state = {
@@ -19,6 +39,9 @@ class Sudoku extends Component {
         defaultColor: "red" ,// TODO: add button to change color
         cellData: {
           isHighlight: false,
+          id: "",
+          y: 0,
+          x: 0,
         },
       },
       openPopup: false,
