@@ -5,9 +5,9 @@ import Board from "../common/board/Board";
 import Popup from "../common/popup/Popup";
 interface ICell {
   isHighlight: boolean,
-  id: string,
-  y: number,
-  x: number,
+  id?: string,
+  y?: number,
+  x?: number,
 };
 interface IBoardData {
   rows: number,
@@ -39,9 +39,6 @@ class Sudoku extends Component {
         defaultColor: "red" ,// TODO: add button to change color
         cellData: {
           isHighlight: false,
-          id: "",
-          y: 0,
-          x: 0,
         },
       },
       openPopup: false,
