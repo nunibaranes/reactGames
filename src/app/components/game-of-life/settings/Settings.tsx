@@ -17,11 +17,8 @@ class Settings extends Component {
     /**
      * getClasses
      * return classes refer to arguments
-     * @param {String} elName
-     * @param {Object} el
-     * @param {Number} index
      */
-    getClasses = () => {
+    getClasses = (): string => {
         const {additionalClass} = this.props;
         return `settings ${additionalClass}`; 
     }

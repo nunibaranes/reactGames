@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import './Controllers.scss'
 
 import Title from '../../common/title/Title';
-import { IControllersProps } from "./controller.interface"
+import { IControllersProps, IController } from "./controller.interface"
 
 class Controllers extends Component {
     props: IControllersProps;
@@ -17,11 +17,8 @@ class Controllers extends Component {
     /**
      * getClasses
      * return classes refer to arguments
-     * @param {String} elName
-     * @param {Object} el
-     * @param {Number} index
      */
-    getClasses = (elData: any = null) => {
+    getClasses = (elData: IController = null): string => {
         const {gameIsRunning, additionalClass} = this.props;
         const disabledClass = gameIsRunning ? 'disabled' : '';
         let elDataClasses = '';
