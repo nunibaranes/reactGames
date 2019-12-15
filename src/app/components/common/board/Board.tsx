@@ -1,33 +1,29 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import "./Board.scss";
 
-import Cell from "./cell/Cell.js";
+import Cell from "./cell/Cell";
+import { ICell } from "./cell/cell.interface";
+import { IBoardProps, IBoardState, IBoardData } from "./board.interface";
+
+
 class Board extends Component {
-    static propTypes = {
-        boardData: PropTypes.object.isRequired,
-        additionalClass: PropTypes.string,
-        board: PropTypes.array,
-        cellClicked: PropTypes.func,
-        cellHovered: PropTypes.func,
-        boardGenerated: PropTypes.func,
-        highlightOptions: PropTypes.array
-    };
+    state: IBoardState;
+    props: IBoardProps;
 
     static defaultProps = {
         additionalClass: "",
-        board: [],
+        board: [] as ICell [],
         boardGenerated: () => {},
         cellClicked: () => {},
         cellHovered: () => {},
-        highlightOptions: []
+        highlightOptions: [] as string []
     };
 
-    constructor(props = {}) {
+    constructor(props: IBoardProps) {
         super(props);
         this.state = {
-        boardStatus: props.board,
-        selectedColor: props.boardData.defaultColor
+          boardStatus: props.board,
+          selectedColor: props.boardData.defaultColor
         };
     }
 
@@ -38,12 +34,12 @@ class Board extends Component {
         }
     }
 
-    componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps: any) {
         if (
-        nextProps.board.length !== 0 &&
-        nextProps.board !== this.state.boardStatus
+          nextProps.board.length !== 0 &&
+          nextProps.board !== this.state.boardStatus
         ) {
-        this.setState({ boardStatus: nextProps.board });
+          this.setState({ boardStatus: nextProps.board });
         }
     }
 
@@ -52,24 +48,24 @@ class Board extends Component {
      * generate new array by rows and columns
      * setState boardStatus to newBoard
      */
-    generatBoard = () => {
+    generatBoard = (): void => {
         const { boardData, boardGenerated } = this.props;
         const { rows, columns, cellData } = boardData;
         const puzzelTemp = Array.from(Array(rows).keys());
         const rowTemp = Array.from(Array(columns).keys());
         const newBoard = Array.from(puzzelTemp, (row, rIndex) => {
-        return Array.from(rowTemp, (col, cIndex) => {
-            const cell = {
-            id: `R${rIndex}C${cIndex}`,
-            y: cIndex,
-            x: rIndex
-            };
-            return { ...cell, ...cellData };
-        });
+          return Array.from(rowTemp, (col, cIndex) => {
+              const cell = {
+                id: `R${rIndex}C${cIndex}`,
+                y: cIndex,
+                x: rIndex
+              };
+              return { ...cell, ...cellData };
+          });
         });
 
         this.setState({
-        boardStatus: newBoard
+          boardStatus: newBoard
         });
 
         boardGenerated(newBoard);
@@ -78,11 +74,8 @@ class Board extends Component {
     /**
      * getClasses
      * return classes refer to arguments
-     * @param {String} elName
-     * @param {Object} el
-     * @param {Number} index
      */
-    getClasses = (elName, el, index) => {
+    getClasses = (elName: string, el: any, index: number): string => {
         const isActive = el.isActive !== undefined && el.isActive;
         const isHighlight = el.isHighlight !== undefined && el.isHighlight;
         const defaultClasses = `${elName} ${elName}${index}`;
@@ -94,21 +87,29 @@ class Board extends Component {
 
     /**
      * handleCellClick
-     * @param {Object} cell
+     * callback to cellClicked
      */
-    handleCellClick = cell => {
+    handleCellClick = (cell: ICell): void => {
         this.props.cellClicked(cell);
     };
 
-    handleCellHovered = cell => {
+    /**
+     * handleCellHovered
+     * callback to cellHovered
+     */
+    handleCellHovered = (cell: ICell): void => {
         if (this.props.highlightOptions.length > 0 && cell.isHighlight !== undefined) {
-        this.setHighlightCell(cell);
+          this.setHighlightCell(cell);
         }
 
         this.props.cellHovered(cell);
     };
 
-    setHighlightCell = cellObj => {
+    /**
+     * setHighlightCell
+     * set state boardStatus with hilighted cells
+     */
+    setHighlightCell = (cellObj: ICell): void => {
         const { boardStatus } = this.state;
         const { highlightOptions } = this.props;
         const clonedBoardStatus = JSON.parse(JSON.stringify(boardStatus));
@@ -116,7 +117,7 @@ class Board extends Component {
         const shouldHighlightCRow = highlightOptions.includes('row');
         const shouldHighlightColumn = highlightOptions.includes('column');
         
-        clonedBoardStatus.map(row => {
+        clonedBoardStatus.map((row: any[]): ICell[][] => {
             row.map( cell => {
                 const highlightCell = shouldHighlightCell && cellObj.id === cell.id;
                 const highlightRow = shouldHighlightCRow && cell.x === cellObj.x;
@@ -130,6 +131,7 @@ class Board extends Component {
 
             return row;
         });
+
         this.setState({boardStatus: clonedBoardStatus});
     };
 
@@ -140,7 +142,7 @@ class Board extends Component {
     const isRunning = gameIsRunning !== undefined && gameIsRunning ? gameIsRunning : false;
     const boardClasses = `board ${additionalClass} ${isRunning ? 'game-is-running' : ''}`;
 
-    const boardEl = boardStatus.map((row, index) => {
+    const boardEl = boardStatus.map((row: ICell[], index: number) => {
       return (
         <div
           className={this.getClasses("row", row, index)}

@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import PropTypes from "prop-types";
+
+interface ICounterProps {
+  title: string,
+  counter: number,
+  additionalClass?: string,
+}
 
 class Counter extends Component {
-  static propTypes = {
-      title: PropTypes.string.isRequired,
-      counter: PropTypes.number.isRequired,
-      additionalClass: PropTypes.string,
-  };
+  props: ICounterProps;
+
   static defaultProps = {
     additionalClass: '',
   }
@@ -15,7 +17,7 @@ class Counter extends Component {
    * getClasses
    * return classes refer to arguments
    */
-  getClasses = () => {
+  getClasses = (): string => {
     const {additionalClass} = this.props;
     return `counter ${additionalClass}`; 
   }

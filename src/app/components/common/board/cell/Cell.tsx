@@ -1,19 +1,10 @@
 import React, { Component } from 'react';
-import PropTypes from "prop-types";
-import './Cell.scss'
+import './Cell.scss';
+
+import { ICellProps, ICell, ICellStyles} from "./cell.interface";
 
 class Cell extends Component {
-    static propTypes = {
-        cellData: PropTypes.object.isRequired,
-        cellIndex: PropTypes.number.isRequired,
-        cellWidth: PropTypes.string.isRequired,
-        cellHeight: PropTypes.string.isRequired,
-        selectedColor: PropTypes.string.isRequired, 
-        cellOnClick: PropTypes.func.isRequired,
-        cellOnMouseOver: PropTypes.func.isRequired,
-        defaultClasses: PropTypes.string.isRequired,
-        gameIsRunning: PropTypes.bool,
-    };
+    props: ICellProps;
 
     static defaultProps = {
         gameIsRunning: false,
@@ -22,10 +13,8 @@ class Cell extends Component {
     /**
      * getClasses
      * return classes refer to arguments
-     * @param {Object} el
-     * @param {Number} index
      */
-    getClasses = (defaultClasses) => {
+    getClasses = (defaultClasses: string): string => {
         const { gameIsRunning } = this.props;
         const disabledClass = gameIsRunning ? 'disabled' : '';
 
@@ -35,9 +24,8 @@ class Cell extends Component {
     /**
      * cellStyles
      * return cell styles
-     * @param {Object} cellObj 
      */
-    cellStyles = (cellObj) => {
+    cellStyles = (cellObj: ICell): ICellStyles => {
         const { cellWidth, cellHeight, selectedColor } = this.props;
         const defaultStyle = {width: `${cellWidth}px`, height: `${cellHeight}px`}
         const activStyles = { backgroundColor: selectedColor }
@@ -45,10 +33,18 @@ class Cell extends Component {
         return isActive ? {...defaultStyle, ...activStyles } : defaultStyle;
     }
 
-    handelOnClick = () => {
+    /**
+     * handelOnClick
+     * callback to cellOnClick
+     */
+    handelOnClick = (): void => {
         this.props.cellOnClick();
     }
-    
+
+    /**
+     * handelOnMouseOver
+     * callback to cellOnMouseOver
+     */
     handelOnMouseOver = () => {
         this.props.cellOnMouseOver();
     }

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import PropTypes from "prop-types";
+import PropTypes, { any, string } from "prop-types";
 import './Footer.scss';
 
+interface IData {name: string, email: string}
+interface IFooterProps {data: IData}
 class Footer extends Component {
-  static propTypes = {
-    data: PropTypes.object,
-  };
+  props: IFooterProps;
 
   render() {
     const { data } = this.props;
