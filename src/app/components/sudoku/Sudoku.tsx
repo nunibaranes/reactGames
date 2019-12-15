@@ -3,27 +3,16 @@ import "./Sudoku.scss";
 import Title from "../common/title/Title";
 import Board from "../common/board/Board";
 import Popup from "../common/popup/Popup";
-interface ICell {
-  isHighlight: boolean,
-  id?: string,
-  y?: number,
-  x?: number,
-};
-interface IBoardData {
-  rows: number,
-  columns: number,
-  puzzel: [],
-  cellWidth: string,
-  cellHeight: string,
-  defaultColor: string,
-  cellData: ICell,
-};
+import { ICell } from "../common/board/cell/cell.interface";
+import { IBoardData } from "../common/board/board.interface";
+
 interface ISudokuState {title: string,
   boardData: IBoardData,
   openPopup: boolean,
   boardStatus: [],
   selectedCell: ICell
 };
+
 class Sudoku extends Component {
   state: ISudokuState;
   constructor(props = {}) {
