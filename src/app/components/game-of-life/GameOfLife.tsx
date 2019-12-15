@@ -6,6 +6,7 @@ import Controllers from './controllers/Controllers'
 import Title from '../common/title/Title';
 import Counter from '../common/counter/Counter'
 import Board from '../common/board/Board';
+import Popup from "../common/popup/Popup";
 
 import { ICell } from "../common/board/cell/cell.interface";
 import { IBoardData } from "../common/board/board.interface";
@@ -17,6 +18,8 @@ interface IGameOfLifeState {
   timeoutHandler: any | ReturnType<typeof setTimeout>,
   generation: number,
   boardStatus: ICell[][],
+  disableNextGeneration,
+  showGameOverPopup
 };
 
 class GameOfLife extends Component {
@@ -39,7 +42,19 @@ class GameOfLife extends Component {
         timeoutHandler: null,
         generation: 0,
         boardStatus: [],
+        disableNextGeneration: true,
+        showGameOverPopup: false,
     };
+  }
+
+  componentDidUpdate() {
+    const boardIsEmpty = JSON.stringify(this.state.boardStatus) === JSON.stringify(this.getCleanBoard());
+    console.log("**** boardIsEmpty ", boardIsEmpty);
+    if (this.state.disableNextGeneration !== boardIsEmpty) {
+      this.setState({
+        disableNextGeneration: boardIsEmpty
+      });
+    }
   }
 
   /**
@@ -130,19 +145,26 @@ class GameOfLife extends Component {
         }
     }
 
-    this.setState((prevState: any) => ({
-      boardStatus: newBoard,
-      generation: prevState.generation + 1,
-    }));
+    const shouldContiniueRuning = JSON.stringify(newBoard) !== JSON.stringify(boardStatus)
 
-    if (isRuning) {
+    if (shouldContiniueRuning) {
+      this.setState((prevState: any) => ({
+        boardStatus: newBoard,
+        generation: prevState.generation + 1,
+      }));
+
       const timeoutHandler = window.setTimeout(() => {
         this.setNextGenerationBoardStatus(isRuning);
       }, 100);
 
       this.setState({
-        timeoutHandler
+        timeoutHandler,
+        disableNextGeneration: false,
       });
+    } else {
+      this.toggleGameOverPopup(true)
+      this.stopGame();
+      this.setState({disableNextGeneration: true})
     }
   }
 
@@ -181,7 +203,7 @@ class GameOfLife extends Component {
    */
   cellClicked = (cellObj: ICell): void => {
     this.setState((prevState: any) => ({
-        boardStatus: this.toggleCellIsActiveStatus(prevState.boardStatus, cellObj)
+        boardStatus: this.toggleCellIsActiveStatus(prevState.boardStatus, cellObj),
     }));
   }
 
@@ -208,7 +230,7 @@ class GameOfLife extends Component {
     const newBoarData: IBoardData = { ...defaultData, ...{ gameIsRunning: false }}
     this.setState({ 
       boardData: newBoarData,
-      timeoutHandler: null
+      timeoutHandler: null,
     });
     if (timeoutHandler) {
       window.clearTimeout(timeoutHandler);
@@ -224,7 +246,9 @@ class GameOfLife extends Component {
     this.stopGame();
     this.setState({
       boardStatus: newBoard,
-      generation: 0,      
+      generation: 0,
+      disableNextGeneration: true,
+      showGameOverPopup: false,
     });
   }
 
@@ -258,6 +282,7 @@ class GameOfLife extends Component {
         title: gameIsRunning ? 'Stop' : 'Run',
         controllerName: 'stopOrRunGameBtn',
         classes: gameIsRunning ? 'btn control-stop-game' : 'btn control-run-game',
+        controllNextGeneration: true,
         callback: () => { 
           if ( gameIsRunning ) {
             this.stopGame();
@@ -271,9 +296,17 @@ class GameOfLife extends Component {
         controllerName: 'SetNGBoardStausBtn',
         classes: 'btn control-next-generation',
         toggleDisabledClass: true,
+        controllNextGeneration: true,
         callback: () => { this.setNextGenerationBoardStatus(); }
       }
     ];
+  }
+
+  /**
+   * toggleGameOverPopup
+   */
+  toggleGameOverPopup (to: boolean): void {
+    this.setState({showGameOverPopup: to})
   }
 
   render() {
@@ -281,7 +314,9 @@ class GameOfLife extends Component {
       title, 
       boardData, 
       boardStatus, 
-      generation
+      generation,
+      disableNextGeneration,
+      showGameOverPopup
     } = this.state;
 
     const { gameIsRunning } = boardData;
@@ -301,6 +336,7 @@ class GameOfLife extends Component {
             gameIsRunning={gameIsRunning}
             controllers={controllers}
             onControllerClicked={this.onClickedController}
+            disableNextGeneration={disableNextGeneration}
           />
         </div>
         <Board 
@@ -314,6 +350,23 @@ class GameOfLife extends Component {
           additionalClass='generation-counter' 
           counter={generation}
         />
+        {showGameOverPopup && (
+          <Popup
+            title="Game Over"
+            additionalClass="inner-popup"
+            titleAdditionalClass="align-center"
+            onClosePopup={() => {
+              this.toggleGameOverPopup(false);
+            }}
+          >
+            <div className="game-over">
+              <div>
+                <span>Total Generations: {generation}</span>
+              </div>
+              <button className="btn" onClick={this.clearBoard}>New Game</button>
+            </div>
+          </Popup>
+        )}
       </section>
     );
   }

@@ -12,6 +12,7 @@ class Controllers extends Component {
     static defaultProps = {
         additionalClass: '',
         titleAdditionsClass: '',
+        disableNextGeneration: false,
     }
 
     /**
@@ -19,22 +20,29 @@ class Controllers extends Component {
      * return classes refer to arguments
      */
     getClasses = (elData: IController = null): string => {
-        const {gameIsRunning, additionalClass} = this.props;
-        const disabledClass = gameIsRunning ? 'disabled' : '';
+        const {gameIsRunning, additionalClass, disableNextGeneration} = this.props;
+        const disabledClass = gameIsRunning || disableNextGeneration ? 'disabled' : '';
         let elDataClasses = '';
         if (elData) {
-            elDataClasses = elData.toggleDisabledClass ? `${elData.classes} ${disabledClass}` : `${elData.classes}`;
+            // TODO: improve the condition
+            const shouldDisableNextGeneration = elData.controllNextGeneration && disableNextGeneration
+            
+            elDataClasses = elData.toggleDisabledClass
+            ? `${elData.classes} ${disabledClass}` 
+            : (shouldDisableNextGeneration) ? `${elData.classes} ${disabledClass}` : `${elData.classes}`;
         }
-        return (elDataClasses !== '') ? `${elDataClasses}` : `controllers ${additionalClass}`; 
+
+        return (elDataClasses !== '') ? `${elDataClasses}` : `controllers ${additionalClass}`;
     }
 
     render() {
         const {
             title,
             controllers,
-            titleAdditionsClass
+            titleAdditionsClass,
+            disableNextGeneration
         } = this.props;
-
+        console.log("disableNextGeneration ", disableNextGeneration);
         return (
             <section className={this.getClasses()}>
                 <Title title={ title } additionalClass={titleAdditionsClass}></Title>

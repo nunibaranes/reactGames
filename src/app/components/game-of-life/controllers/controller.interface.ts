@@ -4,7 +4,8 @@ export interface IControllersProps {
     onControllerClicked: (controller?: IController) => void,
     additionalClass?: string,
     titleAdditionsClass?: string,
-    gameIsRunning?: boolean
+    gameIsRunning?: boolean,
+    disableNextGeneration?: boolean
 }
 
 export interface IController {
@@ -12,5 +13,6 @@ export interface IController {
     controllerName: string,
     classes: string,
     toggleDisabledClass?: boolean,
+    controllNextGeneration?: boolean,
     callback: () => void,
 }

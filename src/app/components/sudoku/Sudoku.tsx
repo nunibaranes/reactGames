@@ -96,7 +96,7 @@ class Sudoku extends Component {
         <Title additionalClass={"main-title align-center"} title={title} />
         <Board
           boardData={boardData}
-          additionalClass={"sudoku"}
+          additionalClass="sudoku"
           board={boardStatus}
           cellClicked={this.cellClicked}
           highlightOptions={['cell', 'row', 'column']}
@@ -104,7 +104,7 @@ class Sudoku extends Component {
         />
         {openPopup && (
           <Popup
-            additionalClass={"inner-popup"}
+            additionalClass="inner-popup"
             onClosePopup={() => {
               this.toggleOpenPopupState();
             }}
