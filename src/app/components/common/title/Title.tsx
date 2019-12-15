@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import PropTypes from "prop-types";
+
 import './Title.scss';
+interface ITitleProps {
+  title: string,
+  additionalClass?: string,
+}
 class Title extends Component {
-  props: any;
-  static propTypes = {
-      title: PropTypes.string.isRequired,
-      additionalClass: PropTypes.string,
-  };
+  props: ITitleProps;
+
   static defaultProps = {
     additionalClass: '',
   }
@@ -15,7 +16,7 @@ class Title extends Component {
    * getClasses
    * return classes refer to arguments
    */
-  getClasses = () => {
+  getClasses = (): string => {
     const {additionalClass} = this.props;
     return `title ${additionalClass}`; 
   }

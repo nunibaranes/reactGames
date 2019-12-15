@@ -1,5 +1,4 @@
 import React, { Component, ReactNode } from 'react';
-import PropTypes from "prop-types";
 import './Popup.scss';
 
 import Title from '../title/Title';
