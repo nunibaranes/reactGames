@@ -1,20 +1,28 @@
 import React, { Component } from 'react';
-import PropTypes from "prop-types";
-import './Cell.scss'
+import './Cell.scss';
+
+import { ICell } from "./cell.interface";
+
+interface ICellProps {
+    cellData: ICell,
+    cellIndex: number,
+    cellWidth: string,
+    cellHeight: string,
+    selectedColor: string, 
+    cellOnClick: (cell?: ICell) => void,
+    cellOnMouseOver: (cell?: ICell) => void,
+    defaultClasses: string,
+    gameIsRunning?: boolean
+};
+
+interface ICellStyles {
+    width: string,
+    height: string,
+    backgroundColor?: string,
+};
 
 class Cell extends Component {
-    props: any;
-    static propTypes = {
-        cellData: PropTypes.object.isRequired,
-        cellIndex: PropTypes.number.isRequired,
-        cellWidth: PropTypes.string.isRequired,
-        cellHeight: PropTypes.string.isRequired,
-        selectedColor: PropTypes.string.isRequired, 
-        cellOnClick: PropTypes.func.isRequired,
-        cellOnMouseOver: PropTypes.func.isRequired,
-        defaultClasses: PropTypes.string.isRequired,
-        gameIsRunning: PropTypes.bool,
-    };
+    props: ICellProps;
 
     static defaultProps = {
         gameIsRunning: false,
@@ -23,9 +31,8 @@ class Cell extends Component {
     /**
      * getClasses
      * return classes refer to arguments
-     * @param {String} defaultClasses
      */
-    getClasses = (defaultClasses: string) => {
+    getClasses = (defaultClasses: string): string => {
         const { gameIsRunning } = this.props;
         const disabledClass = gameIsRunning ? 'disabled' : '';
 
@@ -35,9 +42,8 @@ class Cell extends Component {
     /**
      * cellStyles
      * return cell styles
-     * @param {Object} cellObj 
      */
-    cellStyles = (cellObj: any) => {
+    cellStyles = (cellObj: ICell): ICellStyles => {
         const { cellWidth, cellHeight, selectedColor } = this.props;
         const defaultStyle = {width: `${cellWidth}px`, height: `${cellHeight}px`}
         const activStyles = { backgroundColor: selectedColor }
@@ -45,10 +51,18 @@ class Cell extends Component {
         return isActive ? {...defaultStyle, ...activStyles } : defaultStyle;
     }
 
-    handelOnClick = () => {
+    /**
+     * handelOnClick
+     * callback to cellOnClick
+     */
+    handelOnClick = (): void => {
         this.props.cellOnClick();
     }
-    
+
+    /**
+     * handelOnMouseOver
+     * callback to cellOnMouseOver
+     */
     handelOnMouseOver = () => {
         this.props.cellOnMouseOver();
     }

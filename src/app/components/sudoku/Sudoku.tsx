@@ -9,7 +9,7 @@ import { IBoardData } from "../common/board/board.interface";
 interface ISudokuState {title: string,
   boardData: IBoardData,
   openPopup: boolean,
-  boardStatus: [],
+  boardStatus: ICell[][],
   selectedCell: ICell
 };
 
@@ -39,35 +39,47 @@ class Sudoku extends Component {
   /**
    * boardGenerated
    * setState boardStatus after boardGenerated
-   * @param {Array} generatedBoard
    */
-  boardGenerated = (generatedBoard: any[]) => {
+  boardGenerated = (generatedBoard: ICell[][]): void => {
     this.setState({ boardStatus: generatedBoard });
   };
-
-  cellClicked = (cellObj: any) => {
+  /**
+   * cellClicked
+   * set cellObj as selectedCell and toggleOpenPopupState
+   */
+  cellClicked = (cellObj: ICell): void => {
     console.log("cellClicked cellObj => ", cellObj);
     this.setState({ selectedCell: cellObj });
     this.toggleOpenPopupState();
   };
 
-  toggleOpenPopupState = () => {
+  /**
+   * toggleOpenPopupState
+   * set state openPopup: boolean
+   */
+  toggleOpenPopupState = (): void => {
     console.log("toggleOpenPopupState ");
     this.setState((prevState: any) => ({
       openPopup: !prevState.openPopup
     }));
   };
 
-  getCellOptions = (start: number, total: number) => {
+  /**
+   * getCellOptions
+   */
+  getCellOptions = (start: number, total: number): number[] => {
     const optionsTemplate = Array.from(Array(total).keys());
     const options = Array.from(optionsTemplate, (option, index) => {
       return index + start;
     });
-
     return options;
   };
 
-  setCellValue = (value: number | string) => {
+  /**
+   * setCellValue
+   * set board status with the new cell value
+   */
+  setCellValue = (value: number | string): void => {
     const { selectedCell, boardStatus } = this.state;
     const cellWithValue = { ...selectedCell, value: value };
     const clonedBoardStatus = JSON.parse(JSON.stringify(boardStatus));

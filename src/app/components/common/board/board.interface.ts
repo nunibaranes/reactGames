@@ -8,4 +8,5 @@ export interface IBoardData {
     cellHeight: string,
     defaultColor: string,
     cellData: ICell,
+    gameIsRunning?: boolean
 };
