@@ -162,8 +162,8 @@ class GameOfLife extends Component {
         disableNextGeneration: false,
       });
     } else {
-      this.toggleGameOverPopup(true)
       this.stopGame();
+      this.toggleGameOverPopup(true)
       this.setState({disableNextGeneration: true})
     }
   }
