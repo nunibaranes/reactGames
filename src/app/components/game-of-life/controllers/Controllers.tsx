@@ -27,7 +27,7 @@ class Controllers extends Component {
             // TODO: improve the condition
             const shouldDisableNextGeneration = elData.controllNextGeneration && disableNextGeneration
             
-            elDataClasses = elData.toggleDisabledClass
+            elDataClasses = elData.toggleDisabledClass && gameIsRunning
             ? `${elData.classes} ${disabledClass}` 
             : (shouldDisableNextGeneration) ? `${elData.classes} ${disabledClass}` : `${elData.classes}`;
         }
@@ -40,9 +40,8 @@ class Controllers extends Component {
             title,
             controllers,
             titleAdditionsClass,
-            disableNextGeneration
         } = this.props;
-        console.log("disableNextGeneration ", disableNextGeneration);
+
         return (
             <section className={this.getClasses()}>
                 <Title title={ title } additionalClass={titleAdditionsClass}></Title>

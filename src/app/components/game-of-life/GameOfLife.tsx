@@ -145,14 +145,20 @@ class GameOfLife extends Component {
         }
     }
 
-    const shouldContiniueRuning = JSON.stringify(newBoard) !== JSON.stringify(boardStatus)
+    const shouldContiniueRuning = JSON.stringify(newBoard) !== JSON.stringify(boardStatus);
 
     if (shouldContiniueRuning) {
       this.setState((prevState: any) => ({
         boardStatus: newBoard,
         generation: prevState.generation + 1,
       }));
+    } else {
+      this.stopGame();
+      this.toggleGameOverPopup(true)
+      this.setState({disableNextGeneration: true})
+    }
 
+    if (shouldContiniueRuning && isRuning) {
       const timeoutHandler = window.setTimeout(() => {
         this.setNextGenerationBoardStatus(isRuning);
       }, 100);
@@ -161,11 +167,8 @@ class GameOfLife extends Component {
         timeoutHandler,
         disableNextGeneration: false,
       });
-    } else {
-      this.stopGame();
-      this.toggleGameOverPopup(true)
-      this.setState({disableNextGeneration: true})
-    }
+    } 
+
   }
 
   /**
