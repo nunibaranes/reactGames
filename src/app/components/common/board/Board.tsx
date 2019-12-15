@@ -3,22 +3,8 @@ import "./Board.scss";
 
 import Cell from "./cell/Cell";
 import { ICell } from "./cell/cell.interface";
-import { IBoardData } from "./board.interface";
+import { IBoardProps, IBoardState, IBoardData } from "./board.interface";
 
-interface IBoardProps {
-  boardData: IBoardData,
-  additionalClass: string,
-  board: ICell[][],
-  cellClicked: (cell?: ICell) => void,
-  cellHovered: (cell?: ICell) => void,
-  boardGenerated: (generatedBoard?: ICell[][]) => void,
-  highlightOptions: string[],
-};
-
-interface IBoardState {
-  boardStatus: ICell[][],
-  selectedColor: string,
-};
 
 class Board extends Component {
     state: IBoardState;

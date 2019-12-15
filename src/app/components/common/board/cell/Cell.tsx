@@ -1,25 +1,7 @@
 import React, { Component } from 'react';
 import './Cell.scss';
 
-import { ICell } from "./cell.interface";
-
-interface ICellProps {
-    cellData: ICell,
-    cellIndex: number,
-    cellWidth: string,
-    cellHeight: string,
-    selectedColor: string, 
-    cellOnClick: (cell?: ICell) => void,
-    cellOnMouseOver: (cell?: ICell) => void,
-    defaultClasses: string,
-    gameIsRunning?: boolean
-};
-
-interface ICellStyles {
-    width: string,
-    height: string,
-    backgroundColor?: string,
-};
+import { ICellProps, ICell, ICellStyles} from "./cell.interface";
 
 class Cell extends Component {
     props: ICellProps;

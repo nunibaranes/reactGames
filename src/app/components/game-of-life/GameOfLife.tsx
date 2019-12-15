@@ -6,11 +6,21 @@ import Controllers from './controllers/Controllers'
 import Title from '../common/title/Title';
 import Counter from '../common/counter/Counter'
 import Board from '../common/board/Board';
-import { any } from 'prop-types';
+
+import { ICell } from "../common/board/cell/cell.interface";
+import { IBoardData } from "../common/board/board.interface";
+import { IController } from "./controllers/controller.interface";
+
+interface IGameOfLifeState {
+  title: string,
+  boardData: IBoardData,
+  timeoutHandler: any | ReturnType<typeof setTimeout>,
+  generation: number,
+  boardStatus: ICell[][],
+};
 
 class GameOfLife extends Component {
-  props: any;
-  state: any;
+  state: IGameOfLifeState;
   constructor(props = {}) {
     super(props);
     this.state = {
@@ -35,10 +45,8 @@ class GameOfLife extends Component {
   /**
    * toggleCellIsActiveStatus
    * check if cellObj exist to toggel spesific cell || set all cells isActive status to false
-   * @param {Array} prevStateBoardStatus 
-   * @param {Object} cellObj 
    */
-  toggleCellIsActiveStatus = (prevStateBoardStatus: [], cellObj: any) => {
+  toggleCellIsActiveStatus = (prevStateBoardStatus: ICell[][], cellObj: ICell): ICell[][] => {
     const clonedBoardStatus = JSON.parse(JSON.stringify(prevStateBoardStatus));
     const cell = clonedBoardStatus[cellObj.x][cellObj.y];
     cell.isActive = cell !== undefined && !cell.isActive;
@@ -50,7 +58,7 @@ class GameOfLife extends Component {
    * getCleanBoard
    * create a new empty board
    */
-  getCleanBoard = () => {
+  getCleanBoard = (): ICell[][] => {
     const { boardData, boardStatus } = this.state;
     const { rows, columns } = boardData;
     const cleanBoard = JSON.parse(JSON.stringify(boardStatus));
@@ -68,11 +76,8 @@ class GameOfLife extends Component {
   /**
    * checkNeighbors
    * calculate active neighbors
-   * @param {Array} boardStatus
-   * @param {Number} x
-   * @param {Number} y
    */
-  checkNeighbors = (boardStatus: any[], x: number, y: number) => {
+  checkNeighbors = (boardStatus: ICell[][], x: number, y: number): number => {
     const { boardData } = this.state;
     const { rows, columns } = boardData;
     let neighborsCounter = 0;
@@ -111,7 +116,7 @@ class GameOfLife extends Component {
    * create empty newBoardStatus, and set newBoardStatus's cells refer to current boardStatus
    * setState boardStatus to newBoardStatus
    */
-  setNextGenerationBoardStatus = (isRuning = false) => {
+  setNextGenerationBoardStatus = (isRuning: boolean = false): void => {
     const { boardData, boardStatus } = this.state;
     const { rows, columns } = boardData;
     const newBoard = this.getCleanBoard();
@@ -145,7 +150,7 @@ class GameOfLife extends Component {
    * nextGenerationCellIsActive
    * return refer to rules cell isActive status for next generation
    */
-  nextGenerationCellIsActive = (cell: any, activeNeighbors: number) => {
+  nextGenerationCellIsActive = (cell: ICell, activeNeighbors: number): boolean => {
     // TODO improve the conditions
     if (cell.isActive) {
       if (activeNeighbors < 2 || activeNeighbors > 3) {
@@ -165,18 +170,16 @@ class GameOfLife extends Component {
   /**
    * boardGenerated
    * setState boardStatus after boardGenerated
-   * @param {Array} generatedBoard
    */
-  boardGenerated = (generatedBoard: any[]) => {
+  boardGenerated = (generatedBoard: ICell[][]): void => {
     this.setState({boardStatus: generatedBoard})
   }
 
   /**
    * cellClicked
    * setState boardStatus after cellCliked 
-   * @param {Object} cellObj 
    */
-  cellClicked = (cellObj: any) => {
+  cellClicked = (cellObj: ICell): void => {
     this.setState((prevState: any) => ({
         boardStatus: this.toggleCellIsActiveStatus(prevState.boardStatus, cellObj)
     }));
@@ -187,9 +190,9 @@ class GameOfLife extends Component {
    * call to method setNextGenerationBoardStatus
    * setState gameIsRunning to true 
    */
-  runGame = () => {
-    const defaultData = JSON.parse(JSON.stringify(this.state.boardData));
-    const newBoarData = { ...defaultData, ...{ gameIsRunning: true }}
+  runGame = (): void => {
+    const defaultData: IBoardData = JSON.parse(JSON.stringify(this.state.boardData));
+    const newBoarData: IBoardData = { ...defaultData, ...{ gameIsRunning: true }}
     this.setNextGenerationBoardStatus(true);
     this.setState({ boardData: newBoarData});
   }
@@ -199,10 +202,10 @@ class GameOfLife extends Component {
    * setState gameIsRunning to false 
    * timeoutHandler to null
    */
-  stopGame = () => {
+  stopGame = (): void => {
     const { timeoutHandler } = this.state;
-    const defaultData = JSON.parse(JSON.stringify(this.state.boardData));
-    const newBoarData = { ...defaultData, ...{ gameIsRunning: false }}
+    const defaultData: IBoardData = JSON.parse(JSON.stringify(this.state.boardData));
+    const newBoarData: IBoardData = { ...defaultData, ...{ gameIsRunning: false }}
     this.setState({ 
       boardData: newBoarData,
       timeoutHandler: null
@@ -216,8 +219,8 @@ class GameOfLife extends Component {
    * clearBoard
    * setState to empty new board
    */
-  clearBoard = () => {
-    const newBoard = this.getCleanBoard();
+  clearBoard = (): void => {
+    const newBoard: ICell[][] = this.getCleanBoard();
     this.stopGame();
     this.setState({
       boardStatus: newBoard,
@@ -227,18 +230,16 @@ class GameOfLife extends Component {
 
   /**
    * onClickedController
-   * @param {Object} controllers
    * call to controller.callback
    */
-  onClickedController = (controller: any) => {
+  onClickedController = (controller: IController): void => {
     controller.callback();
   }
 
   /**
    * getGameControllers
-   * return {Array}
    */
-  getGameControllers = () => {
+  getGameControllers = (): IController[] => {
     const { 
       boardData,
     } = this.state;
@@ -297,7 +298,7 @@ class GameOfLife extends Component {
             title={'Controllers'}
             additionalClass={'align-left'}
             titleAdditionsClass={'align-left'}
-            // gameIsRunning={gameIsRunning}
+            gameIsRunning={gameIsRunning}
             controllers={controllers}
             onControllerClicked={this.onClickedController}
           />

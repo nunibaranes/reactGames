@@ -1,18 +1,14 @@
 
 import React, { Component } from 'react';
-import PropTypes from "prop-types";
+
 import './Controllers.scss'
+
 import Title from '../../common/title/Title';
+import { IControllersProps } from "./controller.interface"
+
 class Controllers extends Component {
-    props: any;
-    static propTypes = {
-        title: PropTypes.string.isRequired,
-        controllers: PropTypes.array.isRequired,
-        onControllerClicked: PropTypes.func.isRequired,
-        additionalClass: PropTypes.string,
-        titleAdditionsClass: PropTypes.string,
-    };
-    
+    props: IControllersProps;
+
     static defaultProps = {
         additionalClass: '',
         titleAdditionsClass: '',
