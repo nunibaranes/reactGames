@@ -5,7 +5,22 @@ import Header from './header/Header';
 import Main from './main/Main';
 import Footer from './footer/Footer';
 
+type email = string;
+type url = string;
+interface IAuthor {
+  name: string,
+  email: email,
+  github: {
+    name: string,
+    link: url
+  }
+};
+interface IAppState {
+  author: IAuthor,
+}
 class App extends Component {
+  state: IAppState;
+
   constructor(props = {}) {
     super(props);
     this.state = {
@@ -21,7 +36,7 @@ class App extends Component {
   }
 
   render() {
-    const { author }: any = this.state;
+    const { author } = this.state;
     return (
       <div className="app">
         <Header></Header>
