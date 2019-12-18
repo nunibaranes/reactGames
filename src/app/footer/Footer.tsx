@@ -5,7 +5,7 @@ import './Footer.scss';
 interface IData {name: string, email: string}
 interface IFooterProps {data: IData}
 function Footer(props: IFooterProps) {
-  const { data } = this.props;
+  const { data } = props;
   const { name, email } = data;
 
   return (
