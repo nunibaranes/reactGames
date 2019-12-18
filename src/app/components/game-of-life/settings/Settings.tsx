@@ -1,37 +1,31 @@
 
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from "prop-types";
 import './Settings.scss';
 
 import Title from '../../common/title/Title.js';
-class Settings extends Component {
-    props: any;
-    static propTypes = {
-        title: PropTypes.string.isRequired,
-        additionalClass: PropTypes.string,
-    };
-    static defaultProps = {
-      additionalClass: '',
-    }
+function Settings(props: any) {
+    const {title, additionalClass} = props;
 
     /**
      * getClasses
      * return classes refer to arguments
      */
-    getClasses = (): string => {
-        const {additionalClass} = this.props;
-        return `settings ${additionalClass}`; 
-    }
+    const getClasses = (): string => `settings ${additionalClass}`; 
 
-    render() {
-        const {title} = this.props;
+    return (
+        <div className={getClasses()}>
+            <Title title={ title}/>
+        </div>
+    );
+}
 
-        return (
-            <div className={this.getClasses()}>
-                <Title title={ title}/>
-            </div>
-        );
-    }
+Settings.propTypes = {
+    title: PropTypes.string.isRequired,
+    additionalClass: PropTypes.string,
+};
+Settings.defaultProps = {
+  additionalClass: '',
 }
 
 export default Settings;
