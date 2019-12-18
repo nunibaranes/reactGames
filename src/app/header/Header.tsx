@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import * as noonles from '../../assets/images/nofarNoonles.jpg';
 import './Header.scss';
 

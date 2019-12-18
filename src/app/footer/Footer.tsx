@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import PropTypes, { any, string } from "prop-types";
+import React from 'react';
 import './Footer.scss';
 
 interface IData {name: string, email: string}
 interface IFooterProps {data: IData}
+
 function Footer(props: IFooterProps) {
   const { data } = props;
   const { name, email } = data;

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './Main.scss';
 
 import Sudoku from '../components/sudoku/Sudoku';

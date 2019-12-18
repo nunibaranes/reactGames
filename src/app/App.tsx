@@ -7,6 +7,7 @@ import Footer from './footer/Footer';
 
 type email = string;
 type url = string;
+
 interface IAuthor {
   name: string,
   email: email,
