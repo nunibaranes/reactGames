@@ -14,8 +14,8 @@ function Settings(props: any) {
     const getClasses = (): string => `settings ${additionalClass}`; 
 
     return (
-        <div className={getClasses()}>
-            <Title title={ title}/>
+        <div className={ getClasses() }>
+            <Title title={ title }/>
         </div>
     );
 }
