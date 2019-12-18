@@ -1,37 +1,32 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 interface ICounterProps {
   title: string,
   counter: number,
   additionalClass?: string,
 }
-
-class Counter extends Component {
-  props: ICounterProps;
-
-  static defaultProps = {
-    additionalClass: '',
-  }
-
+function Counter(props: ICounterProps) {
   /**
    * getClasses
    * return classes refer to arguments
    */
-  getClasses = (): string => {
-    const {additionalClass} = this.props;
+  const getClasses = (): string => {
+    const {additionalClass} = props;
     return `counter ${additionalClass}`; 
   }
 
-  render() {
-    const {title, counter} = this.props;
+  const {title, counter} = props;
 
-    return (
-      <div className={this.getClasses()}>
-        <span className='counter-title'>{title}</span>
-        <span className='counter-number'>{counter}</span>
-      </div>
-    );
-  }
+  return (
+    <div className={getClasses()}>
+      <span className='counter-title'>{title}</span>
+      <span className='counter-number'>{counter}</span>
+    </div>
+  );
+};
+
+Counter.defaultProps = {
+  additionalClass: '',
 }
 
 export default Counter;
