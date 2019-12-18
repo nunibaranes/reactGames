@@ -1,39 +1,37 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import './Title.scss';
 interface ITitleProps {
   title: string,
   additionalClass?: string,
 }
-class Title extends Component {
-  props: ITitleProps;
 
-  static defaultProps = {
-    additionalClass: '',
-  }
-
+function Title(props: ITitleProps) {
+  const {additionalClass, title} = props;
+  
   /**
    * getClasses
    * return classes refer to arguments
    */
-  getClasses = (): string => {
-    const {additionalClass} = this.props;
+  const getClasses = (): string => {
+    const {additionalClass} = props;
     return `title ${additionalClass}`; 
   }
 
-  render() {
-    const {additionalClass} = this.props;
+  return (
+    <div className={getClasses()}>
+    {
+      additionalClass === 'main-title' ? 
+          <h1>{title}</h1> : 
+          <h3>{title}</h3>
+      } 
+    </div>
+  );
+  
+}
 
-    return (
-      <div className={this.getClasses()}>
-        {
-          additionalClass === 'main-title' ? 
-            <h1>{this.props.title}</h1> : 
-            <h3>{this.props.title}</h3>
-        } 
-      </div>
-    );
-  }
+Title.defaultProps = {
+  additionalClass: '',
 }
 
 export default Title;

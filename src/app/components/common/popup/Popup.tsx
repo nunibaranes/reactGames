@@ -1,4 +1,4 @@
-import React, { Component, ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import './Popup.scss';
 
 import Title from '../title/Title';
@@ -11,51 +11,46 @@ interface IPopupProps {
   children?: ReactNode 
 };
 
-class Popup extends Component {
-  props: IPopupProps;
-
-  static defaultProps = {
-    title: '',
-    additionalClass: '',
-    titleAdditionalClass: '',
-  }
-
+function Popup(props: IPopupProps) {
   /**
    * getClasses
    * return classes refer to arguments
    */
-  getClasses = (additionalClass = ''): string => {
+  const getClasses = (additionalClass = ''): string => {
     return `popup ${additionalClass}`; 
   }
+  const {
+    title,
+    additionalClass,
+    titleAdditionalClass, 
+    onClosePopup, 
+    children
+  } = props;
 
-  render() {
-    const {
-      title,
-      additionalClass,
-      titleAdditionalClass, 
-      onClosePopup, 
-      children
-    } = this.props;
+  const hasTitle = title !== '';
 
-    const hasTitle = title !== '';
-
-    return (
-      <div className={this.getClasses(additionalClass)}>
-      <div className={'popup-content'}>
-        <div className='close-popup' onClick={() => {onClosePopup()}}>X</div>
-          {
-            hasTitle && (
-              <Title 
-                title={title} 
-                additionalClass={titleAdditionalClass}
-              />
-            )
-          } 
-          {children}
-        </div>
+  return (
+    <div className={getClasses(additionalClass)}>
+    <div className={'popup-content'}>
+      <div className='close-popup' onClick={() => {onClosePopup()}}>X</div>
+        {
+          hasTitle && (
+            <Title 
+              title={title} 
+              additionalClass={titleAdditionalClass}
+            />
+          )
+        } 
+        {children}
       </div>
-    );
-  }
+    </div>
+  );
+}
+
+Popup.defaultProps = {
+    title: '',
+    additionalClass: '',
+    titleAdditionalClass: ''
 }
 
 export default Popup;
