@@ -5,7 +5,7 @@ interface ICounterProps {
   counter: number,
   additionalClass?: string,
 }
-function Counter(props: ICounterProps) {
+export default function Counter(props: ICounterProps) {
   const {
     title,
     counter,
@@ -29,5 +29,3 @@ function Counter(props: ICounterProps) {
 Counter.defaultProps = {
   additionalClass: '',
 }
-
-export default Counter;

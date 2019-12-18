@@ -2,7 +2,7 @@ import React from 'react';
 import * as noonles from '../../assets/images/nofarNoonles.jpg';
 import './Header.scss';
 
-function Header() {
+export default function Header() {
   return (
       <header className="header" >
         <img src={noonles} className="noonles" alt="Nofar Baranes" />
@@ -17,5 +17,3 @@ function Header() {
       </header> 
   );
 }
-
-export default Header;

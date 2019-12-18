@@ -17,7 +17,7 @@ interface IAuthor {
   }
 }
 
-function App() {
+export default function App() {
   const authorData: IAuthor = {
     name: 'Nofar Baranes',
     email: 'Nunibaranes@gmail.com',
@@ -35,5 +35,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

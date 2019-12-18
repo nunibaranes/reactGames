@@ -11,7 +11,7 @@ interface IPopupProps {
   children?: ReactNode 
 };
 
-function Popup(props: IPopupProps) {
+export default function Popup(props: IPopupProps) {
   const {
     title,
     additionalClass,
@@ -52,5 +52,3 @@ Popup.defaultProps = {
     additionalClass: '',
     titleAdditionalClass: ''
 }
-
-export default Popup;

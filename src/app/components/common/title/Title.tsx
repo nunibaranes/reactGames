@@ -6,7 +6,7 @@ interface ITitleProps {
   additionalClass?: string,
 }
 
-function Title(props: ITitleProps) {
+export default function Title(props: ITitleProps) {
   const {
     additionalClass,
     title
@@ -33,5 +33,3 @@ function Title(props: ITitleProps) {
 Title.defaultProps = {
   additionalClass: '',
 }
-
-export default Title;

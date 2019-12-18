@@ -3,7 +3,7 @@ import './Cell.scss';
 
 import { ICellProps, ICell, ICellStyles} from "./Cell.interface";
 
-function Cell(props: ICellProps) {
+export default function Cell(props: ICellProps) {
 
     const {
         cellData,
@@ -67,5 +67,3 @@ function Cell(props: ICellProps) {
 Cell.defaultProps = {
     gameIsRunning: false,
 }
-
-export default Cell;

@@ -4,7 +4,7 @@ import './Main.scss';
 import Sudoku from '../components/sudoku/Sudoku';
 import GameOfLife from '../components/game-of-life/GameOfLife';
 
-function Main() {
+export default function Main() {
   return (
     <section className="main" id="main">
       <GameOfLife/>
@@ -12,5 +12,3 @@ function Main() {
     </section>
   );
 }
-
-export default Main;

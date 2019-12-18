@@ -4,7 +4,7 @@ import './Footer.scss';
 interface IData {name: string, email: string}
 interface IFooterProps {data: IData}
 
-function Footer(props: IFooterProps) {
+export default function Footer(props: IFooterProps) {
   const { data } = props;
   const { name, email } = data;
 
@@ -21,7 +21,5 @@ function Footer(props: IFooterProps) {
           </a>
         </div>
     </section>
-    );
+  );
 }
-
-export default Footer;

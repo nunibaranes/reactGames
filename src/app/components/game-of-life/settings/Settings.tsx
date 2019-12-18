@@ -4,7 +4,8 @@ import PropTypes from "prop-types";
 import './Settings.scss';
 
 import Title from '../../common/title/Title.js';
-function Settings(props: any) {
+
+export default  function Settings(props: any) {
     const {title, additionalClass} = props;
 
     /**
@@ -27,5 +28,3 @@ Settings.propTypes = {
 Settings.defaultProps = {
   additionalClass: '',
 }
-
-export default Settings;
