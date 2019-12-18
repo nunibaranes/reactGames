@@ -6,16 +6,17 @@ interface ICounterProps {
   additionalClass?: string,
 }
 function Counter(props: ICounterProps) {
+  const {
+    title,
+    counter,
+    additionalClass,
+  } = props;
+
   /**
    * getClasses
    * return classes refer to arguments
    */
-  const getClasses = (): string => {
-    const {additionalClass} = props;
-    return `counter ${additionalClass}`; 
-  }
-
-  const {title, counter} = props;
+  const getClasses = (): string => `counter ${additionalClass}`;
 
   return (
     <div className={getClasses()}>

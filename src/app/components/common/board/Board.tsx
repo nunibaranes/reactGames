@@ -2,9 +2,8 @@ import React, { Component } from "react";
 import "./Board.scss";
 
 import Cell from "./cell/Cell";
-import { ICell } from "./cell/cell.interface";
-import { IBoardProps, IBoardState, IBoardData } from "./board.interface";
-
+import { ICell } from "./cell/Cell.interface";
+import { IBoardProps, IBoardState } from "./Board.interface";
 
 class Board extends Component {
     state: IBoardState;

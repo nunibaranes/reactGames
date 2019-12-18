@@ -12,13 +12,6 @@ interface IPopupProps {
 };
 
 function Popup(props: IPopupProps) {
-  /**
-   * getClasses
-   * return classes refer to arguments
-   */
-  const getClasses = (additionalClass = ''): string => {
-    return `popup ${additionalClass}`; 
-  }
   const {
     title,
     additionalClass,
@@ -26,6 +19,13 @@ function Popup(props: IPopupProps) {
     onClosePopup, 
     children
   } = props;
+
+  /**
+   * getClasses
+   * return classes refer to arguments
+   */
+  const getClasses = (additionalClass = ''): string => `popup ${additionalClass}`;
+  
 
   const hasTitle = title !== '';
 

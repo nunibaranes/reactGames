@@ -8,9 +8,9 @@ import Counter from '../common/counter/Counter'
 import Board from '../common/board/Board';
 import Popup from "../common/popup/Popup";
 
-import { ICell } from "../common/board/cell/cell.interface";
-import { IBoardData } from "../common/board/board.interface";
-import { IController } from "./controllers/controller.interface";
+import { ICell } from "../common/board/cell/Cell.interface";
+import { IBoardData } from "../common/board/Board.interface";
+import { IController } from "./controllers/Controller.interface";
 
 interface IGameOfLifeState {
   title: string,

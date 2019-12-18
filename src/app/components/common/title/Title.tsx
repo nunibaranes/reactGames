@@ -7,16 +7,16 @@ interface ITitleProps {
 }
 
 function Title(props: ITitleProps) {
-  const {additionalClass, title} = props;
+  const {
+    additionalClass,
+    title
+  } = props;
   
   /**
    * getClasses
    * return classes refer to arguments
    */
-  const getClasses = (): string => {
-    const {additionalClass} = props;
-    return `title ${additionalClass}`; 
-  }
+  const getClasses = (): string => `title ${additionalClass}`;
 
   return (
     <div className={getClasses()}>

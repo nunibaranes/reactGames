@@ -3,8 +3,8 @@ import "./Sudoku.scss";
 import Title from "../common/title/Title";
 import Board from "../common/board/Board";
 import Popup from "../common/popup/Popup";
-import { ICell } from "../common/board/cell/cell.interface";
-import { IBoardData } from "../common/board/board.interface";
+import { ICell } from "../common/board/cell/Cell.interface";
+import { IBoardData } from "../common/board/Board.interface";
 
 interface ISudokuState {title: string,
   boardData: IBoardData,

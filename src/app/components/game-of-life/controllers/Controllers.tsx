@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import './Controllers.scss'
 
 import Title from '../../common/title/Title';
-import { IControllersProps, IController } from "./controller.interface"
+import { IControllersProps, IController } from "./Controller.interface"
 
 class Controllers extends Component {
     props: IControllersProps;

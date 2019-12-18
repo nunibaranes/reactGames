@@ -1,4 +1,4 @@
-import { ICell } from "./cell/cell.interface";
+import { ICell } from "./cell/Cell.interface";
 
 export interface IBoardProps {
   boardData: IBoardData,
