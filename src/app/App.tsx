@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './App.scss';
 
 import Header from './header/Header';
@@ -14,37 +14,25 @@ interface IAuthor {
     name: string,
     link: url
   }
-};
-interface IAppState {
-  author: IAuthor,
 }
-class App extends Component {
-  state: IAppState;
 
-  constructor(props = {}) {
-    super(props);
-    this.state = {
-      author: {
-        name: 'Nofar Baranes',
-        email: 'Nunibaranes@gmail.com',
-        github: {
-          name: 'nunibaranes',
-          link: 'https://github.com/nunibaranes'
-        }
-      }
-    };
+function App() {
+  const authorData: IAuthor = {
+    name: 'Nofar Baranes',
+    email: 'Nunibaranes@gmail.com',
+    github: {
+      name: 'nunibaranes',
+      link: 'https://github.com/nunibaranes'
+    }
   }
 
-  render() {
-    const { author } = this.state;
-    return (
-      <div className="app">
-        <Header></Header>
-        <Main></Main>
-        <Footer data={author}></Footer>
-      </div>
-    );
-  }
+  return (
+    <div className="app">
+      <Header></Header>
+      <Main></Main>
+      <Footer data={authorData}></Footer>
+    </div>
+  );
 }
 
 export default App;
