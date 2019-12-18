@@ -49,7 +49,6 @@ class GameOfLife extends Component {
 
   componentDidUpdate() {
     const boardIsEmpty = JSON.stringify(this.state.boardStatus) === JSON.stringify(this.getCleanBoard());
-    console.log("**** boardIsEmpty ", boardIsEmpty);
     if (this.state.disableNextGeneration !== boardIsEmpty) {
       this.setState({
         disableNextGeneration: boardIsEmpty
