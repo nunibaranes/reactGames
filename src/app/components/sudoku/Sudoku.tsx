@@ -20,6 +20,7 @@ class Sudoku extends Component {
     this.state = {
       title: "Sudoku Game",
       boardData: {
+        highlightOptions: ['cell', 'row', 'column'],
         rows: 9,
         columns: 9,
         puzzel: [],
@@ -43,6 +44,7 @@ class Sudoku extends Component {
   boardGenerated = (generatedBoard: ICell[][]): void => {
     this.setState({ boardStatus: generatedBoard });
   };
+
   /**
    * cellClicked
    * set cellObj as selectedCell and toggleOpenPopupState
@@ -51,6 +53,35 @@ class Sudoku extends Component {
     console.log("cellClicked cellObj => ", cellObj);
     this.setState({ selectedCell: cellObj });
     this.toggleOpenPopupState();
+  };
+
+  /**
+   * setBoardHighlightCells
+   * set state boardStatus with hilighted cells
+   */
+  setBoardHighlightCells = (cellObj: ICell): void => {
+    const { boardData, boardStatus } = this.state;
+    const { highlightOptions } = boardData;
+    const clonedBoardStatus = JSON.parse(JSON.stringify(boardStatus));
+    const shouldHighlightCell = highlightOptions.includes('cell');
+    const shouldHighlightCRow = highlightOptions.includes('row');
+    const shouldHighlightColumn = highlightOptions.includes('column');
+    
+    clonedBoardStatus.map((row: any[]): ICell[][] => {
+        row.map( cell => {
+            const highlightCell = shouldHighlightCell && cellObj.id === cell.id;
+            const highlightRow = shouldHighlightCRow && cell.x === cellObj.x;
+            const highlightColumn = shouldHighlightColumn && cell.y === cellObj.y;
+
+            if (highlightCell || highlightRow || highlightColumn) {
+                return cell.isHighlight = true;
+            }
+            return cell.isHighlight = false;
+        })
+
+        return row;
+    });
+    this.setState({ boardStatus: clonedBoardStatus });
   };
 
   /**
@@ -99,7 +130,7 @@ class Sudoku extends Component {
           additionalClass="sudoku"
           board={boardStatus}
           cellClicked={this.cellClicked}
-          highlightOptions={['cell', 'row', 'column']}
+          cellHovered={this.setBoardHighlightCells}
           boardGenerated={this.boardGenerated}
         />
         {openPopup && (

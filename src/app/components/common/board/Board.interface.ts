@@ -5,9 +5,8 @@ export interface IBoardProps {
   additionalClass: string,
   board: ICell[][],
   cellClicked: (cell?: ICell) => void,
-  cellHovered: (cell?: ICell) => void,
+  cellHovered?: (cell?: ICell) => void,
   boardGenerated: (generatedBoard?: ICell[][]) => void,
-  highlightOptions: string[],
 };
 
 export interface IBoardState {
@@ -16,6 +15,7 @@ export interface IBoardState {
 };
 
 export interface IBoardData {
+    highlightOptions?: string[],
     rows: number,
     columns: number,
     puzzel?: [],
