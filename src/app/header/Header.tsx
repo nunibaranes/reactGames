@@ -1,5 +1,5 @@
 import React from 'react';
-import * as noonles from '../../assets/images/nofarNoonles.jpg';
+import noonles from '../../assets/images/nofarNoonles.jpg';
 import './Header.scss';
 
 export default function Header() {
