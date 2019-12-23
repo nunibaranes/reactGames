@@ -2,7 +2,7 @@ import React from 'react';
 import './Main.scss';
 
 import Sudoku from '../components/sudoku/Sudoku';
-import GameOfLife from '../components/game-of-life/GameOfLife';
+import GameOfLife from '../components/game-of-life/_GameOfLife';
 
 export default function Main() {
   return (
