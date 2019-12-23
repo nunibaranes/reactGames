@@ -12,6 +12,9 @@ import { ICell } from "../common/board/cell/Cell.interface";
 import { IBoardData } from "../common/board/Board.interface";
 import { IController } from "./controllers/Controller.interface";
 
+
+
+// TODO: watch React Hooks Project Tutorial - Game of Life: https://www.youtube.com/watch?v=DvVt11mPuM0 
 export default function GameOfLife() {
     const initialBoardData: IBoardData = {
         rows: 40,
