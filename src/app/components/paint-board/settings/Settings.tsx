@@ -2,6 +2,7 @@ import React, { useState, useEffect} from 'react';
 import randomColor from 'randomcolor';
 import Name from '../name/Name';
 import ColorPicker from '../color-picker/ColorPicker';
+import './Settings.scss';
 
 export default function Settings() {
     const [colors, setColors] = useState([]);
@@ -22,7 +23,7 @@ export default function Settings() {
     }
 
     return (
-        <section className="settings wrapper wrap-with-border" style={{ borderTop: `10px solid ${activeColor}`}}>
+        <section className="settings wrapper" style={{ borderTop: `10px solid ${activeColor}`}}>
             <Name />
             <div style={{ marginTop: 10 }}>
                 <ColorPicker
