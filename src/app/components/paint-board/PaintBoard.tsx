@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react';
-import Settings from '../settings/Settings'
+import Settings from './settings/Settings'
 
 export default function Paint() {
     return (

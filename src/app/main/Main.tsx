@@ -3,7 +3,7 @@ import './Main.scss';
 
 import Sudoku from '../components/sudoku/Sudoku';
 import GameOfLife from '../components/game-of-life/GameOfLife';
-import Paint from '../components/paint-board/paint/Paint';
+import Paint from '../components/paint-board/PaintBoard';
 
 export default function Main() {
   return (
