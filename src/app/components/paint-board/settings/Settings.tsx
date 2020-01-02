@@ -4,7 +4,7 @@ import Name from '../name/Name';
 import ColorPicker from '../color-picker/ColorPicker';
 import './Settings.scss';
 
-export default function Settings() {
+export default function Settings(props: any) {
     const [colors, setColors] = useState([]);
     const [activeColor, setActiveColor] = useState(null);
 
@@ -17,8 +17,9 @@ export default function Settings() {
         fetch(`https://www.thecolorapi.com/scheme?hex=${baseColor}&mode=monochrome`)
         .then(res => res.json())
         .then(res => {
-        setColors(res.colors.map(color => color.hex.value))
-        setActiveColor(res.colors[0].hex.value)
+        setColors(res.colors.map(color => color.hex.value));
+        setActiveColor(res.colors[0].hex.value);
+        props.onSetActiveColor(res.colors[0].hex.value);
         })
     }
 
