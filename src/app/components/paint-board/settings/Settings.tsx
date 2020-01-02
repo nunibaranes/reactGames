@@ -6,7 +6,7 @@ import './Settings.scss';
 
 export default function Settings() {
     const [colors, setColors] = useState([]);
-    const [activeColor, setActiveColor] = useState('');
+    const [activeColor, setActiveColor] = useState(null);
 
     useEffect(() => {
         getColors();
