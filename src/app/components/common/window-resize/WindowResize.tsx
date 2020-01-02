@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
+import './WindowResize.scss';
 
 export default function WindowResize() {
     const [[windowWidth, windowHeight], setWindowSize] = useState([window.innerWidth, window.innerHeight]);
