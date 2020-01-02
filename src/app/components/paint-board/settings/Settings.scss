@@ -3,4 +3,14 @@
     border-bottom: 1px solid #ccc;
     flex-direction: column;
     align-items: start;
+
+    .colors-wrapper {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+
+        .change-color {
+            align-self: flex-end;
+        }
+    }
 }

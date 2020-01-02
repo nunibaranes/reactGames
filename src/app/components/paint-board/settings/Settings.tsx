@@ -25,12 +25,13 @@ export default function Settings() {
     return (
         <section className="settings wrapper" style={{ borderTop: `10px solid ${activeColor}`}}>
             <Name />
-            <div style={{ marginTop: 10 }}>
+            <div className="colors-wrapper" style={{ marginTop: 10 }}>
                 <ColorPicker
                     colors={colors}
                     activeColor={activeColor}
                     setActiveColor={setActiveColor}
                 />
+                <button className="btn change-color" onClick={() => getColors()}>Change Color</button>
             </div>
         </section>
     )

@@ -23,3 +23,26 @@
 .wrap-with-border {
   border: 1px solid #ccc;
 }
+
+.btn {
+  border: 1px solid #000;
+  background: none;
+  padding: 5px 10px;
+  margin-right: 10px;
+  border-radius: 15px;
+  min-width: 90px;
+  height: min-content;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  &:hover:not(.disabled) {
+      color: #fff;
+      background-color: #000;
+  }
+
+  &.disabled {
+      cursor: default;
+      pointer-events: none;
+      opacity: 0.3;
+  }
+}
