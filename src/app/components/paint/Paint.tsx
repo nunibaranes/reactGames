@@ -17,9 +17,14 @@ export default function Paint() {
     const handleLineWidthChange = (value) => {
         setLineWidth(value);
     }
+
     return (
         <section className="paint-board wrap-with-border">
-            <Settings onSetActiveColor={handleActivatedColor} onSetLineWidth={handleLineWidthChange}/>
+            <Settings 
+                lineWidth={lineWidth}
+                onSetActiveColor={handleActivatedColor}
+                onSetLineWidth={handleLineWidthChange}
+            />
             {activeColor && (
                 <Canvas
                     color={activeColor}

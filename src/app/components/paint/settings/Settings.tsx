@@ -9,10 +9,11 @@ export default function Settings(props: any) {
 
     const [colors, setColors] = useState([]);
     const [activeColor, setActiveColor] = useState(null);
-    const [lineWidth, setLineWidth] = useState(5);
+    const [lineWidth, setLineWidth] = useState(props.lineWidth || 5);
 
     useEffect(() => {
         getColors();
+        props.onSetLineWidth(lineWidth);
     }, []);
 
     const getColors = () => {
