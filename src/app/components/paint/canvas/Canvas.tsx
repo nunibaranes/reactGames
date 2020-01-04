@@ -29,6 +29,9 @@ export default function Canvas({ width, height, color, lineWidth }: CanvasProps)
         setIsPainting(false);
     }, []);
 
+    /**
+     * getCoordinates - client x and y position refer to window - calculate to get Coordinate 
+     */
     const getCoordinates = (event: MouseEvent): Coordinate | undefined => {
         if (!canvasRef.current) {
             return;
@@ -45,8 +48,11 @@ export default function Canvas({ width, height, color, lineWidth }: CanvasProps)
         return {x, y};
     };
 
+    /**
+     * paint - useCallback
+     */
     const paint = useCallback(
-        (event: MouseEvent) => {
+        (event: MouseEvent): void => {
             if (isPainting) {
                 const newMousePosition = getCoordinates(event);
                 if (mousePosition && newMousePosition) {
@@ -58,7 +64,10 @@ export default function Canvas({ width, height, color, lineWidth }: CanvasProps)
         [isPainting, mousePosition]
     );
 
-    const drawLine = (originalMousePosition: Coordinate, newMousePosition: Coordinate) => {
+    /**
+     * drawLine using canvasRef
+     */
+    const drawLine = (originalMousePosition: Coordinate, newMousePosition: Coordinate): void => {
         if (!canvasRef.current) {
             return;
         }
@@ -78,6 +87,9 @@ export default function Canvas({ width, height, color, lineWidth }: CanvasProps)
         }
     };
 
+    /**
+     * mouseup and mouseleave
+     */
     useEffect(() => {
         if (!canvasRef.current) {
             return;
@@ -90,7 +102,10 @@ export default function Canvas({ width, height, color, lineWidth }: CanvasProps)
             canvas.removeEventListener('mouseleave', exitPaint);
         };
     }, [exitPaint]);
-    
+
+    /**
+     * mousedown
+     */
     useEffect(() => {
         if (!canvasRef.current) {
             return;
@@ -102,6 +117,9 @@ export default function Canvas({ width, height, color, lineWidth }: CanvasProps)
         };
     }, [startPaint]);
 
+    /**
+     * mousemove
+     */
     useEffect(() => {
         if (!canvasRef.current) {
             return;
@@ -112,7 +130,6 @@ export default function Canvas({ width, height, color, lineWidth }: CanvasProps)
             canvas.removeEventListener('mousemove', paint);
         };
     }, [paint]);
-
 
     return <canvas ref={canvasRef} height={height} width={width} />;
 }

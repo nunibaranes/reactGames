@@ -36,7 +36,6 @@ export default function Settings(props: any) {
         <section className="settings wrapper" style={{ borderTop: `10px solid ${activeColor}`}}>
             <Name />
             <div className="colors-wrapper" style={{ marginTop: 10 }}>
-                
                 <ColorPicker
                     colors={colors}
                     activeColor={activeColor}
