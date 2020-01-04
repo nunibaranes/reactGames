@@ -4,7 +4,7 @@ import WindowResize from '../common/window-resize/WindowResize';
 // import Canvas from './canvas/Canvas';
 import Canvas from './canvas/Canvas';
 
-import './PaintBoard.scss';
+import './Paint.scss';
 
 export default function Paint() {
     const [activeColor, setActiveColor] = useState(null);

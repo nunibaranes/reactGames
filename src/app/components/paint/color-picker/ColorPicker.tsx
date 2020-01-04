@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import "./ColorPicker.scss";
 
-export default function ColorPicker({ colors = [], activeColor, setActiveColor }) {
+export default function ColorPicker({ colors = [], activeColor, changeColor }) {
   if (!colors.length) return null
   return (
     <fieldset className="color-picker">
@@ -12,7 +12,7 @@ export default function ColorPicker({ colors = [], activeColor, setActiveColor }
             type="radio"
             value={color}
             checked={activeColor === color}
-            onChange={() => setActiveColor(color)}
+            onChange={() => changeColor(color)}
           />
           <span style={{ background: color }} />
         </label>

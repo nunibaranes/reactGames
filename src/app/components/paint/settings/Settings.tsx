@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect, useRef, useCallback, memo} from 'react';
 import randomColor from 'randomcolor';
 import Name from '../name/Name';
 import ColorPicker from '../color-picker/ColorPicker';
 import './Settings.scss';
 
-export default function Settings(props: any) {
+const Settings = (props: any) => {
+    console.log('settings render');
     const lineWidthRef = useRef();
 
     const [colors, setColors] = useState([]);
@@ -16,7 +17,7 @@ export default function Settings(props: any) {
         props.onSetLineWidth(lineWidth);
     }, []);
 
-    const getColors = () => {
+    const getColors = useCallback(() => {
         const baseColor = randomColor().slice(1);
         fetch(`https://www.thecolorapi.com/scheme?hex=${baseColor}&mode=monochrome`)
         .then(res => res.json())
@@ -25,12 +26,17 @@ export default function Settings(props: any) {
         setActiveColor(res.colors[0].hex.value);
         props.onSetActiveColor(res.colors[0].hex.value);
         })
-    }
+    }, [])
 
     const handleLineWidthChange = (e) => {
         const value = parseInt(e.target.value); 
         setLineWidth(value);
         props.onSetLineWidth(value);
+    }
+
+    const handleChangeColor = (color) => {
+        setActiveColor(color)
+        props.onSetActiveColor(color);
     }
 
     return (
@@ -40,7 +46,7 @@ export default function Settings(props: any) {
                 <ColorPicker
                     colors={colors}
                     activeColor={activeColor}
-                    setActiveColor={setActiveColor}
+                    changeColor={handleChangeColor}
                 />
                 <button className="btn change-color" onClick={() => getColors()}>Change Color</button>
             </div>
@@ -51,3 +57,5 @@ export default function Settings(props: any) {
         </section>
     )
 }
+
+export default memo(Settings);

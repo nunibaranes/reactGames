@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, memo } from 'react'
 
-export default function Name() {
+const Name = () => {
     const [name, setName] = useState('')
     const handleOnClick = (e) => {
         const target = e.target as HTMLInputElement;
@@ -18,3 +18,4 @@ export default function Name() {
         </label>
     )
 }
+export default memo(Name);
