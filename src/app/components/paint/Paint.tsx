@@ -8,17 +8,22 @@ import './PaintBoard.scss';
 
 export default function Paint() {
     const [activeColor, setActiveColor] = useState(null);
+    const [lineWidth, setLineWidth] = useState(0);
 
     const handleActivatedColor = (color) => {
-        console.log('handleActivatedColor color ', color);
         setActiveColor(color);
+    }
+    
+    const handleLineWidthChange = (value) => {
+        setLineWidth(value);
     }
     return (
         <section className="paint-board wrap-with-border">
-            <Settings onSetActiveColor={handleActivatedColor}/>
+            <Settings onSetActiveColor={handleActivatedColor} onSetLineWidth={handleLineWidthChange}/>
             {activeColor && (
                 <Canvas
                     color={activeColor}
+                    lineWidth={lineWidth}
                     height={600}
                     width={980}
                 />

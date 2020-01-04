@@ -4,6 +4,7 @@ interface CanvasProps {
     width: number;
     height: number;
     color?: string;
+    lineWidth?: number;
 }
 
 type Coordinate = {
@@ -11,7 +12,7 @@ type Coordinate = {
     y: number;
 };
 
-export default function Canvas({ width, height, color }: CanvasProps) {
+export default function Canvas({ width, height, color, lineWidth }: CanvasProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [isPainting, setIsPainting] = useState(false);
     const [mousePosition, setMousePosition] = useState<Coordinate | undefined>(undefined);
@@ -22,6 +23,10 @@ export default function Canvas({ width, height, color }: CanvasProps) {
             setIsPainting(true);
             setMousePosition(coordinates);
         }
+    }, []);
+
+    const exitPaint = useCallback(() => {
+        setIsPainting(false);
     }, []);
 
     const getCoordinates = (event: MouseEvent): Coordinate | undefined => {
@@ -62,7 +67,7 @@ export default function Canvas({ width, height, color }: CanvasProps) {
         if (context) {
             context.strokeStyle = color;
             context.lineJoin = 'round';
-            context.lineWidth = 5;
+            context.lineWidth = lineWidth;
 
             context.beginPath();
             context.moveTo(originalMousePosition.x, originalMousePosition.y);
@@ -72,10 +77,6 @@ export default function Canvas({ width, height, color }: CanvasProps) {
             context.stroke();
         }
     };
-
-    const exitPaint = useCallback(() => {
-        setIsPainting(false);
-    }, []);
 
     useEffect(() => {
         if (!canvasRef.current) {
