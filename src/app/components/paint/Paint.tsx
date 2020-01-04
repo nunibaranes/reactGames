@@ -1,7 +1,8 @@
 import React, { useState, useEffect} from 'react';
 import Settings from './settings/Settings';
 import WindowResize from '../common/window-resize/WindowResize';
-import Board from './board/Board';
+// import Canvas from './canvas/Canvas';
+import Canvas from './canvas/Canvas';
 
 import './PaintBoard.scss';
 
@@ -16,10 +17,10 @@ export default function Paint() {
         <section className="paint-board wrap-with-border">
             <Settings onSetActiveColor={handleActivatedColor}/>
             {activeColor && (
-                <Board
-                color={activeColor}
-                height='600px'
-                width='980px'
+                <Canvas
+                    color={activeColor}
+                    height={600}
+                    width={980}
                 />
             )}
             <WindowResize/>
