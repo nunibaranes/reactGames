@@ -5,7 +5,6 @@ import ColorPicker from '../color-picker/ColorPicker';
 import './Settings.scss';
 
 const Settings = (props: any) => {
-    console.log('settings render');
     const lineWidthRef = useRef();
 
     const [colors, setColors] = useState([]);

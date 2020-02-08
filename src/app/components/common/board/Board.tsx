@@ -3,12 +3,7 @@ import "./Board.scss";
 
 import Cell from "./cell/Cell";
 import { ICell } from "./cell/Cell.interface";
-import { IBoardProps, IBoardState } from "./Board.interface";
-
-
-// TODO:
-// Remove IBoardState
-// Remove Console.log
+import { IBoardProps } from "./Board.interface";
 
 export default function Board(props: IBoardProps) {
   const { boardData, board, additionalClass, boardGenerated } = props;

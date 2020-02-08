@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
 import './GameOfLife.scss';
 
 // import Settings from './settings/Settings.js'
@@ -22,9 +23,13 @@ interface IGameOfLifeState {
   showGameOverPopup
 };
 
-class GameOfLife extends Component {
+interface IProps {
+  isDarkMode
+}
+
+class GameOfLife extends Component<IProps> {
   state: IGameOfLifeState;
-  constructor(props = {}) {
+  constructor(props) {
     super(props);
     this.state = {
         title: 'Game Of Life',
@@ -312,7 +317,8 @@ class GameOfLife extends Component {
   }
 
   render() {
-    const { 
+    const {isDarkMode} = this.props;
+    const {
       title, 
       boardData, 
       boardStatus, 
@@ -325,7 +331,10 @@ class GameOfLife extends Component {
     const controllers = this.getGameControllers();
 
     return (
-      <section className='game-of-life wrapper wrap-with-border'>
+      <Container
+        isDarkMode={isDarkMode}
+        className='game-of-life wrapper wrap-with-border'
+      >
         <Title additionalClass={'main-title align-center'} title={ title }></Title>
         <div className='controllers-and-settings wrapper'>
           {
@@ -369,9 +378,13 @@ class GameOfLife extends Component {
             </div>
           </Popup>
         )}
-      </section>
+      </Container>
     );
   }
 }
+
+const Container = styled('section')`
+  color: ${(props) => props.isDarkMode ? 'white' : 'black'};
+`;
 
 export default GameOfLife;
