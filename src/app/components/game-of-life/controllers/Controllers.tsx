@@ -1,11 +1,12 @@
 
-import React, { Component } from 'react';
-
-import './Controllers.scss'
+import React from 'react';
+import styled from 'styled-components';
 
 import Title from '../../common/title/Title';
 import { IControllersProps, IController } from "./Controller.interface"
+import { StyledButton } from '../../../styles/common/common.styles';
 
+import './Controllers.scss'
 
 export default function Controllers(props: IControllersProps) {
     const {
@@ -16,6 +17,7 @@ export default function Controllers(props: IControllersProps) {
         controllers,
         titleAdditionsClass,
         onControllerClicked,
+        isDarkMode,
     } = props;
 
     /**
@@ -41,24 +43,53 @@ export default function Controllers(props: IControllersProps) {
         <section className={getClasses()}>
             <Title title={ title } additionalClass={titleAdditionsClass}></Title>
             <div className={`controllers-wrapper`}>
+
                 {
                     controllers.map((controller: any) => {
                         return (
-                            <div
+                            <StyledButton
                                 key={controller.controllerName}
                                 className={getClasses(controller)}
                                 onClick={() => {onControllerClicked(controller) }}
+                                isDarkMode={isDarkMode}
                             >
                                 {controller.title}
-                            </div>
+                            </StyledButton>
                         )
                     })
                 }
+
             </div>
         </section>
     );
     
 }
+
+const StyledControllers = styled('section')`
+    display: flex;
+    flex-direction: column;
+
+    .controllers-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    &.align-left {        
+        .controllers-wrapper {
+            justify-content:left;
+        }
+    }
+    &.align-right {        
+        .controllers-wrapper {
+            justify-content: right;
+        }
+    }
+    &.align-center {        
+        .controllers-wrapper {
+            justify-content: center;
+        }
+    }
+`
 
 Controllers.defaultProps = {
     additionalClass: '',

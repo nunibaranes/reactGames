@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
+import { StyledContainer } from '../../styles/common/common.styles';
+
 import './GameOfLife.scss';
 
 // import Settings from './settings/Settings.js'
@@ -24,7 +25,7 @@ interface IGameOfLifeState {
 };
 
 interface IProps {
-  isDarkMode
+  isDarkMode: boolean
 }
 
 class GameOfLife extends Component<IProps> {
@@ -317,7 +318,6 @@ class GameOfLife extends Component<IProps> {
   }
 
   render() {
-    const {isDarkMode} = this.props;
     const {
       title, 
       boardData, 
@@ -331,8 +331,8 @@ class GameOfLife extends Component<IProps> {
     const controllers = this.getGameControllers();
 
     return (
-      <Container
-        isDarkMode={isDarkMode}
+      <StyledContainer
+        {...this.props}
         className='game-of-life wrapper wrap-with-border'
       >
         <Title additionalClass={'main-title align-center'} title={ title }></Title>
@@ -348,6 +348,7 @@ class GameOfLife extends Component<IProps> {
             controllers={controllers}
             onControllerClicked={this.onClickedController}
             disableNextGeneration={disableNextGeneration}
+            {...this.props}
           />
         </div>
         <Board 
@@ -378,13 +379,9 @@ class GameOfLife extends Component<IProps> {
             </div>
           </Popup>
         )}
-      </Container>
+      </StyledContainer>
     );
   }
 }
-
-const Container = styled('section')`
-  color: ${(props) => props.isDarkMode ? 'white' : 'black'};
-`;
 
 export default GameOfLife;

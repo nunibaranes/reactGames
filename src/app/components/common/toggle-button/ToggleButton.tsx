@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { StyledButton } from '../../../styles/common/common.styles';
 
 interface IToggleButtonProps {
     falseLabel: string,
@@ -17,7 +18,7 @@ export default function ToggleButton(props: IToggleButtonProps) {
 
     return isClicked 
     ? 
-    <button className="btn" onClick={() => toggleClicked(false)}>{falseLabel}</button>
+    <StyledButton isDarkMode={isClicked} onClick={() => toggleClicked(false)}>{falseLabel}</StyledButton>
     : 
-    <button className="btn" onClick={() => toggleClicked(true)}>{truthLabel}</button>;
+    <StyledButton isDarkMode={isClicked} onClick={() => toggleClicked(true)}>{truthLabel}</StyledButton>;
 }
