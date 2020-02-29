@@ -24,11 +24,7 @@ interface IGameOfLifeState {
   showGameOverPopup
 };
 
-interface IProps {
-  isDarkMode: boolean
-}
-
-class GameOfLife extends Component<IProps> {
+class GameOfLife extends Component {
   state: IGameOfLifeState;
   constructor(props) {
     super(props);
@@ -331,8 +327,7 @@ class GameOfLife extends Component<IProps> {
     const controllers = this.getGameControllers();
 
     return (
-      <StyledContainer
-        {...this.props}
+      <section
         className='game-of-life wrapper wrap-with-border'
       >
         <Title additionalClass={'main-title align-center'} title={ title }></Title>
@@ -379,7 +374,7 @@ class GameOfLife extends Component<IProps> {
             </div>
           </Popup>
         )}
-      </StyledContainer>
+      </section>
     );
   }
 }

@@ -6,7 +6,6 @@ export interface IControllersProps {
     titleAdditionsClass?: string,
     gameIsRunning?: boolean,
     disableNextGeneration?: boolean,
-    isDarkMode: boolean,
 }
 
 export interface IController {

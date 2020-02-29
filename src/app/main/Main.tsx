@@ -5,23 +5,26 @@ import './Main.scss';
 import Sudoku from '../components/sudoku/Sudoku';
 import GameOfLife from '../components/game-of-life/GameOfLife';
 import Paint from '../components/paint/Paint';
-import ToggleButton from '../components/common/toggle-button/ToggleButton';
+import { getStyledContainer } from '../styles/common/common.styles';
+import Settings from './settings/Settings';
 
 export default function Main() {
   const [isDarkModeState, setIsDarkModeState] = useState(false);
+  const [darkModeTogglelabel, setDarkModeTogglelabel] = useState('Set Dark Mode');
 
   const toggleDarkMode = (to) => {
+    const darkModeLabel = `Set ${to ? 'Light' : 'Dark'} Mode`;
     setIsDarkModeState(to);
+    setDarkModeTogglelabel(darkModeLabel)
   }
 
   return (
     <MainStyled className="main" id="main" isDarkMode={isDarkModeState}>
-      <ToggleButton 
-        truthLabel='Set Dark Mode'
-        falseLabel='Set Light Mode'
-        toggleButtonClicked={toggleDarkMode}
+      <Settings 
+        darkModeTogglelabel={darkModeTogglelabel} 
+        toggleDarkModeClicked={toggleDarkMode}
       />
-      <GameOfLife isDarkMode={isDarkModeState}/>
+      <GameOfLife/> {/* TODO: Refactor GameOfLife to react hook */}
       <Sudoku/>
       <Paint/>
     </MainStyled>
@@ -29,5 +32,10 @@ export default function Main() {
 }
 
 const MainStyled = styled('section')`
-  background-color: ${(props) => props.isDarkMode ? 'black' : 'white'};
+  && {
+    ${(props) => {
+      const {isDarkMode} = props;
+      return getStyledContainer(isDarkMode);
+    }}
+  }
 `

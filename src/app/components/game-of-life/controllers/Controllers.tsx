@@ -17,7 +17,6 @@ export default function Controllers(props: IControllersProps) {
         controllers,
         titleAdditionsClass,
         onControllerClicked,
-        isDarkMode,
     } = props;
 
     /**
@@ -47,14 +46,13 @@ export default function Controllers(props: IControllersProps) {
                 {
                     controllers.map((controller: any) => {
                         return (
-                            <StyledButton
+                            <button
                                 key={controller.controllerName}
                                 className={getClasses(controller)}
                                 onClick={() => {onControllerClicked(controller) }}
-                                isDarkMode={isDarkMode}
                             >
                                 {controller.title}
-                            </StyledButton>
+                            </button>
                         )
                     })
                 }

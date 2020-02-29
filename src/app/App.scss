@@ -34,7 +34,11 @@
   height: min-content;
   cursor: pointer;
   transition: all 0.3s ease;
-  
+
+  &:focus {
+    outline: none;
+  }
+
   &:hover:not(.disabled) {
       color: #fff;
       background-color: #000;
