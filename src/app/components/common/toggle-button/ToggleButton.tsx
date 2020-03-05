@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { StyledButton } from '../../../styles/common/common.styles';
 
 interface IToggleButtonProps {
     label: string;
@@ -15,9 +16,9 @@ export default function ToggleButton(props: IToggleButtonProps) {
     }
 
     return (
-    <button className='btn'
+    <StyledButton className='btn'
         onClick={() => toggleClicked(!isClicked)}
     >
         {label}
-    </button>);
+    </StyledButton>);
 }

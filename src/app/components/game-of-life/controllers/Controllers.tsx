@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Title from '../../common/title/Title';
-import { IControllersProps, IController } from "./Controller.interface"
+import { IControllersProps } from "./Controller.interface"
 import { StyledButton } from '../../../styles/common/common.styles';
 
 import './Controllers.scss'
@@ -19,46 +19,28 @@ export default function Controllers(props: IControllersProps) {
         onControllerClicked,
     } = props;
 
-    /**
-     * getClasses
-     * return classes refer to arguments
-     */
-    const getClasses = (elData: IController = null): string => {
-        const disabledClass = gameIsRunning || disableNextGeneration ? 'disabled' : '';
-        let elDataClasses = '';
-        if (elData) {
-            // TODO: improve the condition
-            const shouldDisableNextGeneration = elData.controllNextGeneration && disableNextGeneration
-            
-            elDataClasses = elData.toggleDisabledClass && gameIsRunning
-            ? `${elData.classes} ${disabledClass}` 
-            : (shouldDisableNextGeneration) ? `${elData.classes} ${disabledClass}` : `${elData.classes}`;
-        }
-
-        return (elDataClasses !== '') ? `${elDataClasses}` : `controllers ${additionalClass}`;
-    }
-
     return (
-        <section className={getClasses()}>
+        <StyledControllers
+         className={`controllers ${additionalClass}`}>
             <Title title={ title } additionalClass={titleAdditionsClass}></Title>
             <div className={`controllers-wrapper`}>
 
-                {
-                    controllers.map((controller: any) => {
-                        return (
-                            <button
-                                key={controller.controllerName}
-                                className={getClasses(controller)}
-                                onClick={() => {onControllerClicked(controller) }}
-                            >
-                                {controller.title}
-                            </button>
-                        )
-                    })
-                }
+                {controllers.map((controller: any) => {
+                    const shouldDisableNextGeneration = controller.controllNextGeneration && disableNextGeneration;
+                    const shouldDisable = controller.toggleDisabledClass && gameIsRunning;
+                    return (
+                        <StyledButton
+                            key={controller.controllerName}
+                            onClick={() => {onControllerClicked(controller) }}
+                            disabled={shouldDisable || shouldDisableNextGeneration}
+                        >
+                            {controller.title}
+                        </StyledButton>
+                    )
+                })}
 
             </div>
-        </section>
+        </StyledControllers>
     );
     
 }

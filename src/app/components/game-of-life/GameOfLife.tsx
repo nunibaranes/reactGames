@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyledContainer } from '../../styles/common/common.styles';
+import { StyledWrapper } from '../../styles/common/common.styles';
 
 import './GameOfLife.scss';
 
@@ -327,11 +327,12 @@ class GameOfLife extends Component {
     const controllers = this.getGameControllers();
 
     return (
-      <section
-        className='game-of-life wrapper wrap-with-border'
+      <StyledWrapper
+        className='game-of-life'
+        withBorder
       >
         <Title additionalClass={'main-title align-center'} title={ title }></Title>
-        <div className='controllers-and-settings wrapper'>
+        <StyledWrapper className='controllers-and-settings'>
           {
             // <Settings title={'Settings'}></Settings>
           }
@@ -345,7 +346,7 @@ class GameOfLife extends Component {
             disableNextGeneration={disableNextGeneration}
             {...this.props}
           />
-        </div>
+        </StyledWrapper>
         <Board 
           boardData={ boardData }
           board={ boardStatus }
@@ -374,7 +375,7 @@ class GameOfLife extends Component {
             </div>
           </Popup>
         )}
-      </section>
+      </StyledWrapper>
     );
   }
 }

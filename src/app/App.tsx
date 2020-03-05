@@ -4,7 +4,7 @@ import Header from './header/Header';
 import Main from './main/Main';
 import Footer from './footer/Footer';
 
-import './App.scss';
+import { StyledApp } from './styles/common/layout.styles';
 
 type email = string;
 type url = string;
@@ -29,10 +29,10 @@ export default function App() {
   }
 
   return (
-    <div className="app">
+    <StyledApp className="app">
       <Header></Header>
       <Main></Main>
       <Footer data={authorData}></Footer>
-    </div>
+    </StyledApp>
   );
 }

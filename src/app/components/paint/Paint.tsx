@@ -4,7 +4,7 @@ import WindowResize from '../common/window-resize/WindowResize';
 // import Canvas from './canvas/Canvas';
 import Canvas from './canvas/Canvas';
 
-import './Paint.scss';
+import { StyledWrapper } from '../../styles/common/common.styles';
 
 export default function Paint() {
     const [activeColor, setActiveColor] = useState(null);
@@ -19,7 +19,11 @@ export default function Paint() {
     }
 
     return (
-        <section className="paint-board wrap-with-border">
+        <StyledWrapper 
+            className="paint-board"
+            withBorder
+            noPadding
+        >
             <Settings 
                 lineWidth={lineWidth}
                 onSetActiveColor={handleActivatedColor}
@@ -34,6 +38,6 @@ export default function Paint() {
                 />
             )}
             <WindowResize/>
-        </section>
+        </StyledWrapper>
     )
 }

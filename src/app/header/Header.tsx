@@ -1,19 +1,22 @@
 import React from 'react';
 import noonles from '../../assets/images/nofarNoonles.jpg';
-import './Header.scss';
+
+/** Styles */
+import { StyledHeader } from '../styles/common/layout.styles';
+import { StyledLink } from '../styles/common/common.styles';
 
 export default function Header() {
   return (
-      <header className="header" >
+      <StyledHeader className="header" >
         <img src={noonles} className="noonles" alt="Nofar Baranes" />
         <h1>Hi, I'm Nofar Baranes</h1>
-        <a
+        <StyledLink
           className="link"
           href="#main"
           rel="noopener noreferrer"
         >
           Look what I have done
-        </a>
-      </header> 
+        </StyledLink>
+      </StyledHeader> 
   );
 }

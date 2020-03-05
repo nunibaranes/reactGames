@@ -1,7 +1,6 @@
 
 import React from 'react';
 import PropTypes from "prop-types";
-import './Settings.scss';
 
 import Title from '../../common/title/Title.js';
 

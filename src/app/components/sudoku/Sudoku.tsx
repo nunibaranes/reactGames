@@ -5,6 +5,7 @@ import Board from "../common/board/Board";
 import Popup from "../common/popup/Popup";
 import { ICell } from "../common/board/cell/Cell.interface";
 import { IBoardData } from "../common/board/Board.interface";
+import { StyledWrapper } from "../../styles/common/common.styles";
 
 interface ISudokuState {title: string,
   boardData: IBoardData,
@@ -115,7 +116,10 @@ export default function Sudoku() {
   };
 
   return (
-    <section className="sudoku wrapper wrap-with-border">
+    <StyledWrapper 
+      className="sudoku"
+      withBorder  
+    >
       <Title additionalClass={"main-title align-center"} title={title} />
       <Board
         boardData={boardData}
@@ -155,6 +159,6 @@ export default function Sudoku() {
           </div>
         </Popup>
       )}
-    </section>
+    </StyledWrapper>
   );
 }

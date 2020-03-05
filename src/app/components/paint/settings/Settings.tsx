@@ -2,7 +2,9 @@ import React, { useState, useEffect, useRef, useCallback, memo} from 'react';
 import randomColor from 'randomcolor';
 import Name from '../name/Name';
 import ColorPicker from '../color-picker/ColorPicker';
-import './Settings.scss';
+
+import { StyledWrapper, StyledButton } from '../../../styles/common/common.styles';
+import { StyledColorsWrapper } from '../paint.styles';
 
 const Settings = (props: any) => {
     const lineWidthRef = useRef();
@@ -39,21 +41,26 @@ const Settings = (props: any) => {
     }
 
     return (
-        <section className="settings wrapper" style={{ borderTop: `10px solid ${activeColor}`}}>
+        <StyledWrapper 
+            className="settings"
+            withCustomBorderTop={`10px solid ${activeColor}`}
+            withBorderBottom
+            alignItems={'start'}
+        >
             <Name />
-            <div className="colors-wrapper" style={{ marginTop: 10 }}>
+            <StyledColorsWrapper>
                 <ColorPicker
                     colors={colors}
                     activeColor={activeColor}
                     changeColor={handleChangeColor}
                 />
-                <button className="btn change-color" onClick={() => getColors()}>Change Color</button>
-            </div>
+                <StyledButton onClick={() => getColors()}>Change Color</StyledButton>
+            </StyledColorsWrapper>
             <div className="line-width-wrapper">
                 <label htmlFor="lineWidth">Line: {lineWidth}</label>
                 <input id="lineWidth" ref={lineWidthRef} type="range" onChange={e => handleLineWidthChange(e)} value={lineWidth} />
             </div>
-        </section>
+        </StyledWrapper>
     )
 }
 

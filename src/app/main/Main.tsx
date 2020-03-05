@@ -1,13 +1,11 @@
 import React , { useState }from 'react';
-
 /** Components */
 import Sudoku from '../components/sudoku/Sudoku';
 import GameOfLife from '../components/game-of-life/GameOfLife';
 import Paint from '../components/paint/Paint';
 import Settings from './settings/Settings';
-
 /** Styles */
-import { StyledMainContainer } from '../styles/common/common.styles';
+import { StyledMainContainer } from '../styles/common/layout.styles';
 
 export default function Main() {
   const [isDarkModeState, setIsDarkModeState] = useState(false);
