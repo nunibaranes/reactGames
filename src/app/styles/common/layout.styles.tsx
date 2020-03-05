@@ -1,4 +1,13 @@
 import styled from 'styled-components';
+import { StyledWrapper, StyledLink, StyledSVGIcon } from './common.styles';
+
+export const StyledApp = styled('div')`
+  text-align: center;
+
+  * {
+    box-sizing: border-box;
+  }
+`; 
 
 export const StyledHeader = styled('header')`
   background-color: #282c34;
@@ -18,14 +27,6 @@ export const StyledHeader = styled('header')`
     border-radius: 50%;
   }
 `;
-
-export const StyledApp = styled('div')`
-  text-align: center;
-
-  * {
-    box-sizing: border-box;
-  }
-`; 
 
 export const StyledMainContainer = styled('section')`
   && {
@@ -47,6 +48,33 @@ export const StyledMainContainer = styled('section')`
         }
     `
     }}
+  }
+`;
+
+
+export const StyledFooter = styled('footer')`
+  min-height: 100px;
+  background-color: #282c34;
+  color: #fff;
+  padding: 20px;
+  display: flex;
+
+  ${StyledWrapper} {
+    flex-direction: row;
+  }
+
+  ${StyledLink} {
+    flex: 1;
+    color: #fff;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  ${StyledSVGIcon} {
+    margin-right: 10px;
+    margin-left: 0;
   }
 `;
 

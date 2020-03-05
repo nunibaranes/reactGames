@@ -80,3 +80,15 @@ export const StyledButton = styled('button')`
     }
   }}
 `;
+
+export const StyledSVGIcon = styled('svg')`
+  ${props => {
+    const {width, height, margin} = props;
+
+    return `
+      width: ${width || '30px'};
+      height: ${height || '30px'};
+      margin: ${margin || '0 auto'};
+    `;
+  }
+}`;

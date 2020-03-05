@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { StyledButton } from '../../styles/common/common.styles';
 
 export const StyledSettings = styled('div')`
     width: 100%;
@@ -19,7 +20,8 @@ export const StyledSettings = styled('div')`
         margin-bottom: 10px;
         margin-block-start: 0;
     }
-    .btn {
+
+    ${StyledButton} {
         max-width: fit-content;
         margin-right: 0;
     }
