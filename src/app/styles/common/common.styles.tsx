@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 
-
-
 export const StyledWrapper = styled('section')`
   ${props => {
     const {
@@ -69,8 +67,7 @@ export const StyledButton = styled('button')`
   }
 
   ${props => {
-    const { disabled } = props;
-    if (disabled) {
+    if (props.disabled) {
       return `    
         cursor: default;
         pointer-events: none;

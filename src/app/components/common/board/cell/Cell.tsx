@@ -1,20 +1,20 @@
 import React from 'react';
-import './Cell.scss';
 
 import { ICellProps, ICell, ICellStyles} from "./Cell.interface";
+import { StyledBoardCell } from '../board.styles';
 
 export default function Cell(props: ICellProps) {
-
     const {
         cellData,
         defaultClasses,
-        gameIsRunning, 
+        gameIsRunning = false, 
         cellWidth,
         cellHeight,
         selectedColor,
         cellOnClick,
         cellOnMouseOver
     } = props
+
     const value = cellData.value !== undefined && cellData.value ? cellData.value : '';
 
     /**
@@ -52,7 +52,7 @@ export default function Cell(props: ICellProps) {
 
 
     return (
-    <div 
+    <StyledBoardCell 
         id={cellData.id}
         className={getClasses(defaultClasses)} 
         style={cellStyles(cellData)}
@@ -60,10 +60,6 @@ export default function Cell(props: ICellProps) {
         onMouseOver={handelOnMouseOver}
     >
         { value }
-    </div>
+    </StyledBoardCell>
     );
-}
-
-Cell.defaultProps = {
-    gameIsRunning: false,
 }

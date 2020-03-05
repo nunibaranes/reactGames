@@ -1,17 +1,25 @@
 import React, { useState, useEffect } from "react";
-import "./Board.scss";
 
 import Cell from "./cell/Cell";
 import { ICell } from "./cell/Cell.interface";
 import { IBoardProps } from "./Board.interface";
+import { StyledBoard, StyledBoardRow } from "./board.styles";
 
 export default function Board(props: IBoardProps) {
-  const { boardData, board, additionalClass, boardGenerated } = props;
+  const { 
+    boardData,
+    board = [] as ICell [],
+    additionalClass = '',
+    boardGenerated = () => {}, 
+    cellClicked = () => {},
+    cellHovered
+  } = props;
+
+  const { gameIsRunning } = boardData;
+
   const [boardStatus, setBoardStatus] = useState(board);
   const [selectedColor, setSelectedColor] = useState(boardData.defaultColor);
-  const { gameIsRunning } = boardData;
-  const isRunning = gameIsRunning !== undefined && gameIsRunning ? gameIsRunning : false;
-  const boardClasses = `board ${additionalClass} ${isRunning ? 'game-is-running' : ''}`;
+  const boardClasses = `board ${additionalClass}`;
 
   useEffect(() => {
     const isNewBoard = boardStatus.length === 0;
@@ -68,7 +76,7 @@ export default function Board(props: IBoardProps) {
      * callback to cellClicked
      */
     const handleCellClick = (cell: ICell): void => {
-        props.cellClicked(cell);
+        cellClicked(cell);
     };
 
     /**
@@ -76,14 +84,14 @@ export default function Board(props: IBoardProps) {
      * callback to cellHovered
      */
     const handleCellHovered = (cell: ICell): void => {
-        if (props.cellHovered && typeof props.cellHovered === "function") {
-          props.cellHovered(cell);
+        if (cellHovered && typeof cellHovered === "function") {
+          cellHovered(cell);
         }
     };
 
     const boardEl = boardStatus.map((row: ICell[], index: number) => {
       return (
-        <div
+        <StyledBoardRow
           className={getClasses("row", row, index)}
           key={`row ${index}`}
         >
@@ -107,17 +115,17 @@ export default function Board(props: IBoardProps) {
               />
             );
           })}
-        </div>
+        </StyledBoardRow>
       );
     });
-  
-    return (<div className={boardClasses}>{boardEl}</div>);
+
+    return (
+        <StyledBoard
+          gameIsRunning={gameIsRunning}
+          className={boardClasses}
+        >
+          {boardEl}
+        </StyledBoard>
+      );
 }
 
-Board.defaultProps = {
-    additionalClass: "",
-    board: [] as ICell [],
-    boardGenerated: () => {},
-    cellClicked: () => {},
-    cellHovered: undefined,
-};
