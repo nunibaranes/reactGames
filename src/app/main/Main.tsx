@@ -1,12 +1,13 @@
 import React , { useState }from 'react';
-import styled from 'styled-components';
-import './Main.scss';
 
+/** Components */
 import Sudoku from '../components/sudoku/Sudoku';
 import GameOfLife from '../components/game-of-life/GameOfLife';
 import Paint from '../components/paint/Paint';
-import { getStyledContainer } from '../styles/common/common.styles';
 import Settings from './settings/Settings';
+
+/** Styles */
+import { StyledMainContainer } from '../styles/common/common.styles';
 
 export default function Main() {
   const [isDarkModeState, setIsDarkModeState] = useState(false);
@@ -19,7 +20,7 @@ export default function Main() {
   }
 
   return (
-    <MainStyled className="main" id="main" isDarkMode={isDarkModeState}>
+    <StyledMainContainer className="main" id="main" isDarkMode={isDarkModeState}>
       <Settings 
         darkModeTogglelabel={darkModeTogglelabel} 
         toggleDarkModeClicked={toggleDarkMode}
@@ -27,15 +28,7 @@ export default function Main() {
       <GameOfLife/> {/* TODO: Refactor GameOfLife to react hook */}
       <Sudoku/>
       <Paint/>
-    </MainStyled>
+    </StyledMainContainer>
   );
 }
 
-const MainStyled = styled('section')`
-  && {
-    ${(props) => {
-      const {isDarkMode} = props;
-      return getStyledContainer(isDarkMode);
-    }}
-  }
-`

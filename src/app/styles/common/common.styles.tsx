@@ -1,3 +1,5 @@
+import styled from 'styled-components';
+
 const getStyledBtn = (isDarkMode) => `
     .btn {
         border: 1px solid ${isDarkMode ? '#fff' : '#000'};
@@ -9,9 +11,18 @@ const getStyledBtn = (isDarkMode) => `
     }
 }`;
 
-export const getStyledContainer =(isDarkMode) => `
-    background-color: ${isDarkMode ? 'black' : 'white'};
-    color: ${isDarkMode ? 'white' : 'black'};
+export const StyledMainContainer = styled('section')`
+  && {
+    ${(props) => {
+      const { isDarkMode } = props;
+      return `
+        min-height: 50vh;
+        padding: 50px 0;
+        background-color: ${isDarkMode ? 'black' : 'white'};
+        color: ${isDarkMode ? 'white' : 'black'};
 
-    ${getStyledBtn(isDarkMode) /** general styles for buttons */}
-`;
+        ${getStyledBtn(isDarkMode) /** general styles for buttons */}
+    `
+    }}
+  }
+`
