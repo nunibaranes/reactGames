@@ -1,18 +1,12 @@
 import React, { useState, useEffect } from "react";
-import "./Sudoku.scss";
+
 import Title from "../common/title/Title";
 import Board from "../common/board/Board";
 import Popup from "../common/popup/Popup";
 import { ICell } from "../common/board/cell/Cell.interface";
-import { IBoardData } from "../common/board/Board.interface";
+import { IBoardData, BoardType } from "../common/board/Board.interface";
 import { StyledWrapper } from "../../styles/common/common.styles";
-
-interface ISudokuState {title: string,
-  boardData: IBoardData,
-  openPopup: boolean,
-  boardStatus: ICell[][],
-  selectedCell: ICell
-};
+import { StyledSudokuFillOptions, StyledSudokuFillSingleOption } from "./sudoku.styles";
 
 export default function Sudoku() {
   const initialBoardData: IBoardData = {
@@ -26,6 +20,7 @@ export default function Sudoku() {
       isHighlight: false,
     },
     highlightOptions: ['cell', 'row', 'column'],
+    boardType: BoardType.Sudoku
   }
   
   /**
@@ -134,29 +129,29 @@ export default function Sudoku() {
           additionalClass="inner-popup"
           onClosePopup={() => {toggleOpenPopupState();}}
         >
-          <div className="cell-fill-options">
+          <StyledSudokuFillOptions className="cell-fill-options">
             {
               cellOptions.map((option: number) => {
                 return (
-                  <div
+                  <StyledSudokuFillSingleOption
                     key={option}
                     className='cell-fill-option'
                     onClick={() => {setCellValue(option);}}
                   >
                     {option}
-                  </div>
+                  </StyledSudokuFillSingleOption>
                 );
               })
             }
             {
-              <div 
+              <StyledSudokuFillSingleOption 
                 className='cell-clean-option'
                 onClick={() => { setCellValue('');}}
               >
                 Clean
-              </div>
+              </StyledSudokuFillSingleOption>
             }
-          </div>
+          </StyledSudokuFillOptions>
         </Popup>
       )}
     </StyledWrapper>

@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import { BoardType } from './Board.interface';
+import { getStyledSudokuBoard } from '../../sudoku/sudoku.styles';
 
 export const StyledBoardCell = styled('div')`
     border-right: 1px solid #909090;
@@ -27,17 +29,21 @@ export const StyledBoard = styled('div')`
     margin: 0 auto;
 
     ${props => {
-        if (props.gameIsRunning) {
-            return `
+        const {boardType, gameIsRunning} = props;
+        
+        return `
+        ${gameIsRunning && `
                 cursor: default;
                 pointer-events: none;
-            `
-        }
-    }}
+            `}
 
-    ${StyledBoardRow} {
-        &:last-child {
-            border-bottom: none;
+        ${StyledBoardRow} {
+            &:last-child {
+                border-bottom: none;
+            }
         }
-    }
+
+        ${boardType === BoardType.Sudoku && getStyledSudokuBoard()}
+    `
+    }}
 `;

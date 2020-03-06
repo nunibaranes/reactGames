@@ -1,5 +1,9 @@
 import { ICell } from "./cell/Cell.interface";
 
+export enum BoardType {
+  Regular = 'regular',
+  Sudoku = 'sudoku',
+}
 export interface IBoardProps {
   boardData: IBoardData,
   additionalClass: string,
@@ -23,5 +27,6 @@ export interface IBoardData {
     cellWidth: string,
     cellHeight: string,
     defaultColor: string,
-    gameIsRunning?: boolean
+    gameIsRunning?: boolean,
+    boardType?: BoardType,
 };

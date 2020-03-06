@@ -2,7 +2,7 @@ import React, { useState, useEffect, ReactElement } from "react";
 
 import Cell from "./cell/Cell";
 import { ICell } from "./cell/Cell.interface";
-import { IBoardProps } from "./Board.interface";
+import { IBoardProps, BoardType } from "./Board.interface";
 import { StyledBoard, StyledBoardRow } from "./board.styles";
 
 export default function Board(props: IBoardProps) {
@@ -15,7 +15,7 @@ export default function Board(props: IBoardProps) {
     cellHovered
   } = props;
 
-  const { gameIsRunning } = boardData;
+  const { gameIsRunning = false, boardType = BoardType.Regular } = boardData;
 
   const [boardStatus, setBoardStatus] = useState(board);
   const [selectedColor, setSelectedColor] = useState(boardData.defaultColor);
@@ -123,6 +123,7 @@ export default function Board(props: IBoardProps) {
 
     return (
         <StyledBoard
+          boardType={boardType}
           gameIsRunning={gameIsRunning}
           className={boardClasses}
         >
