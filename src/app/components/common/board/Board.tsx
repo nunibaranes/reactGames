@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ReactElement } from "react";
 
 import Cell from "./cell/Cell";
 import { ICell } from "./cell/Cell.interface";
@@ -89,13 +89,34 @@ export default function Board(props: IBoardProps) {
         }
     };
 
-    const boardEl = boardStatus.map((row: ICell[], index: number) => {
+    const cellEl = (cell: ICell, index: number): ReactElement => {
+      return (
+        <Cell
+          cellData={cell}
+          cellIndex={index}
+          cellWidth={boardData.cellWidth}
+          cellHeight={boardData.cellHeight}
+          selectedColor={selectedColor}
+          defaultClasses={getClasses("cell", cell, index)}
+          key={`cell ${index}`}
+          cellOnClick={() => {
+            handleCellClick(cell);
+          }}
+          cellOnMouseOver={() => {
+            handleCellHovered(cell);
+          }}
+          gameIsRunning={gameIsRunning}
+        />
+      );
+    }
+
+    const boardEl = (boardStatus as Array<ICell[] |ICell[][]>).map((row: ICell[], index: number) => {
       return (
         <StyledBoardRow
           className={getClasses("row", row, index)}
           key={`row ${index}`}
         >
-          {row.map((cell, index) => {
+          {(row as ICell[]).map((cell: ICell, index: number) => {
             return (
               <Cell
                 cellData={cell}

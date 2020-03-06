@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { StyledWrapper, StyledLink, StyledSVGIcon } from './common.styles';
+import { StyledWrapper, StyledLink, StyledSVGIcon, StyledButton } from './common.styles';
 
 export const StyledApp = styled('div')`
   text-align: center;
@@ -38,13 +38,14 @@ export const StyledMainContainer = styled('section')`
         background-color: ${isDarkMode ? 'black' : 'white'};
         color: ${isDarkMode ? 'white' : 'black'};
 
-        .btn {
+        ${StyledButton} {
           border: 1px solid ${isDarkMode ? '#fff' : '#000'};
           color: ${isDarkMode ? 'white' : 'black'};
 
-          &:hover:not(.disabled) {
+          &:hover{
               color: ${isDarkMode ? '#000' : '#fff'};
               background-color: ${isDarkMode ? '#fff' : '#000'};
+          }
         }
     `
     }}

@@ -71,7 +71,7 @@ export const StyledButton = styled('button')`
       return `    
         cursor: default;
         pointer-events: none;
-        opacity: 0.7;
+        opacity: 0.5;
         border: 1px solid #bbb;
       `;
     }
