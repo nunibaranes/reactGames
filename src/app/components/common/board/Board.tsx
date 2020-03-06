@@ -89,26 +89,26 @@ export default function Board(props: IBoardProps) {
         }
     };
 
-    const cellEl = (cell: ICell, index: number): ReactElement => {
-      return (
-        <Cell
-          cellData={cell}
-          cellIndex={index}
-          cellWidth={boardData.cellWidth}
-          cellHeight={boardData.cellHeight}
-          selectedColor={selectedColor}
-          defaultClasses={getClasses("cell", cell, index)}
-          key={`cell ${index}`}
-          cellOnClick={() => {
-            handleCellClick(cell);
-          }}
-          cellOnMouseOver={() => {
-            handleCellHovered(cell);
-          }}
-          gameIsRunning={gameIsRunning}
-        />
-      );
-    }
+    const getCellsInRow = (row: ICell[]) => (row as ICell[]).map((cell: ICell, index: number) => {
+        return (
+          <Cell
+            cellData={cell}
+            cellIndex={index}
+            cellWidth={boardData.cellWidth}
+            cellHeight={boardData.cellHeight}
+            selectedColor={selectedColor}
+            defaultClasses={getClasses("cell", cell, index)}
+            key={`cell ${index}`}
+            cellOnClick={() => {
+              handleCellClick(cell);
+            }}
+            cellOnMouseOver={() => {
+              handleCellHovered(cell);
+            }}
+            gameIsRunning={gameIsRunning}
+          />
+        );
+      });
 
     const boardEl = (boardStatus as Array<ICell[] |ICell[][]>).map((row: ICell[], index: number) => {
       return (
@@ -116,26 +116,7 @@ export default function Board(props: IBoardProps) {
           className={getClasses("row", row, index)}
           key={`row ${index}`}
         >
-          {(row as ICell[]).map((cell: ICell, index: number) => {
-            return (
-              <Cell
-                cellData={cell}
-                cellIndex={index}
-                cellWidth={boardData.cellWidth}
-                cellHeight={boardData.cellHeight}
-                selectedColor={selectedColor}
-                defaultClasses={getClasses("cell", cell, index)}
-                key={`cell ${index}`}
-                cellOnClick={() => {
-                  handleCellClick(cell);
-                }}
-                cellOnMouseOver={() => {
-                  handleCellHovered(cell);
-                }}
-                gameIsRunning={gameIsRunning}
-              />
-            );
-          })}
+          {getCellsInRow(row)}
         </StyledBoardRow>
       );
     });
