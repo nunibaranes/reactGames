@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import { BoardType } from './Board.interface';
+import { BoardType, IBoardData, IBoardProps } from './Board.interface';
 import { getStyledSudokuBoard } from '../../sudoku/sudoku.styles';
+import { getStyledGameOfLifeBoard } from '../../game-of-life/gameOfLife-styles';
 
 export const StyledBoardCell = styled('div')`
     border-right: 1px solid #909090;
@@ -28,22 +29,17 @@ export const StyledBoard = styled('div')`
     max-width: fit-content;
     margin: 0 auto;
 
-    ${props => {
-        const {boardType, gameIsRunning} = props;
-        
-        return `
-        ${gameIsRunning && `
-                cursor: default;
-                pointer-events: none;
-            `}
+    ${(props: IBoardProps) => {
+        const { boardData } = props;
+        const { boardType } = boardData;
 
-        ${StyledBoardRow} {
-            &:last-child {
-                border-bottom: none;
-            }
+        switch(boardType) {
+        case BoardType.GameOfLife:
+            return getStyledGameOfLifeBoard(boardData);
+        case BoardType.Sudoku:
+            return getStyledSudokuBoard();
+        default:
+            break;
         }
-
-        ${boardType === BoardType.Sudoku && getStyledSudokuBoard()}
-    `
     }}
 `;

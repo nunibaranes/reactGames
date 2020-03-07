@@ -123,8 +123,7 @@ export default function Board(props: IBoardProps) {
 
     return (
         <StyledBoard
-          boardType={boardType}
-          gameIsRunning={gameIsRunning}
+          boardData={boardData}
           className={boardClasses}
         >
           {boardEl}

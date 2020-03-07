@@ -2,6 +2,7 @@ import { ICell } from "./cell/Cell.interface";
 
 export enum BoardType {
   Regular = 'regular',
+  GameOfLife = 'game-of-life',
   Sudoku = 'sudoku',
 }
 export interface IBoardProps {

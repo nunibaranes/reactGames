@@ -11,7 +11,7 @@ import Board from '../common/board/Board';
 import Popup from "../common/popup/Popup";
 
 import { ICell } from "../common/board/cell/Cell.interface";
-import { IBoardData } from "../common/board/Board.interface";
+import { IBoardData, BoardType } from "../common/board/Board.interface";
 import { IController } from "./controllers/Controller.interface";
 
 interface IGameOfLifeState {
@@ -40,6 +40,7 @@ class GameOfLife extends Component {
           cellHeight: '20', // TODO: add button to change cellHeight
           defaultColor: 'red', // TODO: add button to change color
           gameIsRunning: false,
+          boardType: BoardType.GameOfLife
         },
         timeoutHandler: null,
         generation: 0,
