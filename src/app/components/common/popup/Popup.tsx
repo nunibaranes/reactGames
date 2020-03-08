@@ -2,11 +2,13 @@ import React, { ReactNode } from 'react';
 
 import Title from '../title/Title';
 import { StyledPopup, StyledClosePopup, StyledPopupContent } from './popup.styles';
+import { Alignment } from '../../../interfaces/common/ui';
 
 interface IPopupProps {
   onClosePopup: () => void,
   title?: string,
   titleAdditionalClass?: string,
+  titleAlignment?: Alignment,
   additionalClass?: string,
   children?: ReactNode 
   isInnerPopup?: boolean,
@@ -16,7 +18,8 @@ export default function Popup(props: IPopupProps) {
   const {
     title = '',
     additionalClass = '',
-    titleAdditionalClass = '', 
+    titleAdditionalClass = '',
+    titleAlignment, 
     onClosePopup, 
     children,
     isInnerPopup = false,
@@ -39,6 +42,7 @@ export default function Popup(props: IPopupProps) {
             <Title 
               title={title} 
               additionalClass={titleAdditionalClass}
+              alignment={titleAlignment}
             />
           )
         } 

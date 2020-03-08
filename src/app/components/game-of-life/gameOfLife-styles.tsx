@@ -22,26 +22,22 @@ export const StyledControllers = styled('section')`
     display: flex;
     flex-direction: column;
 
-    .controllers-wrapper {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    &.align-left {        
-        .controllers-wrapper {
-            justify-content:left;
+
+    ${props => {
+        const { alignment } = props;
+
+        if (alignment) {
+            return `${StyledControllersActions} {
+                justify-content: ${alignment};
+            }`
         }
-    }
-    &.align-right {        
-        .controllers-wrapper {
-            justify-content: right;
-        }
-    }
-    &.align-center {        
-        .controllers-wrapper {
-            justify-content: center;
-        }
-    }
+    }}
+`;
+
+export const StyledControllersActions = styled('div')`
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
 
 export const StyledControllersAndSettings = styled('section')`

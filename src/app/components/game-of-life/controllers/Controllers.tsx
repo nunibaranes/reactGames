@@ -5,25 +5,28 @@ import Title from '../../common/title/Title';
 import { IControllersProps } from "./Controller.interface";
 
 import { StyledButton } from '../../../styles/common/common.styles';
-import { StyledControllers } from '../gameOfLife-styles';
+import { StyledControllers, StyledControllersActions } from '../gameOfLife-styles';
 
 export default function Controllers(props: IControllersProps) {
     const {
         gameIsRunning,
+        alignment,
         additionalClass = '',
         disableNextGeneration = false,
         title,
         controllers,
         titleAdditionsClass = '',
+        titleAlignment,
         onControllerClicked,
     } = props;
 
     return (
         <StyledControllers
-         className={`controllers ${additionalClass}`}>
-            <Title title={ title } additionalClass={titleAdditionsClass}></Title>
-            <div className={`controllers-wrapper`}>
-
+         className={`controllers ${additionalClass}`}
+         alignment={alignment}
+         >
+            <Title title={ title } additionalClass={titleAdditionsClass} alignment={titleAlignment}></Title>
+            <StyledControllersActions className={`controllers-wrapper`}>
                 {controllers.map((controller: any) => {
                     const shouldDisableNextGeneration = controller.controllNextGeneration && disableNextGeneration;
                     const shouldDisable = controller.toggleDisabledClass && gameIsRunning;
@@ -37,8 +40,7 @@ export default function Controllers(props: IControllersProps) {
                         </StyledButton>
                     )
                 })}
-
-            </div>
+            </StyledControllersActions>
         </StyledControllers>
     );   
 }

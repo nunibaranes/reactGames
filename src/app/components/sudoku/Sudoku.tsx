@@ -7,6 +7,7 @@ import { ICell } from "../common/board/cell/Cell.interface";
 import { IBoardData, BoardType } from "../common/board/Board.interface";
 import { StyledWrapper } from "../../styles/common/common.styles";
 import { StyledSudokuFillOptions, StyledSudokuFillSingleOption } from "./sudoku.styles";
+import { Alignment } from "../../interfaces/common/ui";
 
 export default function Sudoku() {
   const initialBoardData: IBoardData = {
@@ -115,7 +116,7 @@ export default function Sudoku() {
       className="sudoku"
       withBorder  
     >
-      <Title additionalClass={"main-title align-center"} title={title} />
+      <Title title={title} alignment={Alignment.Center} isMainTitle/>
       <Board
         boardData={boardData}
         additionalClass="sudoku"
@@ -126,7 +127,6 @@ export default function Sudoku() {
       />
       {popupIsOpen && (
         <Popup
-          additionalClass="inner-popup"
           onClosePopup={() => {toggleOpenPopupState();}}
           isInnerPopup
         >

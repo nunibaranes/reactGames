@@ -1,25 +1,21 @@
 import styled from 'styled-components';
 import { StyledButton } from '../../../styles/common/common.styles';
 
-const getStyledInnerPopup = () => `
-    position: absolute;
-`;
-
 export const StyledPopup = styled('div')`
-    position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
     ${props => {
         const { isInnerPopup } = props;
 
-        isInnerPopup && (getStyledInnerPopup());
+        return `
+            position: ${isInnerPopup ? 'absolute' : 'fixed'};
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        `;
     }}
 
     ${StyledButton} {
@@ -47,7 +43,6 @@ export const StyledClosePopup = styled('div')`
     align-items: center;
     cursor: pointer;
 `;
-
 
 export const StyledPopupContent = styled('div')`
     background-color: #fff;

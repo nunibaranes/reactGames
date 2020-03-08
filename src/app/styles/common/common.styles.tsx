@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Alignment } from '../../interfaces/common/ui';
 
 export const StyledWrapper = styled('section')`
   ${props => {
@@ -89,3 +90,9 @@ export const StyledSVGIcon = styled('svg')`
     `;
   }
 }`;
+
+export const getAlignmentStyles = (property: string, alignment: Alignment) => {
+  return `
+    ${property}: ${alignment};
+  `;
+}

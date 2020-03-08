@@ -13,6 +13,7 @@ import { IController } from "./controllers/Controller.interface";
 
 import { StyledWrapper, StyledButton } from '../../styles/common/common.styles';
 import { StyledControllersAndSettings } from './gameOfLife-styles';
+import { Alignment } from '../../interfaces/common/ui';
 
 interface IGameOfLifeState {
   title: string,
@@ -332,15 +333,15 @@ class GameOfLife extends Component {
         className='game-of-life'
         withBorder
       >
-        <Title additionalClass={'main-title align-center'} title={ title }></Title>
+        <Title title={ title } alignment={Alignment.Center} isMainTitle></Title>
         <StyledControllersAndSettings className='controllers-and-settings'>
           {
             // <Settings title={'Settings'}></Settings>
           }
           <Controllers 
             title={'Controllers'}
-            additionalClass={'align-left'}
-            titleAdditionsClass={'align-left'}
+            alignment={Alignment.Left}
+            titleAlignment={Alignment.Left}
             gameIsRunning={gameIsRunning}
             controllers={controllers}
             onControllerClicked={this.onClickedController}
@@ -363,8 +364,7 @@ class GameOfLife extends Component {
         {showGameOverPopup && (
           <Popup
             title="Game Over"
-            additionalClass="inner-popup"
-            titleAdditionalClass="align-center"
+            titleAlignment={Alignment.Center}
             onClosePopup={() => {
               this.toggleGameOverPopup(false);
             }}
