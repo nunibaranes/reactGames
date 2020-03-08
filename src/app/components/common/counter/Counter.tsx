@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { StyledCounter } from './counter.styles';
 
 interface ICounterProps {

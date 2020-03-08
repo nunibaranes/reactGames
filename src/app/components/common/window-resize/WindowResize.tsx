@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import './WindowResize.scss';
+
+import { StyledWindowResize } from './windowResize.styles';
 
 export default function WindowResize() {
     const [[windowWidth, windowHeight], setWindowSize] = useState([window.innerWidth, window.innerHeight]);
@@ -18,8 +19,11 @@ export default function WindowResize() {
     }, []);
 
     return (
-        <div className={`window-size ${visible ? '' : 'hidden'}`}>
-        {windowWidth} x {windowHeight}
-        </div>
+        <StyledWindowResize 
+            className="window-size"
+            hidden={!visible}
+        >
+            {windowWidth} x {windowHeight}
+        </StyledWindowResize>
     )
 }
