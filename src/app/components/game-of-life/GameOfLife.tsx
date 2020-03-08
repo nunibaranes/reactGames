@@ -349,6 +349,7 @@ class GameOfLife extends Component {
           />
         </StyledWrapper>
         <Board 
+          additionalClass="game-of-life"
           boardData={ boardData }
           board={ boardStatus }
           cellClicked={ this.cellClicked }

@@ -7,7 +7,7 @@ export enum BoardType {
 }
 export interface IBoardProps {
   boardData: IBoardData,
-  additionalClass: string,
+  additionalClass?: string,
   board: ICell[][],
   cellClicked: (cell?: ICell) => void,
   cellHovered?: (cell?: ICell) => void,

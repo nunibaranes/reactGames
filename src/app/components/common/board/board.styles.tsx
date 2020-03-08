@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { BoardType, IBoardData, IBoardProps } from './Board.interface';
+import { BoardType, IBoardProps } from './Board.interface';
 import { getStyledSudokuBoard } from '../../sudoku/sudoku.styles';
 import { getStyledGameOfLifeBoard } from '../../game-of-life/gameOfLife-styles';
 
