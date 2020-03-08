@@ -1,4 +1,5 @@
 import React from 'react';
+import { StyledCounter } from './counter.styles';
 
 interface ICounterProps {
   title: string,
@@ -19,10 +20,10 @@ export default function Counter(props: ICounterProps) {
   const getClasses = (): string => `counter ${additionalClass}`;
 
   return (
-    <div className={getClasses()}>
+    <StyledCounter className={getClasses()}>
       <span className='counter-title'>{title}</span>
       <span className='counter-number'>{counter}</span>
-    </div>
+    </StyledCounter>
   );
 };
 

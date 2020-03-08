@@ -19,6 +19,10 @@ export const StyledBoardCell = styled('div')`
 export const StyledBoardRow = styled('div')`
     display: flex;
     border-bottom: 1px solid #909090;
+
+    &:last-child {
+        border-bottom: 0;
+    }
 `;
 
 export const StyledBoard = styled('div')`

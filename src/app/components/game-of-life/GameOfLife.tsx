@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import { StyledWrapper } from '../../styles/common/common.styles';
-
-import './GameOfLife.scss';
 
 // import Settings from './settings/Settings.js'
 import Controllers from './controllers/Controllers'
@@ -13,6 +10,9 @@ import Popup from "../common/popup/Popup";
 import { ICell } from "../common/board/cell/Cell.interface";
 import { IBoardData, BoardType } from "../common/board/Board.interface";
 import { IController } from "./controllers/Controller.interface";
+
+import { StyledWrapper } from '../../styles/common/common.styles';
+import { StyledControllersAndSettings } from './gameOfLife-styles';
 
 interface IGameOfLifeState {
   title: string,
@@ -333,7 +333,7 @@ class GameOfLife extends Component {
         withBorder
       >
         <Title additionalClass={'main-title align-center'} title={ title }></Title>
-        <StyledWrapper className='controllers-and-settings'>
+        <StyledControllersAndSettings className='controllers-and-settings'>
           {
             // <Settings title={'Settings'}></Settings>
           }
@@ -347,7 +347,7 @@ class GameOfLife extends Component {
             disableNextGeneration={disableNextGeneration}
             {...this.props}
           />
-        </StyledWrapper>
+        </StyledControllersAndSettings>
         <Board 
           additionalClass="game-of-life"
           boardData={ boardData }
