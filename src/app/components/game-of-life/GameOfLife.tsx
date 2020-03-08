@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-// import Settings from './settings/Settings.js'
+// import Settings from './settings/Settings.js';
 import Controllers from './controllers/Controllers'
 import Title from '../common/title/Title';
 import Counter from '../common/counter/Counter'

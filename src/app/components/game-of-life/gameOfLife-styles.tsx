@@ -51,4 +51,11 @@ export const StyledControllersAndSettings = styled('section')`
         width: 100%;
     }
 `;
+export const StyledSettings = styled('div')`
+    border-right: 1px solid #ddd;
+
+    input {
+        max-width: 100px;
+    }
+`;
 

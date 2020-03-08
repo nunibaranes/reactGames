@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from "prop-types";
 
 import Title from '../../common/title/Title.js';
+import { StyledSettings } from '../gameOfLife-styles.jsx';
 
 export default  function Settings(props: any) {
     const {title, additionalClass} = props;
@@ -14,9 +15,9 @@ export default  function Settings(props: any) {
     const getClasses = (): string => `settings ${additionalClass}`; 
 
     return (
-        <div className={ getClasses() }>
+        <StyledSettings className={ getClasses() }>
             <Title title={ title }/>
-        </div>
+        </StyledSettings>
     );
 }
 
