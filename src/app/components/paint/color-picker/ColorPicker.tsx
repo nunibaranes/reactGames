@@ -1,22 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import "./ColorPicker.scss";
+import React from 'react';
+
+import { StyledColorPicker, StyledColorPickerInput, StyledColorPickerSpan, StyledColorPickerLabel } from './colorPicker.styles';
 
 export default function ColorPicker({ colors = [], activeColor, changeColor }) {
   if (!colors.length) return null
   return (
-    <fieldset className="color-picker">
+    <StyledColorPicker className="color-picker">
       {colors.map((color, i) => (
-        <label key={i}>
-          <input
+        <StyledColorPickerLabel key={i}>
+          <StyledColorPickerInput
             name="color"
             type="radio"
             value={color}
             checked={activeColor === color}
             onChange={() => changeColor(color)}
           />
-          <span style={{ background: color }} />
-        </label>
+          <StyledColorPickerSpan style={{ background: color }} />
+        </StyledColorPickerLabel>
       ))}
-    </fieldset>
+    </StyledColorPicker>
   )
 }
