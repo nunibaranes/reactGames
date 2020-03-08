@@ -11,7 +11,7 @@ import { ICell } from "../common/board/cell/Cell.interface";
 import { IBoardData, BoardType } from "../common/board/Board.interface";
 import { IController } from "./controllers/Controller.interface";
 
-import { StyledWrapper } from '../../styles/common/common.styles';
+import { StyledWrapper, StyledButton } from '../../styles/common/common.styles';
 import { StyledControllersAndSettings } from './gameOfLife-styles';
 
 interface IGameOfLifeState {
@@ -368,12 +368,13 @@ class GameOfLife extends Component {
             onClosePopup={() => {
               this.toggleGameOverPopup(false);
             }}
+            isInnerPopup
           >
             <div className="game-over">
               <div>
                 <span>Total Generations: {generation}</span>
               </div>
-              <button className="btn" onClick={this.clearBoard}>New Game</button>
+              <StyledButton className="btn" onClick={this.clearBoard}>New Game</StyledButton>
             </div>
           </Popup>
         )}

@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
-import './Popup.scss';
 
 import Title from '../title/Title';
+import { StyledPopup, StyledClosePopup, StyledPopupContent } from './popup.styles';
 
 interface IPopupProps {
   onClosePopup: () => void,
@@ -9,15 +9,17 @@ interface IPopupProps {
   titleAdditionalClass?: string,
   additionalClass?: string,
   children?: ReactNode 
+  isInnerPopup?: boolean,
 };
 
 export default function Popup(props: IPopupProps) {
   const {
-    title,
-    additionalClass,
-    titleAdditionalClass, 
+    title = '',
+    additionalClass = '',
+    titleAdditionalClass = '', 
     onClosePopup, 
-    children
+    children,
+    isInnerPopup = false,
   } = props;
 
   /**
@@ -26,13 +28,12 @@ export default function Popup(props: IPopupProps) {
    */
   const getClasses = (additionalClass = ''): string => `popup ${additionalClass}`;
   
-
   const hasTitle = title !== '';
 
   return (
-    <div className={getClasses(additionalClass)}>
-    <div className={'popup-content'}>
-      <div className='close-popup' onClick={() => {onClosePopup()}}>X</div>
+    <StyledPopup className={getClasses(additionalClass)} isInnerPopup={isInnerPopup}>
+      <StyledPopupContent className={'popup-content'}>
+        <StyledClosePopup className='close-popup' onClick={() => {onClosePopup()}}>X</StyledClosePopup>
         {
           hasTitle && (
             <Title 
@@ -42,13 +43,7 @@ export default function Popup(props: IPopupProps) {
           )
         } 
         {children}
-      </div>
-    </div>
+      </StyledPopupContent>
+    </StyledPopup>
   );
-}
-
-Popup.defaultProps = {
-    title: '',
-    additionalClass: '',
-    titleAdditionalClass: ''
 }

@@ -128,6 +128,7 @@ export default function Sudoku() {
         <Popup
           additionalClass="inner-popup"
           onClosePopup={() => {toggleOpenPopupState();}}
+          isInnerPopup
         >
           <StyledSudokuFillOptions className="cell-fill-options">
             {
