@@ -2,7 +2,7 @@ import React, { useState, useEffect, ReactElement } from "react";
 
 import Cell from "./cell/Cell";
 import { ICell } from "./cell/Cell.interface";
-import BoardType, { IBoardProps } from "./Board.interface";
+import { BoardType, IBoardProps } from "./Board.interface";
 import { StyledBoard, StyledBoardRow } from "./board.styles";
 
 export default function Board(props: IBoardProps) {

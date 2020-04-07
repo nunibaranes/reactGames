@@ -4,7 +4,7 @@ import Title from "../common/title/Title";
 import Board from "../common/board/Board";
 import Popup from "../common/popup/Popup";
 import { ICell } from "../common/board/cell/Cell.interface";
-import BoardType, { IBoardData } from "../common/board/Board.interface";
+import { BoardType, IBoardData } from "../common/board/Board.interface";
 import { StyledWrapper } from "../../styles/common/common.styles";
 import {
   StyledSudokuFillOptions,

@@ -1,6 +1,6 @@
 import { ICell } from "./cell/Cell.interface";
 
-enum BoardType {
+export enum BoardType {
   Regular = "regular",
   GameOfLife = "game-of-life",
   Sudoku = "sudoku",
@@ -31,5 +31,3 @@ export interface IBoardData {
   gameIsRunning?: boolean;
   boardType?: BoardType;
 }
-
-export default BoardType;
