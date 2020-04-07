@@ -1,24 +1,24 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-export const StyledTitle = styled('div')`
-    ${props => {
-        const { alignment, isMainTitle } = props;
+export const StyledTitle = styled("div")`
+  ${(props: { alignment?: string; isMainTitle?: boolean }) => {
+    const { alignment, isMainTitle } = props;
 
-        return `
+    return `
             font-size: 1.2em;
-            text-align: ${alignment || 'left' } ;
+            text-align: ${alignment || "left"} ;
 
             h1, h2 {
-                font-size: ${isMainTitle ? '2em' : '1em'};
+                font-size: ${isMainTitle ? "2em" : "1em"};
             }
 
             h3 {
-                font-size: ${isMainTitle ? '1.8em' : '0.9em'};
+                font-size: ${isMainTitle ? "1.8em" : "0.9em"};
             }
 
             h4, h5, h6 {
-                font-size: ${isMainTitle ? '1.6em' : '0.9em'};
+                font-size: ${isMainTitle ? "1.6em" : "0.9em"};
             }
         `;
-    }}
+  }}
 `;

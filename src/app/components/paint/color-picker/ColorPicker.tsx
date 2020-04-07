@@ -1,9 +1,19 @@
-import React from 'react';
+import React from "react";
 
-import { StyledColorPicker, StyledColorPickerInput, StyledColorPickerSpan, StyledColorPickerLabel } from './colorPicker.styles';
-
-export default function ColorPicker({ colors = [], activeColor, changeColor }) {
-  if (!colors.length) return null
+import {
+  StyledColorPicker,
+  StyledColorPickerInput,
+  StyledColorPickerSpan,
+  StyledColorPickerLabel,
+} from "./colorPicker.styles";
+interface IColorPicker {
+  colors: string[];
+  activeColor: string;
+  changeColor: (color: string) => void;
+}
+export default function ColorPicker(props: IColorPicker) {
+  const { colors = [], activeColor, changeColor } = props;
+  if (!colors.length) return null;
   return (
     <StyledColorPicker className="color-picker">
       {colors.map((color, i) => (
@@ -19,5 +29,5 @@ export default function ColorPicker({ colors = [], activeColor, changeColor }) {
         </StyledColorPickerLabel>
       ))}
     </StyledColorPicker>
-  )
+  );
 }

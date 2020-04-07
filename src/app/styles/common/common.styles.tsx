@@ -1,8 +1,20 @@
-import styled from 'styled-components';
-import { Alignment } from '../../interfaces/common/ui';
+import styled from "styled-components";
+import { Alignment } from "../../interfaces/common/ui";
 
-export const StyledWrapper = styled('section')`
-  ${props => {
+interface IStyledWrapper {
+  noPadding?: boolean;
+  withBorder?: boolean;
+  withCustomBorder?: string;
+  withBorderTop?: boolean;
+  withCustomBorderTop?: string;
+  withBorderBottom?: boolean;
+  withCustomBorderBottom?: string;
+  alignItems?: string;
+  flexDirection?: string;
+  margin?: string;
+}
+export const StyledWrapper = styled("section")`
+  ${(props: IStyledWrapper) => {
     const {
       noPadding,
       withBorder,
@@ -16,38 +28,41 @@ export const StyledWrapper = styled('section')`
       margin,
     } = props;
 
-    const defaultBorder = '1px solid #ccc';
+    const defaultBorder = "1px solid #ccc";
 
     return `  
       position: relative;
       display: flex;
       width: 100%;
       max-width: 980px;
-      margin: ${margin || '0 auto 20px'};
-      flex-direction: ${flexDirection || 'column'};
-      padding: ${noPadding ? 0 : '20px'};
-      border: ${withBorder || withCustomBorder
-        ? withCustomBorder || defaultBorder
-        : 'none'
+      margin: ${margin || "0 auto 20px"};
+      flex-direction: ${flexDirection || "column"};
+      padding: ${noPadding ? 0 : "20px"};
+      border: ${
+        withBorder || withCustomBorder
+          ? withCustomBorder || defaultBorder
+          : "none"
       };
-      border-top: ${withBorderTop || withCustomBorderTop
-        ? withCustomBorderTop || defaultBorder 
-        : ''
+      border-top: ${
+        withBorderTop || withCustomBorderTop
+          ? withCustomBorderTop || defaultBorder
+          : ""
       };
-      border-bottom: ${withBorderBottom || withCustomBorderBottom
-        ? withCustomBorderBottom || defaultBorder 
-        : ''
+      border-bottom: ${
+        withBorderBottom || withCustomBorderBottom
+          ? withCustomBorderBottom || defaultBorder
+          : ""
       };
-      align-items: ${alignItems || ''}
-    `
+      align-items: ${alignItems || ""}
+    `;
   }}
 `;
 
-export const StyledLink = styled('a')`
-  color: ${props => props.color || '#acaeaf'};
+export const StyledLink = styled("a")`
+  color: ${(props) => props.color || "#acaeaf"};
 `;
 
-export const StyledButton = styled('button')`
+export const StyledButton = styled("button")`
   border: 1px solid #000;
   background: none;
   padding: 5px 10px;
@@ -63,11 +78,11 @@ export const StyledButton = styled('button')`
   }
 
   &:hover {
-      color: #fff;
-      background-color: #000;
+    color: #fff;
+    background-color: #000;
   }
 
-  ${props => {
+  ${(props) => {
     if (props.disabled) {
       return `    
         cursor: default;
@@ -79,20 +94,20 @@ export const StyledButton = styled('button')`
   }}
 `;
 
-export const StyledSVGIcon = styled('svg')`
-  ${props => {
-    const {width, height, margin} = props;
+export const StyledSVGIcon = styled("svg")`
+  ${(props: { width?: string; height?: string; margin?: string }) => {
+    const { width, height, margin } = props;
 
     return `
-      width: ${width || '30px'};
-      height: ${height || '30px'};
-      margin: ${margin || '0 auto'};
+      width: ${width || "30px"};
+      height: ${height || "30px"};
+      margin: ${margin || "0 auto"};
     `;
-  }
-}`;
+  }}
+`;
 
 export const getAlignmentStyles = (property: string, alignment: Alignment) => {
   return `
     ${property}: ${alignment};
   `;
-}
+};
