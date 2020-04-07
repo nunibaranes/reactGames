@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 // import Settings from './settings/Settings.js';
 import Controllers from "./controllers/Controllers";
@@ -15,58 +15,87 @@ import { StyledWrapper, StyledButton } from "../../styles/common/common.styles";
 import { StyledControllersAndSettings } from "./gameOfLife-styles";
 import { Alignment } from "../../interfaces/common/ui";
 
-interface IGameOfLifeState {
-  title: string;
-  boardData: IBoardData;
-  timeoutHandler: null | ReturnType<typeof setTimeout>;
-  generation: number;
-  boardStatus: ICell[][];
-  disableNextGeneration: boolean;
-  showGameOverPopup: boolean;
-}
+export default function GameOfLife(props: {}) {
+  const [boardData, setBoardData] = useState({
+    rows: 40,
+    columns: 40,
+    cellData: {
+      isActive: false,
+    },
+    cellWidth: "20", // TODO: add button to change cellWidth
+    cellHeight: "20", // TODO: add button to change cellHeight
+    defaultColor: "red", // TODO: add button to change color
+    gameIsRunning: false,
+    boardType: BoardType.GameOfLife,
+  });
+  const [timeoutHandler, setTimeoutHandler] = useState(null);
+  const [generation, setGeneration] = useState(0);
+  const [boardStatus, setBoardStatus] = useState([]);
+  const [disableNextGeneration, setDisableNextGeneration] = useState(true);
+  const [showGameOverPopup, setShowGameOverPopup] = useState(false);
+  const { gameIsRunning } = boardData;
 
-class GameOfLife extends Component {
-  state: IGameOfLifeState;
-  constructor(props: {}) {
-    super(props);
-    this.state = {
-      title: "Game Of Life",
-      boardData: {
-        rows: 40,
-        columns: 40,
-        cellData: {
-          isActive: false,
+  /**
+   * getGameControllers
+   */
+  const getGameControllers = (): IController[] => {
+    return [
+      {
+        title: "Clear",
+        controllerName: "clearBoardBtn",
+        classes: "btn control-clear-board-game",
+        toggleDisabledClass: true,
+        callback: () => {
+          clearBoard();
         },
-        cellWidth: "20", // TODO: add button to change cellWidth
-        cellHeight: "20", // TODO: add button to change cellHeight
-        defaultColor: "red", // TODO: add button to change color
-        gameIsRunning: false,
-        boardType: BoardType.GameOfLife,
       },
-      timeoutHandler: null,
-      generation: 0,
-      boardStatus: [],
-      disableNextGeneration: true,
-      showGameOverPopup: false,
-    };
-  }
+      {
+        title: gameIsRunning ? "Stop" : "Run",
+        controllerName: "stopOrRunGameBtn",
+        classes: gameIsRunning
+          ? "btn control-stop-game"
+          : "btn control-run-game",
+        controlsNextGeneration: true,
+        callback: () => {
+          if (gameIsRunning) {
+            stopGame();
+          } else {
+            runGame();
+          }
+        },
+      },
+      {
+        title: "Next Generation",
+        controllerName: "SetNGBoardStatusBtn",
+        classes: "btn control-next-generation",
+        toggleDisabledClass: true,
+        controlsNextGeneration: true,
+        callback: () => {
+          setNextGenerationBoardStatus();
+        },
+      },
+    ];
+  };
 
-  componentDidUpdate() {
-    const boardIsEmpty =
-      JSON.stringify(this.state.boardStatus) ===
-      JSON.stringify(this.getCleanBoard());
-    if (this.state.disableNextGeneration !== boardIsEmpty) {
-      this.setState({
-        disableNextGeneration: boardIsEmpty,
-      });
+  const controllers = getGameControllers();
+
+  useEffect(() => {
+    if (boardStatus.length) {
+      const boardIsEmpty =
+        JSON.stringify(boardStatus) === JSON.stringify(getCleanBoard());
+      setDisableNextGeneration(boardIsEmpty);
     }
-  }
+  }, [disableNextGeneration, boardStatus]);
+
+  useEffect(() => {
+    getCleanBoard();
+  }, []);
 
   /**
    * toggleCellIsActiveStatus
    * check if cellObj exist to toggle specific cell || set all cells isActive status to false
    */
-  toggleCellIsActiveStatus = (
+  const toggleCellIsActiveStatus = (
     prevStateBoardStatus: ICell[][],
     cellObj: ICell
   ): ICell[][] => {
@@ -81,15 +110,16 @@ class GameOfLife extends Component {
    * getCleanBoard
    * create a new empty board
    */
-  getCleanBoard = (): ICell[][] => {
-    const { boardData, boardStatus } = this.state;
+  const getCleanBoard = (): ICell[][] => {
     const { rows, columns } = boardData;
-    const cleanBoard = JSON.parse(JSON.stringify(boardStatus));
 
-    for (let x = 0; x < rows; x++) {
-      for (let y = 0; y < columns; y++) {
-        const cell = cleanBoard[x][y];
-        cell.isActive = false;
+    const cleanBoard = JSON.parse(JSON.stringify(boardStatus));
+    if (boardStatus.length) {
+      for (let x = 0; x < rows; x++) {
+        for (let y = 0; y < columns; y++) {
+          const cell = cleanBoard[x][y];
+          cell.isActive = false;
+        }
       }
     }
 
@@ -100,8 +130,11 @@ class GameOfLife extends Component {
    * checkNeighbors
    * calculate active neighbors
    */
-  checkNeighbors = (boardStatus: ICell[][], x: number, y: number): number => {
-    const { boardData } = this.state;
+  const checkNeighbors = (
+    boardStatus: ICell[][],
+    x: number,
+    y: number
+  ): number => {
     const { rows, columns } = boardData;
     let neighborsCounter = 0;
     const neighborsOptions = [
@@ -140,17 +173,16 @@ class GameOfLife extends Component {
    * create empty newBoardStatus, and set newBoardStatus's cells refer to current boardStatus
    * setState boardStatus to newBoardStatus
    */
-  setNextGenerationBoardStatus = (isRunning: boolean = false): void => {
-    const { boardData, boardStatus } = this.state;
+  const setNextGenerationBoardStatus = useCallback((): void => {
     const { rows, columns } = boardData;
-    const newBoard = this.getCleanBoard();
+    const newBoard = getCleanBoard();
 
     for (let x = 0; x < rows; x++) {
       for (let y = 0; y < columns; y++) {
-        const activeNeighbors = this.checkNeighbors(boardStatus, x, y);
+        const activeNeighbors = checkNeighbors(boardStatus, x, y);
         const cell = boardStatus[x][y];
         const newBoardCell = newBoard[x][y];
-        newBoardCell.isActive = this.nextGenerationCellIsActive(
+        newBoardCell.isActive = nextGenerationCellIsActive(
           cell,
           activeNeighbors
         );
@@ -161,33 +193,32 @@ class GameOfLife extends Component {
       JSON.stringify(newBoard) !== JSON.stringify(boardStatus);
 
     if (shouldContinueRunning) {
-      this.setState((prevState: IGameOfLifeState) => ({
-        boardStatus: newBoard,
-        generation: prevState.generation + 1,
-      }));
+      setBoardStatus(newBoard);
+      setGeneration((prevState) => prevState + 1);
     } else {
-      this.stopGame();
-      this.toggleGameOverPopup(true);
-      this.setState({ disableNextGeneration: true });
+      stopGame();
+      toggleGameOverPopup(true);
+      setDisableNextGeneration(true);
     }
+  }, [boardStatus, boardData]);
 
-    if (shouldContinueRunning && isRunning) {
-      const timeoutHandler = window.setTimeout(() => {
-        this.setNextGenerationBoardStatus(isRunning);
+  useEffect(() => {
+    let timer: number = null;
+    if (gameIsRunning) {
+      timer = window.setTimeout(() => {
+        setNextGenerationBoardStatus();
+        setDisableNextGeneration(false);
       }, 100);
-
-      this.setState({
-        timeoutHandler,
-        disableNextGeneration: false,
-      });
+      setTimeoutHandler(timer);
     }
-  };
+    return () => window.clearTimeout(timer);
+  }, [gameIsRunning, generation]);
 
   /**
    * nextGenerationCellIsActive
    * return refer to rules cell isActive status for next generation
    */
-  nextGenerationCellIsActive = (
+  const nextGenerationCellIsActive = (
     cell: ICell,
     activeNeighbors: number
   ): boolean => {
@@ -211,21 +242,16 @@ class GameOfLife extends Component {
    * boardGenerated
    * setState boardStatus after boardGenerated
    */
-  boardGenerated = (generatedBoard: ICell[][]): void => {
-    this.setState({ boardStatus: generatedBoard });
+  const boardGenerated = (generatedBoard: ICell[][]): void => {
+    setBoardStatus(generatedBoard);
   };
 
   /**
    * cellClicked
    * setState boardStatus after cellClicked
    */
-  cellClicked = (cellObj: ICell): void => {
-    this.setState((prevState: IGameOfLifeState) => ({
-      boardStatus: this.toggleCellIsActiveStatus(
-        prevState.boardStatus,
-        cellObj
-      ),
-    }));
+  const cellClicked = (cellObj: ICell): void => {
+    setBoardStatus((prevState) => toggleCellIsActiveStatus(prevState, cellObj));
   };
 
   /**
@@ -233,16 +259,14 @@ class GameOfLife extends Component {
    * call to method setNextGenerationBoardStatus
    * setState gameIsRunning to true
    */
-  runGame = (): void => {
-    const defaultData: IBoardData = JSON.parse(
-      JSON.stringify(this.state.boardData)
-    );
-    const newBoarData: IBoardData = {
-      ...defaultData,
-      ...{ gameIsRunning: true },
+  const runGame = (): void => {
+    const newBoarData = {
+      ...boardData,
+      gameIsRunning: true,
     };
-    this.setNextGenerationBoardStatus(true);
-    this.setState({ boardData: newBoarData });
+
+    setNextGenerationBoardStatus();
+    setBoardData(newBoarData);
   };
 
   /**
@@ -250,19 +274,13 @@ class GameOfLife extends Component {
    * setState gameIsRunning to false
    * timeoutHandler to null
    */
-  stopGame = (): void => {
-    const { timeoutHandler } = this.state;
-    const defaultData: IBoardData = JSON.parse(
-      JSON.stringify(this.state.boardData)
-    );
-    const newBoarData: IBoardData = {
-      ...defaultData,
-      ...{ gameIsRunning: false },
+  const stopGame = (): void => {
+    const newBoarData = {
+      ...boardData,
+      gameIsRunning: false,
     };
-    this.setState({
-      boardData: newBoarData,
-      timeoutHandler: null,
-    });
+    setBoardData(newBoarData);
+    setTimeoutHandler(null);
     if (timeoutHandler) {
       window.clearTimeout(timeoutHandler);
     }
@@ -272,143 +290,83 @@ class GameOfLife extends Component {
    * clearBoard
    * setState to empty new board
    */
-  clearBoard = (): void => {
-    const newBoard: ICell[][] = this.getCleanBoard();
-    this.stopGame();
-    this.setState({
-      boardStatus: newBoard,
-      generation: 0,
-      disableNextGeneration: true,
-      showGameOverPopup: false,
-    });
+  const clearBoard = (): void => {
+    const newBoard: ICell[][] = getCleanBoard();
+    stopGame();
+    setBoardStatus(newBoard);
+    setGeneration(0);
+    setDisableNextGeneration(true);
+    setShowGameOverPopup(false);
   };
 
   /**
    * onClickedController
    * call to controller.callback
    */
-  onClickedController = (controller: IController): void => {
+  const onClickedController = (controller: IController): void => {
     controller.callback();
-  };
-
-  /**
-   * getGameControllers
-   */
-  getGameControllers = (): IController[] => {
-    const { boardData } = this.state;
-
-    const { gameIsRunning } = boardData;
-
-    return [
-      {
-        title: "Clear",
-        controllerName: "clearBoardBtn",
-        classes: "btn control-clear-board-game",
-        toggleDisabledClass: true,
-        callback: () => {
-          this.clearBoard();
-        },
-      },
-      {
-        title: gameIsRunning ? "Stop" : "Run",
-        controllerName: "stopOrRunGameBtn",
-        classes: gameIsRunning
-          ? "btn control-stop-game"
-          : "btn control-run-game",
-        controlsNextGeneration: true,
-        callback: () => {
-          if (gameIsRunning) {
-            this.stopGame();
-          } else {
-            this.runGame();
-          }
-        },
-      },
-      {
-        title: "Next Generation",
-        controllerName: "SetNGBoardStatusBtn",
-        classes: "btn control-next-generation",
-        toggleDisabledClass: true,
-        controlsNextGeneration: true,
-        callback: () => {
-          this.setNextGenerationBoardStatus();
-        },
-      },
-    ];
   };
 
   /**
    * toggleGameOverPopup
    */
-  toggleGameOverPopup(to: boolean): void {
-    this.setState({ showGameOverPopup: to });
-  }
+  const toggleGameOverPopup = (to: boolean): void => {
+    setShowGameOverPopup(to);
+  };
 
-  render() {
-    const {
-      title,
-      boardData,
-      boardStatus,
-      generation,
-      disableNextGeneration,
-      showGameOverPopup,
-    } = this.state;
-
-    const { gameIsRunning } = boardData;
-    const controllers = this.getGameControllers();
-
-    return (
-      <StyledWrapper className="game-of-life" withBorder>
-        <Title title={title} alignment={Alignment.Center} isMainTitle></Title>
-        <StyledControllersAndSettings className="controllers-and-settings">
-          {
-            // <Settings title={'Settings'}></Settings>
-          }
-          <Controllers
-            title={"Controllers"}
-            alignment={Alignment.Left}
-            titleAlignment={Alignment.Left}
-            gameIsRunning={gameIsRunning}
-            controllers={controllers}
-            onControllerClicked={this.onClickedController}
-            disableNextGeneration={disableNextGeneration}
-            {...this.props}
-          />
-        </StyledControllersAndSettings>
-        <Board
-          additionalClass="game-of-life"
-          boardData={boardData}
-          board={boardStatus}
-          cellClicked={this.cellClicked}
-          boardGenerated={this.boardGenerated}
+  return (
+    <StyledWrapper className="game-of-life" withBorder>
+      <Title
+        title={"Game Of Life"}
+        alignment={Alignment.Center}
+        isMainTitle
+      ></Title>
+      <StyledControllersAndSettings className="controllers-and-settings">
+        {
+          // <Settings title={'Settings'}></Settings>
+        }
+        <Controllers
+          title={"Controllers"}
+          alignment={Alignment.Left}
+          titleAlignment={Alignment.Left}
+          gameIsRunning={gameIsRunning}
+          controllers={controllers}
+          onControllerClicked={onClickedController}
+          disableNextGeneration={disableNextGeneration}
+          {...props}
         />
-        <Counter
-          title={"Generation:"}
-          additionalClass="generation-counter"
-          counter={generation}
-        />
-        {showGameOverPopup && (
-          <Popup
-            title="Game Over"
-            titleAlignment={Alignment.Center}
-            onClosePopup={() => {
-              this.toggleGameOverPopup(false);
-            }}
-            isInnerPopup
-          >
-            <div className="game-over">
-              <div>
-                <span>Total Generations: {generation}</span>
-              </div>
-              <StyledButton className="btn" onClick={this.clearBoard}>
-                New Game
-              </StyledButton>
+      </StyledControllersAndSettings>
+      <Board
+        additionalClass="game-of-life"
+        boardData={boardData}
+        board={boardStatus}
+        cellClicked={cellClicked}
+        boardGenerated={boardGenerated}
+      />
+      <Counter
+        title={"Generation:"}
+        additionalClass="generation-counter"
+        counter={generation}
+      />
+      {showGameOverPopup && (
+        <Popup
+          title="Game Over"
+          titleAlignment={Alignment.Center}
+          onClosePopup={() => {
+            toggleGameOverPopup(false);
+          }}
+          isInnerPopup
+        >
+          <div className="game-over">
+            <div>
+              <span>Total Generations: {generation}</span>
             </div>
-          </Popup>
-        )}
-      </StyledWrapper>
-    );
-  }
+            <StyledButton className="btn" onClick={clearBoard}>
+              New Game
+            </StyledButton>
+          </div>
+        </Popup>
+      )}
+    </StyledWrapper>
+  );
 }
-
-export default GameOfLife;
