@@ -18,7 +18,7 @@ import { Alignment } from "../../interfaces/common/ui";
 interface IGameOfLifeState {
   title: string;
   boardData: IBoardData;
-  timeoutHandler: any | ReturnType<typeof setTimeout>;
+  timeoutHandler: null | ReturnType<typeof setTimeout>;
   generation: number;
   boardStatus: ICell[][];
   disableNextGeneration: boolean;
@@ -161,7 +161,7 @@ class GameOfLife extends Component {
       JSON.stringify(newBoard) !== JSON.stringify(boardStatus);
 
     if (shouldContinueRunning) {
-      this.setState((prevState: any) => ({
+      this.setState((prevState: IGameOfLifeState) => ({
         boardStatus: newBoard,
         generation: prevState.generation + 1,
       }));
@@ -220,7 +220,7 @@ class GameOfLife extends Component {
    * setState boardStatus after cellClicked
    */
   cellClicked = (cellObj: ICell): void => {
-    this.setState((prevState: any) => ({
+    this.setState((prevState: IGameOfLifeState) => ({
       boardStatus: this.toggleCellIsActiveStatus(
         prevState.boardStatus,
         cellObj

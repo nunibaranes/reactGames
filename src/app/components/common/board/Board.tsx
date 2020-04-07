@@ -61,9 +61,17 @@ export default function Board(props: IBoardProps) {
    * getClasses
    * return classes refer to arguments
    */
-  const getClasses = (elName: string, el: any, index: number): string => {
-    const isActive = el.isActive !== undefined && el.isActive;
-    const isHighlight = el.isHighlight !== undefined && el.isHighlight;
+  const getClasses = ({
+    elName,
+    el,
+    index,
+  }: {
+    elName: string;
+    el?: Partial<ICell>;
+    index: number;
+  }): string => {
+    const isActive = el && el.isActive;
+    const isHighlight = el && el.isHighlight;
     const defaultClasses = `${elName} ${elName}${index}`;
     const isActiveClass = isActive ? "is-active" : "";
     const isHighlightClass = isHighlight ? "is-highlight" : "";
@@ -98,7 +106,7 @@ export default function Board(props: IBoardProps) {
           cellWidth={boardData.cellWidth}
           cellHeight={boardData.cellHeight}
           selectedColor={selectedColor}
-          defaultClasses={getClasses("cell", cell, index)}
+          defaultClasses={getClasses({ elName: "cell", el: cell, index })}
           key={`cell ${index}`}
           cellOnClick={() => {
             handleCellClick(cell);
@@ -115,7 +123,7 @@ export default function Board(props: IBoardProps) {
     (row: ICell[], index: number) => {
       return (
         <StyledBoardRow
-          className={getClasses("row", row, index)}
+          className={getClasses({ elName: "row", index })}
           key={`row ${index}`}
         >
           {getCellsInRow(row)}

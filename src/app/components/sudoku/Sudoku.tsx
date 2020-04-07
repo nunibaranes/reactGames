@@ -68,7 +68,7 @@ export default function Sudoku() {
 
   /**
    * setBoardHighlightCells
-   * set state boardStatus with hilighted cells
+   * set state boardStatus with highlighted cells
    */
   const setBoardHighlightCells = (cellObj: ICell): void => {
     const { highlightOptions } = boardData;
@@ -77,20 +77,21 @@ export default function Sudoku() {
     const shouldHighlightCRow = highlightOptions.includes("row");
     const shouldHighlightColumn = highlightOptions.includes("column");
 
-    clonedBoardStatus.map((row: any[]): ICell[][] => {
+    clonedBoardStatus.map((row: ICell[]): ICell[] => {
       row.map((cell) => {
         const highlightCell = shouldHighlightCell && cellObj.id === cell.id;
         const highlightRow = shouldHighlightCRow && cell.x === cellObj.x;
         const highlightColumn = shouldHighlightColumn && cell.y === cellObj.y;
 
         if (highlightCell || highlightRow || highlightColumn) {
-          return (cell.isHighlight = true);
+          return { isHighlight: true, ...cell };
         }
-        return (cell.isHighlight = false);
+        return { isHighlight: false, ...cell };
       });
 
       return row;
     });
+    console.log("clonedBoardStatus ", clonedBoardStatus);
     setBoardStatus(clonedBoardStatus);
   };
 

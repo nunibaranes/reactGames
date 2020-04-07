@@ -1,7 +1,7 @@
 import React from "react";
 
 import Title from "../../common/title/Title";
-import { IControllersProps } from "./Controller.interface";
+import { IControllersProps, IController } from "./Controller.interface";
 
 import { StyledButton } from "../../../styles/common/common.styles";
 import {
@@ -33,7 +33,7 @@ export default function Controllers(props: IControllersProps) {
         alignment={titleAlignment}
       ></Title>
       <StyledControllersActions className={`controllers-wrapper`}>
-        {controllers.map((controller: any) => {
+        {controllers.map((controller: IController) => {
           const shouldDisableNextGeneration =
             controller.controlsNextGeneration && disableNextGeneration;
           const shouldDisable = controller.toggleDisabledClass && gameIsRunning;

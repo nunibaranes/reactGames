@@ -9,7 +9,11 @@ import {
 } from "../../../styles/common/common.styles";
 import { StyledColorsWrapper } from "../paint.styles";
 
-const Settings = (props: any) => {
+const Settings = (props: {
+  lineWidth?: number;
+  onSetLineWidth: (lineWidth: number) => void;
+  onSetActiveColor: (color: string) => void;
+}) => {
   const lineWidthRef = useRef();
 
   const [colors, setColors] = useState([]);
