@@ -64,7 +64,7 @@ class GameOfLife extends Component {
 
   /**
    * toggleCellIsActiveStatus
-   * check if cellObj exist to toggel spesific cell || set all cells isActive status to false
+   * check if cellObj exist to toggle specific cell || set all cells isActive status to false
    */
   toggleCellIsActiveStatus = (
     prevStateBoardStatus: ICell[][],
@@ -125,7 +125,7 @@ class GameOfLife extends Component {
         neighborX < columns && // neighbor x position smaller than total columns number
         neighborY >= 0 && // neighbor y position bigger than 0
         neighborY < rows && // neighbor y position smaller than total rows number
-        boardStatus[neighborX][neighborY].isActive; // neighbore isActive equal to true
+        boardStatus[neighborX][neighborY].isActive; // neighbor isActive equal to true
 
       if (hasActiveNeighbor) {
         neighborsCounter++;
@@ -140,7 +140,7 @@ class GameOfLife extends Component {
    * create empty newBoardStatus, and set newBoardStatus's cells refer to current boardStatus
    * setState boardStatus to newBoardStatus
    */
-  setNextGenerationBoardStatus = (isRuning: boolean = false): void => {
+  setNextGenerationBoardStatus = (isRunning: boolean = false): void => {
     const { boardData, boardStatus } = this.state;
     const { rows, columns } = boardData;
     const newBoard = this.getCleanBoard();
@@ -157,10 +157,10 @@ class GameOfLife extends Component {
       }
     }
 
-    const shouldContiniueRuning =
+    const shouldContinueRunning =
       JSON.stringify(newBoard) !== JSON.stringify(boardStatus);
 
-    if (shouldContiniueRuning) {
+    if (shouldContinueRunning) {
       this.setState((prevState: any) => ({
         boardStatus: newBoard,
         generation: prevState.generation + 1,
@@ -171,9 +171,9 @@ class GameOfLife extends Component {
       this.setState({ disableNextGeneration: true });
     }
 
-    if (shouldContiniueRuning && isRuning) {
+    if (shouldContinueRunning && isRunning) {
       const timeoutHandler = window.setTimeout(() => {
-        this.setNextGenerationBoardStatus(isRuning);
+        this.setNextGenerationBoardStatus(isRunning);
       }, 100);
 
       this.setState({
@@ -217,7 +217,7 @@ class GameOfLife extends Component {
 
   /**
    * cellClicked
-   * setState boardStatus after cellCliked
+   * setState boardStatus after cellClicked
    */
   cellClicked = (cellObj: ICell): void => {
     this.setState((prevState: any) => ({
@@ -315,7 +315,7 @@ class GameOfLife extends Component {
         classes: gameIsRunning
           ? "btn control-stop-game"
           : "btn control-run-game",
-        controllNextGeneration: true,
+        controlsNextGeneration: true,
         callback: () => {
           if (gameIsRunning) {
             this.stopGame();
@@ -326,10 +326,10 @@ class GameOfLife extends Component {
       },
       {
         title: "Next Generation",
-        controllerName: "SetNGBoardStausBtn",
+        controllerName: "SetNGBoardStatusBtn",
         classes: "btn control-next-generation",
         toggleDisabledClass: true,
-        controllNextGeneration: true,
+        controlsNextGeneration: true,
         callback: () => {
           this.setNextGenerationBoardStatus();
         },

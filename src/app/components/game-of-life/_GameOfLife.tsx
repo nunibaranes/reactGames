@@ -50,7 +50,7 @@ export default function GameOfLife() {
       title: gameIsRunning ? "Stop" : "Run",
       controllerName: "stopOrRunGameBtn",
       classes: gameIsRunning ? "btn control-stop-game" : "btn control-run-game",
-      controllNextGeneration: true,
+      controlsNextGeneration: true,
       callback: () => {
         if (gameIsRunning) {
           stopGame();
@@ -61,10 +61,10 @@ export default function GameOfLife() {
     },
     {
       title: "Next Generation",
-      controllerName: "SetNGBoardStausBtn",
+      controllerName: "SetNGBoardStatusBtn",
       classes: "btn control-next-generation",
       toggleDisabledClass: true,
-      controllNextGeneration: true,
+      controlsNextGeneration: true,
       callback: () => {
         setNextGenerationBoardStatus();
       },
@@ -96,7 +96,7 @@ export default function GameOfLife() {
 
   /**
    * toggleCellIsActiveStatus
-   * check if cellObj exist to toggel spesific cell || set all cells isActive status to false
+   * check if cellObj exist to toggle specific cell || set all cells isActive status to false
    */
   const toggleCellIsActiveStatus = (
     prevStateBoardStatus: ICell[][],
@@ -166,7 +166,7 @@ export default function GameOfLife() {
         neighborX < columns && // neighbor x position smaller than total columns number
         neighborY >= 0 && // neighbor y position bigger than 0
         neighborY < rows && // neighbor y position smaller than total rows number
-        boardStatus[neighborX][neighborY].isActive; // neighbore isActive equal to true
+        boardStatus[neighborX][neighborY].isActive; // neighbor isActive equal to true
 
       if (hasActiveNeighbor) {
         neighborsCounter++;
@@ -181,7 +181,7 @@ export default function GameOfLife() {
    * create empty newBoardStatus, and set newBoardStatus's cells refer to current boardStatus
    * setState boardStatus to newBoardStatus
    */
-  const setNextGenerationBoardStatus = (isRuning: boolean = false): void => {
+  const setNextGenerationBoardStatus = (isRunning: boolean = false): void => {
     const { rows, columns } = boardData;
     const newBoard = getCleanBoard();
 
@@ -201,18 +201,18 @@ export default function GameOfLife() {
     console.log("*** setNextGenerationBoardStatus newBoard ", newBoard);
     console.log("*** setNextGenerationBoardStatus boardStatus ", boardStatus);
 
-    const shouldContiniueRuning =
+    const shouldContinueRunning =
       JSON.stringify(newBoard) !== JSON.stringify(boardStatus);
     console.log(
-      "*** setNextGenerationBoardStatus shouldContiniueRuning ",
-      shouldContiniueRuning
+      "*** setNextGenerationBoardStatus shouldContinueRunning ",
+      shouldContinueRunning
     );
 
-    if (shouldContiniueRuning) {
+    if (shouldContinueRunning) {
       setBoardStatus(newBoard);
       setGeneration((prevGeneration) => prevGeneration + 1);
       // TODO: Wrong flow, should use custom hook
-      if (isRuning) {
+      if (isRunning) {
         const newTimeoutHandler = window.setTimeout(() => {
           setNextGenerationBoardStatus(true);
         }, 100);
@@ -261,7 +261,7 @@ export default function GameOfLife() {
 
   /**
    * cellClicked
-   * setState boardStatus after cellCliked
+   * setState boardStatus after cellClicked
    */
   const cellClicked = (cellObj: ICell): void => {
     setBoardStatus(toggleCellIsActiveStatus(boardStatus, cellObj));
