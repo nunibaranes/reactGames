@@ -79,6 +79,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "@types/styled-components": "4.1.8",
     "css-loader": "^3.4.0"
   },
   "jest": {

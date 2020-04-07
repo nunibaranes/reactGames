@@ -1,17 +1,23 @@
-import styled from 'styled-components';
-import { StyledWrapper, StyledLink, StyledSVGIcon, StyledButton } from './common.styles';
+import styled from "styled-components";
+import {
+  StyledWrapper,
+  StyledLink,
+  StyledSVGIcon,
+  StyledButton,
+} from "./common.styles";
 
-export const StyledApp = styled('div')`
+export const StyledApp = styled("div")`
   text-align: center;
 
   * {
     box-sizing: border-box;
   }
-`; 
+`;
 
-export const StyledHeader = styled('header')`
+export const StyledHeader = styled("header")`
   background-color: #282c34;
-  background-image: url('../../assets/images/header-bg.jpg');
+  background-image: ${(props: { background: string }) =>
+    `url(${props.background})` || "none"};
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -28,32 +34,31 @@ export const StyledHeader = styled('header')`
   }
 `;
 
-export const StyledMainContainer = styled('section')`
+export const StyledMainContainer = styled("section")`
   && {
-    ${(props) => {
+    ${(props: { isDarkMode: boolean }) => {
       const { isDarkMode } = props;
       return `
         min-height: 50vh;
         padding: 50px 0;
-        background-color: ${isDarkMode ? 'black' : 'white'};
-        color: ${isDarkMode ? 'white' : 'black'};
+        background-color: ${isDarkMode ? "black" : "white"};
+        color: ${isDarkMode ? "white" : "black"};
 
         ${StyledButton} {
-          border: 1px solid ${isDarkMode ? '#fff' : '#000'};
-          color: ${isDarkMode ? 'white' : 'black'};
+          border: 1px solid ${isDarkMode ? "#fff" : "#000"};
+          color: ${isDarkMode ? "white" : "black"};
 
           &:hover{
-              color: ${isDarkMode ? '#000' : '#fff'};
-              background-color: ${isDarkMode ? '#fff' : '#000'};
+              color: ${isDarkMode ? "#000" : "#fff"};
+              background-color: ${isDarkMode ? "#fff" : "#000"};
           }
         }
-    `
+    `;
     }}
   }
 `;
 
-
-export const StyledFooter = styled('footer')`
+export const StyledFooter = styled("footer")`
   min-height: 100px;
   background-color: #282c34;
   color: #fff;
@@ -78,4 +83,3 @@ export const StyledFooter = styled('footer')`
     margin-left: 0;
   }
 `;
-
