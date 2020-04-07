@@ -16,7 +16,7 @@ export default function Sudoku() {
   const initialBoardData: IBoardData = {
     rows: 9,
     columns: 9,
-    puzzel: [],
+    puzzle: [],
     cellWidth: "50", // TODO: add button to change cellWidth
     cellHeight: "50", // TODO: add button to change cellHeight
     defaultColor: "red", // TODO: add button to change color

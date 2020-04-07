@@ -23,7 +23,7 @@ export interface IBoardData {
   highlightOptions?: string[];
   rows: number;
   columns: number;
-  puzzel?: [];
+  puzzle?: [];
   cellData: ICell;
   cellWidth: string;
   cellHeight: string;

@@ -24,7 +24,7 @@ export default function Board(props: IBoardProps) {
   useEffect(() => {
     const isNewBoard = boardStatus.length === 0;
     if (isNewBoard) {
-      return generatBoard();
+      return generateBoard();
     }
   }, []);
 
@@ -35,15 +35,15 @@ export default function Board(props: IBoardProps) {
   }, [props.board, boardStatus]);
 
   /**
-   * generatBoard
+   * generateBoard
    * generate new array by rows and columns
    * setState boardStatus to newBoard
    */
-  const generatBoard = (): void => {
+  const generateBoard = (): void => {
     const { rows, columns, cellData } = boardData;
-    const puzzelTemp = Array.from(Array(rows).keys());
+    const puzzleTemp = Array.from(Array(rows).keys());
     const rowTemp = Array.from(Array(columns).keys());
-    const newBoard = Array.from(puzzelTemp, (row, rIndex) => {
+    const newBoard = Array.from(puzzleTemp, (row, rIndex) => {
       return Array.from(rowTemp, (col, cIndex) => {
         const cell = {
           id: `R${rIndex}C${cIndex}`,
