@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 /** Components */
 import Sudoku from "../components/sudoku/Sudoku";
-import GameOfLife from "../components/game-of-life/GameOfLife";
+import GameOfLife from "../components/game-of-life/_GameOfLife";
 import Paint from "../components/paint/Paint";
 import Settings from "./settings/Settings";
 /** Styles */
