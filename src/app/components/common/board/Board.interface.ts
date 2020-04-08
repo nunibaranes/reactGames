@@ -30,4 +30,5 @@ export interface IBoardData {
   defaultColor: string;
   gameIsRunning?: boolean;
   boardType?: BoardType;
+  emptyBoard?: ICell[][];
 }

@@ -18,5 +18,6 @@ export interface IController {
   classes: string;
   toggleDisabledClass?: boolean;
   controlsNextGeneration?: boolean;
+  isDisabled?: boolean;
   callback: () => void;
 }

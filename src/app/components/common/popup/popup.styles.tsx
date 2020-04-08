@@ -18,16 +18,19 @@ export const StyledPopup = styled("div")`
         `;
   }}
 
-  ${StyledButton} {
-    border: 1px solid #000;
-    background: none;
-    padding: 5px 10px;
-    margin: 20px;
-    border-radius: 15px;
-    min-width: 90px;
-    height: auto;
-    cursor: pointer;
-    transition: all 0.3s ease;
+  && {
+    ${StyledButton} {
+      border: 1px solid #000;
+      background: none;
+      padding: 5px 10px;
+      margin: 20px;
+      border-radius: 15px;
+      min-width: 90px;
+      height: auto;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: #000;
+    }
   }
 `;
 

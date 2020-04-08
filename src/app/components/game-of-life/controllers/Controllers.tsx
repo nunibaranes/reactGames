@@ -9,6 +9,64 @@ import {
   StyledControllersActions,
 } from "../gameOfLife-styles";
 
+/**
+ * getGameControllers
+ */
+export const getGameControllers = ({
+  timerIsRunning,
+  isGameOver,
+  clearBoard,
+  stopGame,
+  runGame,
+  getNextGenerationBoard,
+}: {
+  timerIsRunning: boolean;
+  isGameOver: boolean;
+  clearBoard: () => void;
+  stopGame: () => void;
+  runGame: () => void;
+  getNextGenerationBoard: () => void;
+}): IController[] => {
+  return [
+    {
+      title: "Clear",
+      controllerName: "clearBoardBtn",
+      classes: "btn control-clear-board-game",
+      toggleDisabledClass: true,
+      callback: () => {
+        clearBoard();
+      },
+    },
+    {
+      title: timerIsRunning ? "Stop" : "Run",
+      controllerName: "stopOrRunGameBtn",
+      classes: timerIsRunning
+        ? "btn control-stop-game"
+        : "btn control-run-game",
+      controlsNextGeneration: true,
+      isDisabled: isGameOver,
+      callback: () => {
+        if (timerIsRunning) {
+          stopGame();
+        } else {
+          runGame();
+        }
+      },
+    },
+    {
+      title: "Next Generation",
+      controllerName: "SetNGBoardStatusBtn",
+      classes: "btn control-next-generation",
+      toggleDisabledClass: true,
+      controlsNextGeneration: true,
+      isDisabled: isGameOver,
+      callback: () => {
+        getNextGenerationBoard();
+      },
+    },
+  ];
+};
+
 export default function Controllers(props: IControllersProps) {
   const {
     gameIsRunning,
@@ -43,7 +101,11 @@ export default function Controllers(props: IControllersProps) {
               onClick={() => {
                 onControllerClicked(controller);
               }}
-              disabled={shouldDisable || shouldDisableNextGeneration}
+              disabled={
+                shouldDisable ||
+                controller.isDisabled ||
+                shouldDisableNextGeneration
+              }
             >
               {controller.title}
             </StyledButton>
