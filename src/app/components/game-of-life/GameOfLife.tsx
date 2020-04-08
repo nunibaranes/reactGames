@@ -212,7 +212,7 @@ export default function GameOfLife(props: {}) {
       setTimeoutHandler(timer);
     }
     return () => window.clearTimeout(timer);
-  }, [gameIsRunning, generation]);
+  }, [gameIsRunning, generation, setNextGenerationBoardStatus]);
 
   /**
    * nextGenerationCellIsActive
@@ -222,20 +222,9 @@ export default function GameOfLife(props: {}) {
     cell: ICell,
     activeNeighbors: number
   ): boolean => {
-    // TODO improve the conditions
-    if (cell.isActive) {
-      if (activeNeighbors < 2 || activeNeighbors > 3) {
-        return false;
-      } else {
-        return true;
-      }
-    } else {
-      if (activeNeighbors === 3) {
-        return true;
-      } else {
-        return false;
-      }
-    }
+    const shouldActiveByNumOfNeighbors =
+      activeNeighbors < 2 || activeNeighbors > 3 ? false : true;
+    return cell.isActive ? shouldActiveByNumOfNeighbors : activeNeighbors === 3;
   };
 
   /**
