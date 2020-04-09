@@ -12,7 +12,7 @@ import { ICell } from "../common/board/cell/Cell.interface";
 import { Alignment } from "../../interfaces/common/ui";
 
 // custom hooks
-import useNextGeneration from "./hooks/useNextGeneration";
+import useGameOfLife from "./hooks/useGameOfLife";
 import useTimer from "../../hooks/useTimer";
 
 import { StyledWrapper, StyledButton } from "../../styles/common/common.styles";
@@ -27,21 +27,29 @@ const initialBoardData: IBoardData = {
   cellWidth: "20", // TODO: add button to change cellWidth
   cellHeight: "20", // TODO: add button to change cellHeight
   defaultColor: "red", // TODO: add button to change color
-  gameIsRunning: false,
   boardType: BoardType.GameOfLife,
 };
 
 export default function GameOfLife(props: {}) {
   const [boardData, setBoardData] = useState(initialBoardData);
-  const [boardStatus, setBoardStatus] = useState([]);
+  const setBoardDataCurrent = (current: ICell[][]) => {
+    setBoardData((prevBoardData) => {
+      return {
+        ...prevBoardData,
+        currentBoard: current,
+      };
+    });
+  };
+
   const {
-    nextGenerationBoard,
+    boardStatus,
     getNextGenerationBoard,
     generation,
     resetGeneration,
     resetGameOver,
     isGameOver,
-  } = useNextGeneration(boardStatus, boardData);
+  } = useGameOfLife(boardData, setBoardDataCurrent);
+
   const [interval, setInterval] = useState(100);
   const { timerIsRunning, toggleTimerIsRunning } = useTimer(
     getNextGenerationBoard,
@@ -52,21 +60,10 @@ export default function GameOfLife(props: {}) {
 
   // Component updated - boardStatus changed
   useEffect(() => {
-    if (boardStatus.length) {
-      const boardIsEmpty =
-        JSON.stringify(boardStatus) === JSON.stringify(boardData.emptyBoard);
-      setDisableNextGeneration(boardIsEmpty);
-    }
+    const boardIsEmpty =
+      JSON.stringify(boardStatus) === JSON.stringify(boardData.emptyBoard);
+    setDisableNextGeneration(boardIsEmpty);
   }, [boardStatus]);
-
-  // Component updated - nextGenerationBoard changed
-  useEffect(() => {
-    if (nextGenerationBoard && nextGenerationBoard.length) {
-      setBoardStatus(nextGenerationBoard);
-    } else {
-      setDisableNextGeneration(true);
-    }
-  }, [nextGenerationBoard]);
 
   // Component updated - isGameOver changed
   useEffect(() => {
@@ -77,16 +74,14 @@ export default function GameOfLife(props: {}) {
     }
   }, [isGameOver]);
 
-  // component did mount
+  // Component updated - timerIsRunning changed
   useEffect(() => {
-    toggleTimerIsRunning(false);
-  }, []);
+    setBoardData((prevBoardData) => {
+      return { ...prevBoardData, gameIsRunning: timerIsRunning };
+    });
+  }, [timerIsRunning]);
 
-  /**
-   * toggleCellIsActiveStatus
-   * check if cellObj exist to toggle specific cell || set all cells isActive status to false
-   */
-  const toggleCellIsActiveStatus = (
+  const toggleCellIsActive = (
     prevStateBoardStatus: ICell[][],
     cellObj: ICell
   ): ICell[][] => {
@@ -97,69 +92,30 @@ export default function GameOfLife(props: {}) {
     return clonedBoardStatus;
   };
 
-  /**
-   * boardGenerated
-   * setState boardStatus after boardGenerated
-   */
   const boardGenerated = (generatedBoard: ICell[][]): void => {
-    setBoardStatus(generatedBoard);
-    setBoardData((board) => {
+    setBoardData((prevBoardData) => {
       return {
-        ...board,
+        ...prevBoardData,
         emptyBoard: generatedBoard,
+        currentBoard: generatedBoard,
       };
     });
   };
 
-  /**
-   * cellClicked
-   * setState boardStatus after cellClicked
-   */
   const cellClicked = (cellObj: ICell): void => {
-    setBoardStatus((prevState) => toggleCellIsActiveStatus(prevState, cellObj));
+    setBoardDataCurrent(toggleCellIsActive(boardStatus, cellObj));
     resetGameOver();
   };
 
-  /**
-   * runGame
-   * call to method setNextGenerationBoardStatus
-   * setState gameIsRunning to true
-   */
-  const runGame = (): void => {
-    toggleTimerIsRunning(true);
-  };
+  const toggleGame = (to: boolean): void => toggleTimerIsRunning(to);
 
-  /**
-   * stopGame
-   * setState gameIsRunning to false
-   * timeoutHandler to null
-   */
-  const stopGame = (): void => {
-    toggleTimerIsRunning(false);
-  };
-
-  /**
-   * clearBoard
-   * setState to empty new board
-   */
   const clearBoard = (): void => {
-    const newBoard: ICell[][] = JSON.parse(
-      JSON.stringify(boardData.emptyBoard)
-    );
-    setBoardStatus(newBoard);
+    const newBoard = JSON.parse(JSON.stringify(boardData.emptyBoard));
+    setBoardDataCurrent(newBoard);
     resetGameOver();
     resetGeneration();
     setDisableNextGeneration(true);
   };
-
-  const controllers = getGameControllers({
-    timerIsRunning,
-    isGameOver,
-    clearBoard,
-    stopGame,
-    runGame,
-    getNextGenerationBoard,
-  });
 
   return (
     <StyledWrapper className="game-of-life" withBorder>
@@ -177,7 +133,13 @@ export default function GameOfLife(props: {}) {
           alignment={Alignment.Left}
           titleAlignment={Alignment.Left}
           gameIsRunning={timerIsRunning}
-          controllers={controllers}
+          controllers={getGameControllers({
+            timerIsRunning,
+            isGameOver,
+            clearBoard,
+            toggleGame,
+            getNextGenerationBoard,
+          })}
           onControllerClicked={(controller) => {
             controller.callback();
           }}

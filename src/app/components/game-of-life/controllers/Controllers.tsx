@@ -16,15 +16,13 @@ export const getGameControllers = ({
   timerIsRunning,
   isGameOver,
   clearBoard,
-  stopGame,
-  runGame,
+  toggleGame,
   getNextGenerationBoard,
 }: {
   timerIsRunning: boolean;
   isGameOver: boolean;
   clearBoard: () => void;
-  stopGame: () => void;
-  runGame: () => void;
+  toggleGame: (to: boolean) => void;
   getNextGenerationBoard: () => void;
 }): IController[] => {
   return [
@@ -46,11 +44,7 @@ export const getGameControllers = ({
       controlsNextGeneration: true,
       isDisabled: isGameOver,
       callback: () => {
-        if (timerIsRunning) {
-          stopGame();
-        } else {
-          runGame();
-        }
+        timerIsRunning ? toggleGame(false) : toggleGame(true);
       },
     },
     {

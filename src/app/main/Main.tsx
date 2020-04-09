@@ -30,7 +30,7 @@ export default function Main() {
         darkModeTogglelabel={darkModeTogglelabel}
         toggleDarkModeClicked={toggleDarkMode}
       />
-      <GameOfLife /> {/* TODO: Refactor GameOfLife to react hook */}
+      <GameOfLife />
       <Sudoku />
       <Paint />
     </StyledMainContainer>

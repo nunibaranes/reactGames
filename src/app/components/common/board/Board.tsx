@@ -14,7 +14,6 @@ export default function Board(props: IBoardProps) {
     cellClicked = () => {},
     cellHovered,
   } = props;
-
   const { gameIsRunning = false, boardType = BoardType.Regular } = boardData;
 
   const [boardStatus, setBoardStatus] = useState(board);
@@ -29,7 +28,7 @@ export default function Board(props: IBoardProps) {
   }, []);
 
   useEffect(() => {
-    if (props.board.length !== 0 && props.board !== boardStatus) {
+    if (props.board && props.board.length && props.board !== boardStatus) {
       setBoardStatus(props.board);
     }
   }, [props.board, boardStatus]);

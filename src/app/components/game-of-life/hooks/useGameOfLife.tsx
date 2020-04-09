@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { IBoardData } from "../../common/board/Board.interface";
 import { ICell } from "../../common/board/cell/Cell.interface";
 
-export default function useNextGeneration(
-  boardStatus: ICell[][],
-  boardData: IBoardData
+export default function useGameOfLife(
+  boardData: IBoardData,
+  setBoardDataCurrent: (current: ICell[][]) => void
 ) {
+  const { emptyBoard, currentBoard } = boardData;
   const [isGameOver, setIsGameOver] = useState(false);
-  const [board, setBoard] = useState(boardData.emptyBoard);
+  const [board, setBoard] = useState(emptyBoard);
   const [generation, setGeneration] = useState(0);
 
   /**
@@ -27,11 +28,7 @@ export default function useNextGeneration(
    * checkNeighbors
    * calculate active neighbors
    */
-  const checkNeighbors = (
-    boardStatus: ICell[][],
-    x: number,
-    y: number
-  ): number => {
+  const checkNeighbors = (x: number, y: number): number => {
     const { rows, columns } = boardData;
     let neighborsCounter = 0;
     const neighborsOptions = [
@@ -55,7 +52,7 @@ export default function useNextGeneration(
         neighborX < columns && // neighbor x position smaller than total columns number
         neighborY >= 0 && // neighbor y position bigger than 0
         neighborY < rows && // neighbor y position smaller than total rows number
-        boardStatus[neighborX][neighborY].isActive; // neighbor isActive equal to true
+        currentBoard[neighborX][neighborY].isActive; // neighbor isActive equal to true
 
       if (hasActiveNeighbor) {
         neighborsCounter++;
@@ -72,13 +69,12 @@ export default function useNextGeneration(
    */
   const getNextGenerationBoard = (): void => {
     const { rows, columns } = boardData;
-    const newBoard =
-      boardData.emptyBoard && JSON.parse(JSON.stringify(boardData.emptyBoard));
+    const newBoard = emptyBoard && JSON.parse(JSON.stringify(emptyBoard));
 
     for (let x = 0; x < rows; x++) {
       for (let y = 0; y < columns; y++) {
-        const activeNeighbors = checkNeighbors(boardStatus, x, y);
-        const cell = boardStatus[x][y];
+        const activeNeighbors = checkNeighbors(x, y);
+        const cell = currentBoard[x][y];
         const newBoardCell = newBoard[x][y];
         newBoardCell.isActive = nextGenerationCellIsActive(
           cell,
@@ -88,19 +84,23 @@ export default function useNextGeneration(
     }
 
     const shouldContinueRunning =
-      JSON.stringify(newBoard) !== JSON.stringify(boardStatus);
+      JSON.stringify(newBoard) !== JSON.stringify(currentBoard);
 
     if (shouldContinueRunning) {
-      setBoard(newBoard);
       setGeneration((prevState) => prevState + 1);
     } else {
       setIsGameOver(true);
-      setBoard([]);
     }
+
+    setBoardDataCurrent(newBoard);
   };
 
+  useEffect(() => {
+    setBoard(currentBoard);
+  }, [currentBoard]);
+
   return {
-    nextGenerationBoard: board,
+    boardStatus: board,
     getNextGenerationBoard,
     isGameOver,
     resetGameOver() {

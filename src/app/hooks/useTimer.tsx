@@ -12,6 +12,10 @@ export default function useTimer(callback: () => void, interval: number) {
     }
   }, [timerIsRunning, interval]);
 
+  useEffect(() => {
+    setTimerIsRunning(false);
+  }, []);
+
   return {
     timerIsRunning,
     toggleTimerIsRunning(to: boolean) {

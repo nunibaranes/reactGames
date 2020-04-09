@@ -31,4 +31,5 @@ export interface IBoardData {
   gameIsRunning?: boolean;
   boardType?: BoardType;
   emptyBoard?: ICell[][];
+  currentBoard?: ICell[][];
 }
