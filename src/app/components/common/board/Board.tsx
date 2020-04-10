@@ -1,11 +1,21 @@
-import React, { useState, useEffect, ReactElement } from "react";
+import React, { useState, useEffect, memo } from "react";
 
 import Cell from "./cell/Cell";
 import { ICell } from "./cell/Cell.interface";
-import { BoardType, IBoardProps } from "./Board.interface";
+import { IBoardProps } from "./Board.interface";
 import { StyledBoard, StyledBoardRow } from "./board.styles";
 
-export default function Board(props: IBoardProps) {
+const propsAreEquals = (prevProps: IBoardProps, nextProps: IBoardProps) => {
+  const boardIsEqual =
+    JSON.stringify(prevProps.board) === JSON.stringify(nextProps.board);
+
+  return (
+    boardIsEqual &&
+    prevProps.boardData.gameIsRunning === nextProps.boardData.gameIsRunning
+  );
+};
+
+export default memo(function Board(props: IBoardProps) {
   const {
     boardData,
     board = [] as ICell[],
@@ -14,17 +24,13 @@ export default function Board(props: IBoardProps) {
     cellClicked = () => {},
     cellHovered,
   } = props;
-  const { gameIsRunning = false, boardType = BoardType.Regular } = boardData;
-
+  const { gameIsRunning = false } = boardData;
   const [boardStatus, setBoardStatus] = useState(board);
   const [selectedColor, setSelectedColor] = useState(boardData.defaultColor);
   const boardClasses = `board ${additionalClass}`;
 
   useEffect(() => {
-    const isNewBoard = boardStatus.length === 0;
-    if (isNewBoard) {
-      return generateBoard();
-    }
+    generateBoard();
   }, []);
 
   useEffect(() => {
@@ -136,4 +142,4 @@ export default function Board(props: IBoardProps) {
       {boardEl}
     </StyledBoard>
   );
-}
+}, propsAreEquals);

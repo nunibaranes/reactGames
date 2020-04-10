@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 
 // import Settings from './settings/Settings.js';
 import Controllers, { getGameControllers } from "./controllers/Controllers";
@@ -17,6 +17,7 @@ import useTimer from "../../hooks/useTimer";
 
 import { StyledWrapper, StyledButton } from "../../styles/common/common.styles";
 import { StyledControllersAndSettings } from "./gameOfLife-styles";
+import { IController } from "./controllers/Controller.interface";
 
 const initialBoardData: IBoardData = {
   rows: 40,
@@ -107,15 +108,52 @@ export default function GameOfLife(props: {}) {
     resetGameOver();
   };
 
-  const toggleGame = (to: boolean): void => toggleTimerIsRunning(to);
+  const toggleGame = useCallback(
+    (to: boolean): void => toggleTimerIsRunning(to),
+    []
+  );
 
-  const clearBoard = (): void => {
+  const clearBoard = useCallback((): void => {
     const newBoard = JSON.parse(JSON.stringify(boardData.emptyBoard));
     setBoardDataCurrent(newBoard);
     resetGameOver();
     resetGeneration();
     setDisableNextGeneration(true);
-  };
+  }, [boardData]);
+
+  const onControllerClicked = useCallback((controller: IController) => {
+    controller.callback();
+  }, []);
+
+  const controllers = useMemo(
+    () => (
+      <Controllers
+        title={"Controllers"}
+        alignment={Alignment.Left}
+        titleAlignment={Alignment.Left}
+        gameIsRunning={timerIsRunning}
+        controllers={getGameControllers({
+          timerIsRunning,
+          isGameOver,
+          clearBoard,
+          toggleGame,
+          getNextGenerationBoard,
+        })}
+        onControllerClicked={onControllerClicked}
+        disableNextGeneration={disableNextGeneration}
+        {...props}
+      />
+    ),
+    [
+      disableNextGeneration,
+      timerIsRunning,
+      isGameOver,
+      onControllerClicked,
+      getNextGenerationBoard,
+    ]
+  );
+
+  //console.log("GameOfLife renders boardData ", boardData);
 
   return (
     <StyledWrapper className="game-of-life" withBorder>
@@ -128,24 +166,7 @@ export default function GameOfLife(props: {}) {
         {
           // <Settings title={'Settings'}></Settings>
         }
-        <Controllers
-          title={"Controllers"}
-          alignment={Alignment.Left}
-          titleAlignment={Alignment.Left}
-          gameIsRunning={timerIsRunning}
-          controllers={getGameControllers({
-            timerIsRunning,
-            isGameOver,
-            clearBoard,
-            toggleGame,
-            getNextGenerationBoard,
-          })}
-          onControllerClicked={(controller) => {
-            controller.callback();
-          }}
-          disableNextGeneration={disableNextGeneration}
-          {...props}
-        />
+        {controllers}
       </StyledControllersAndSettings>
       <Board
         additionalClass="game-of-life"

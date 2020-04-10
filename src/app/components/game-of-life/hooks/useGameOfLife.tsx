@@ -5,7 +5,14 @@ import { ICell } from "../../common/board/cell/Cell.interface";
 export default function useGameOfLife(
   boardData: IBoardData,
   setBoardDataCurrent: (current: ICell[][]) => void
-) {
+): {
+  boardStatus: ICell[][];
+  getNextGenerationBoard: () => void;
+  isGameOver: boolean;
+  resetGameOver: () => void;
+  generation: number;
+  resetGeneration: () => void;
+} {
   const { emptyBoard, currentBoard } = boardData;
   const [isGameOver, setIsGameOver] = useState(false);
   const [board, setBoard] = useState(emptyBoard);
@@ -96,7 +103,10 @@ export default function useGameOfLife(
   };
 
   useEffect(() => {
-    setBoard(currentBoard);
+    const hasChanges = JSON.stringify(currentBoard) !== JSON.stringify(board);
+    if (hasChanges) {
+      setBoard(currentBoard);
+    }
   }, [currentBoard]);
 
   return {

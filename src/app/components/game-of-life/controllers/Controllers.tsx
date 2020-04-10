@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 import Title from "../../common/title/Title";
 import { IControllersProps, IController } from "./Controller.interface";
@@ -61,7 +61,7 @@ export const getGameControllers = ({
   ];
 };
 
-export default function Controllers(props: IControllersProps) {
+export default memo(function Controllers(props: IControllersProps) {
   const {
     gameIsRunning,
     alignment,
@@ -108,4 +108,4 @@ export default function Controllers(props: IControllersProps) {
       </StyledControllersActions>
     </StyledControllers>
   );
-}
+});
