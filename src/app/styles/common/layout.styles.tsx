@@ -15,23 +15,28 @@ export const StyledApp = styled("div")`
 `;
 
 export const StyledHeader = styled("header")`
-  background-color: #282c34;
-  background-image: ${(props: { background: string }) =>
-    `url(${props.background})` || "none"};
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  ${(props: { background?: string; isHomePage?: boolean }) => {
+    const { background, isHomePage } = props;
 
-  .noonles {
-    width: 200px;
-    height: 200px;
-    margin: 0 auto;
-    border-radius: 50%;
-  }
+    return `
+    background-color: #282c34;
+    background-image: ${background ? `url(${background})` : "none"};
+    height: ${isHomePage ? "100vh" : "50vh"};
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+
+    .noonles {
+      width: 200px;
+      height: 200px;
+      margin: 0 auto;
+      border-radius: 50%;
+    }
+  `;
+  }}
 `;
 
 export const StyledMainContainer = styled("section")`
