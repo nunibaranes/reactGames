@@ -11,7 +11,6 @@ export interface IBoardProps {
   board: ICell[][];
   cellClicked: (cell?: ICell) => void;
   cellHovered?: (cell?: ICell) => void;
-  boardGenerated: (generatedBoard?: ICell[][]) => void;
 }
 
 export interface IBoardState {
@@ -23,13 +22,11 @@ export interface IBoardData {
   highlightOptions?: string[];
   rows: number;
   columns: number;
-  puzzle?: [];
+  puzzle?: ICell[][];
   cellData: ICell;
   cellWidth: string;
   cellHeight: string;
   defaultColor: string;
   gameIsRunning?: boolean;
   boardType?: BoardType;
-  emptyBoard?: ICell[][];
-  currentBoard?: ICell[][];
 }

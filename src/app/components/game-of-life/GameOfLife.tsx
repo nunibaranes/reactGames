@@ -18,6 +18,7 @@ import useTimer from "../../hooks/useTimer";
 import { StyledWrapper, StyledButton } from "../../styles/common/common.styles";
 import { StyledControllersAndSettings } from "./gameOfLife-styles";
 import { IController } from "./controllers/Controller.interface";
+import { generateBoard, cloneBoard } from "../common/board/boardUtils";
 
 const initialBoardData: IBoardData = {
   rows: 40,
@@ -29,27 +30,22 @@ const initialBoardData: IBoardData = {
   cellHeight: "20", // TODO: add button to change cellHeight
   defaultColor: "red", // TODO: add button to change color
   boardType: BoardType.GameOfLife,
+  gameIsRunning: false,
 };
 
 export default function GameOfLife(props: {}) {
+  initialBoardData.puzzle = generateBoard(initialBoardData);
   const [boardData, setBoardData] = useState(initialBoardData);
-  const setBoardDataCurrent = (current: ICell[][]) => {
-    setBoardData((prevBoardData) => {
-      return {
-        ...prevBoardData,
-        currentBoard: current,
-      };
-    });
-  };
 
   const {
     boardStatus,
+    updateBoardStatus,
     getNextGenerationBoard,
     generation,
     resetGeneration,
     resetGameOver,
     isGameOver,
-  } = useGameOfLife(boardData, setBoardDataCurrent);
+  } = useGameOfLife(boardData);
 
   const [interval, setInterval] = useState(100);
   const { timerIsRunning, toggleTimerIsRunning } = useTimer(
@@ -62,7 +58,7 @@ export default function GameOfLife(props: {}) {
   // Component updated - boardStatus changed
   useEffect(() => {
     const boardIsEmpty =
-      JSON.stringify(boardStatus) === JSON.stringify(boardData.emptyBoard);
+      JSON.stringify(boardStatus) === JSON.stringify(boardData.puzzle);
     setDisableNextGeneration(boardIsEmpty);
   }, [boardStatus]);
 
@@ -86,25 +82,15 @@ export default function GameOfLife(props: {}) {
     prevStateBoardStatus: ICell[][],
     cellObj: ICell
   ): ICell[][] => {
-    const clonedBoardStatus = JSON.parse(JSON.stringify(prevStateBoardStatus));
+    const clonedBoardStatus = cloneBoard(prevStateBoardStatus);
     const cell = clonedBoardStatus[cellObj.x][cellObj.y];
     cell.isActive = cell && !cell.isActive;
 
     return clonedBoardStatus;
   };
 
-  const boardGenerated = (generatedBoard: ICell[][]): void => {
-    setBoardData((prevBoardData) => {
-      return {
-        ...prevBoardData,
-        emptyBoard: generatedBoard,
-        currentBoard: generatedBoard,
-      };
-    });
-  };
-
   const cellClicked = (cellObj: ICell): void => {
-    setBoardDataCurrent(toggleCellIsActive(boardStatus, cellObj));
+    updateBoardStatus(toggleCellIsActive(boardStatus, cellObj));
     resetGameOver();
   };
 
@@ -114,12 +100,11 @@ export default function GameOfLife(props: {}) {
   );
 
   const clearBoard = useCallback((): void => {
-    const newBoard = JSON.parse(JSON.stringify(boardData.emptyBoard));
-    setBoardDataCurrent(newBoard);
+    updateBoardStatus(initialBoardData.puzzle);
     resetGameOver();
     resetGeneration();
     setDisableNextGeneration(true);
-  }, [boardData]);
+  }, []);
 
   const onControllerClicked = useCallback((controller: IController) => {
     controller.callback();
@@ -153,8 +138,6 @@ export default function GameOfLife(props: {}) {
     ]
   );
 
-  //console.log("GameOfLife renders boardData ", boardData);
-
   return (
     <StyledWrapper className="game-of-life" withBorder>
       <Title
@@ -173,7 +156,6 @@ export default function GameOfLife(props: {}) {
         boardData={boardData}
         board={boardStatus}
         cellClicked={cellClicked}
-        boardGenerated={boardGenerated}
       />
       <Counter
         title={"Generation:"}
