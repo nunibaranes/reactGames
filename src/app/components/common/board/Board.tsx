@@ -84,24 +84,6 @@ export default memo(function Board(props: IBoardProps) {
     return `${defaultClasses} ${isActiveClass} ${isHighlightClass}`;
   };
 
-  /**
-   * handleCellClick
-   * callback to cellClicked
-   */
-  const handleCellClick = (cell: ICell): void => {
-    cellClicked(cell);
-  };
-
-  /**
-   * handleCellHovered
-   * callback to cellHovered
-   */
-  const handleCellHovered = (cell: ICell): void => {
-    if (cellHovered && typeof cellHovered === "function") {
-      cellHovered(cell);
-    }
-  };
-
   const getCellsInRow = (row: ICell[]) =>
     (row as ICell[]).map((cell: ICell, index: number) => {
       return (
@@ -114,10 +96,10 @@ export default memo(function Board(props: IBoardProps) {
           defaultClasses={getClasses({ elName: "cell", el: cell, index })}
           key={`cell ${index}`}
           cellOnClick={() => {
-            handleCellClick(cell);
+            cellClicked && cellClicked(cell);
           }}
           cellOnMouseOver={() => {
-            handleCellHovered(cell);
+            cellHovered && cellHovered(cell);
           }}
           gameIsRunning={gameIsRunning}
         />
