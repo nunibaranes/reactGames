@@ -11,21 +11,29 @@ import {
   StyledSudokuFillSingleOption,
 } from "./sudoku.styles";
 import { Alignment } from "../../interfaces/common/ui";
+import { generateBoard, cloneBoard } from "../common/board/boardUtils";
+
+const initialBoardData: IBoardData = {
+  rows: 9,
+  columns: 9,
+  cellWidth: "50", // TODO: add button to change cellWidth
+  cellHeight: "50", // TODO: add button to change cellHeight
+  defaultColor: "red", // TODO: add button to change color
+  cellData: {
+    isHighlight: false,
+  },
+  highlightOptions: ["cell", "row", "column"],
+  boardType: BoardType.Sudoku,
+};
 
 export default function Sudoku() {
-  const initialBoardData: IBoardData = {
-    rows: 9,
-    columns: 9,
-    puzzle: [],
-    cellWidth: "50", // TODO: add button to change cellWidth
-    cellHeight: "50", // TODO: add button to change cellHeight
-    defaultColor: "red", // TODO: add button to change color
-    cellData: {
-      isHighlight: false,
-    },
-    highlightOptions: ["cell", "row", "column"],
-    boardType: BoardType.Sudoku,
-  };
+  initialBoardData.puzzle = generateBoard(initialBoardData);
+  const title: string = "Sudoku Game";
+  const [cellOptions, setCellOptions] = useState([]);
+  const [boardData, setBoardData] = useState(initialBoardData);
+  const [popupIsOpen, togglePopup] = useState(false);
+  const [boardStatus, setBoardStatus] = useState(initialBoardData.puzzle);
+  const [selectedCell, setSelectedCell] = useState(null);
 
   /**
    * getCellOptions
@@ -38,24 +46,9 @@ export default function Sudoku() {
     return options;
   };
 
-  const title: string = "Sudoku Game";
-  const [cellOptions, setCellOptions] = useState([]);
-  const [boardData, setBoardData] = useState(initialBoardData);
-  const [popupIsOpen, togglePopup] = useState(false);
-  const [boardStatus, setBoardStatus] = useState([]);
-  const [selectedCell, setSelectedCell] = useState(null);
-
   useEffect(() => {
     setCellOptions(getCellOptions(1, 9));
   }, []);
-
-  /**
-   * boardGenerated
-   * setState boardStatus after boardGenerated
-   */
-  const boardGenerated = (generatedBoard: ICell[][]): void => {
-    setBoardStatus(generatedBoard);
-  };
 
   /**
    * cellClicked
@@ -105,7 +98,7 @@ export default function Sudoku() {
    */
   const setCellValue = (value: number | string): void => {
     const cellWithValue = { ...selectedCell, value: value };
-    const clonedBoardStatus = JSON.parse(JSON.stringify(boardStatus));
+    const clonedBoardStatus = cloneBoard(boardStatus);
     clonedBoardStatus[cellWithValue.x][cellWithValue.y].value = value;
     setBoardStatus(clonedBoardStatus);
     toggleOpenPopupState();
@@ -120,7 +113,6 @@ export default function Sudoku() {
         board={boardStatus}
         cellClicked={cellClicked}
         cellHovered={setBoardHighlightCells}
-        boardGenerated={boardGenerated}
       />
       {popupIsOpen && (
         <Popup

@@ -1,117 +1,97 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { generateBoard } from "../../common/board/boardUtils";
 import { IBoardData } from "../../common/board/Board.interface";
 import { ICell } from "../../common/board/cell/Cell.interface";
 
-export default function useGameOfLife(
-  boardData: IBoardData,
-  setBoardDataCurrent: (current: ICell[][]) => void
-): {
-  boardStatus: ICell[][];
-  getNextGenerationBoard: () => void;
-  isGameOver: boolean;
-  resetGameOver: () => void;
-  generation: number;
-  resetGeneration: () => void;
-} {
-  const { emptyBoard, currentBoard } = boardData;
+const randomActiveCell = (): boolean => Boolean(Math.round(Math.random()));
+
+export default function useGameOfLife(boardData: IBoardData) {
+  const { rows, columns, cellData, puzzle } = boardData;
+  const [board, setBoard] = useState(puzzle);
   const [isGameOver, setIsGameOver] = useState(false);
-  const [board, setBoard] = useState(emptyBoard);
   const [generation, setGeneration] = useState(0);
 
-  /**
-   * nextGenerationCellIsActive
-   * return refer to rules cell isActive status for next generation
-   */
-  const nextGenerationCellIsActive = (
-    cell: ICell,
-    activeNeighbors: number
-  ): boolean => {
-    const shouldActiveByNumOfNeighbors =
-      activeNeighbors < 2 || activeNeighbors > 3 ? false : true;
-    return cell.isActive ? shouldActiveByNumOfNeighbors : activeNeighbors === 3;
-  };
+  function getCell(x: number, y: number, row: ICell[] = board[x]) {
+    return row ? row[y] || undefined : undefined;
+  }
 
-  /**
-   * checkNeighbors
-   * calculate active neighbors
-   */
-  const checkNeighbors = (x: number, y: number): number => {
-    const { rows, columns } = boardData;
-    let neighborsCounter = 0;
-    const neighborsOptions = [
-      [-1, -1], // left bottom cell neighbor
-      [-1, 0], // left cell neighbor
-      [-1, 1], // left top cell neighbor
-      [0, 1], // top cell neighbor
-      [1, 1], // right top cell neighbor
-      [1, 0], // right cell neighbor
-      [1, -1], // right bottom cell neighbor
-      [0, -1], // bottom cell neighbor
-    ];
+  function isActive<T extends boolean | number>(x: number, y: number): T {
+    const cell = getCell(x, y);
+    const isActive = cell && (cell.isActive as T);
+    return isActive;
+  }
 
-    // check neighbors options isActive status
-    for (let i = 0; i < neighborsOptions.length; i++) {
-      const neighbor = neighborsOptions[i];
-      let neighborY = y + neighbor[0];
-      let neighborX = x + neighbor[1];
-      const hasActiveNeighbor =
-        neighborX >= 0 && // neighbor x position bigger than 0
-        neighborX < columns && // neighbor x position smaller than total columns number
-        neighborY >= 0 && // neighbor y position bigger than 0
-        neighborY < rows && // neighbor y position smaller than total rows number
-        currentBoard[neighborX][neighborY].isActive; // neighbor isActive equal to true
+  function countNeighbors(x: number, y: number) {
+    let countActive: (x: number, y: number) => number;
+    countActive = isActive;
+    return (
+      // left bottom cell neighbor
+      countActive(x - 1, y - 1) +
+      // left cell neighbor
+      countActive(x - 1, y) +
+      // left top cell neighbor
+      countActive(x - 1, y + 1) +
+      // bottom cell neighbor
+      countActive(x, y - 1) +
+      // top cell neighbor
+      countActive(x, y + 1) +
+      // right bottom cell neighbor
+      countActive(x + 1, y - 1) +
+      // right cell neighbor
+      countActive(x + 1, y) +
+      // right cell neighbor
+      countActive(x + 1, y + 1)
+    );
+  }
 
-      if (hasActiveNeighbor) {
-        neighborsCounter++;
-      }
-    }
-
-    return neighborsCounter;
-  };
-
-  /**
-   * getNextGenerationBoard
-   * create empty newBoardStatus, and set newBoardStatus's cells refer to current boardStatus
-   * setState boardStatus to newBoardStatus
-   */
-  const getNextGenerationBoard = (): void => {
-    const { rows, columns } = boardData;
-    const newBoard = emptyBoard && JSON.parse(JSON.stringify(emptyBoard));
-
+  function nextGeneration() {
+    const newBoard = [];
     for (let x = 0; x < rows; x++) {
+      const newRow = [];
       for (let y = 0; y < columns; y++) {
-        const activeNeighbors = checkNeighbors(x, y);
-        const cell = currentBoard[x][y];
-        const newBoardCell = newBoard[x][y];
-        newBoardCell.isActive = nextGenerationCellIsActive(
-          cell,
-          activeNeighbors
-        );
+        const neighbors = countNeighbors(x, y);
+        const cell = getCell(x, y);
+        const activeCell = { ...cell, isActive: true };
+        const offCell = { ...cell, isActive: false };
+
+        if (cell.isActive) {
+          if (neighbors < 2 || neighbors > 3) {
+            newRow.push(offCell);
+          } else {
+            newRow.push(activeCell);
+          }
+        } else if (neighbors === 3) {
+          newRow.push(activeCell);
+        } else {
+          newRow.push(offCell);
+        }
       }
+      newBoard.push(newRow);
     }
 
-    const shouldContinueRunning =
-      JSON.stringify(newBoard) !== JSON.stringify(currentBoard);
+    const hasChanges = JSON.stringify(newBoard) !== JSON.stringify(board);
 
-    if (shouldContinueRunning) {
+    if (hasChanges) {
       setGeneration((prevState) => prevState + 1);
     } else {
       setIsGameOver(true);
     }
 
-    setBoardDataCurrent(newBoard);
-  };
+    setBoard(newBoard);
+  }
 
-  useEffect(() => {
-    const hasChanges = JSON.stringify(currentBoard) !== JSON.stringify(board);
-    if (hasChanges) {
-      setBoard(currentBoard);
-    }
-  }, [currentBoard]);
+  function reset() {
+    setBoard(generateBoard(boardData));
+  }
 
   return {
     boardStatus: board,
-    getNextGenerationBoard,
+    updateBoardStatus(newBoard: ICell[][]) {
+      setBoard(newBoard);
+    },
+    getNextGenerationBoard() {
+      nextGeneration();
+    },
     isGameOver,
     resetGameOver() {
       setIsGameOver(false);
